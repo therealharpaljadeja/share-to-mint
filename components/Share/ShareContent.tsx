@@ -269,11 +269,13 @@ export default function ShareContent() {
                     {/* Author Section */}
                     <div className="px-4 py-5 sm:p-6">
                         <div className="flex items-center space-x-3">
-                            <img
-                                src={cast.author.pfp_url}
-                                alt={cast.author.display_name}
-                                className="h-12 w-12 rounded-full"
-                            />
+                            <div className="flex-shrink-0 w-12 h-12">
+                                <img
+                                    src={cast.author.pfp_url}
+                                    alt={cast.author.display_name}
+                                    className="h-full w-full rounded-full object-cover"
+                                />
+                            </div>
                             <div>
                                 <h2 className="text-lg font-semibold text-gray-900">
                                     {cast.author.display_name}
