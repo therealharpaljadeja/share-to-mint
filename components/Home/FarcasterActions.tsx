@@ -9,8 +9,9 @@ export function FarcasterActions() {
   function addFrame() {
     try {
       actions?.addFrame()
-    } catch(error) {
+    } catch(error: any) {
       console.error(error);
+      setError(error.message)
     }
   }
 
