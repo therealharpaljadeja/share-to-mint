@@ -6,10 +6,10 @@ const frame = {
   version: 'next',
   imageUrl: `${APP_URL}/images/feed.png`,
   button: {
-    title: 'Launch Template',
+    title: 'Share To Mint',
     action: {
       type: 'launch_frame',
-      name: 'Monad Farcaster MiniApp Template',
+      name: 'Share To Mint',
       url: APP_URL,
       splashImageUrl: `${APP_URL}/images/splash.png`,
       splashBackgroundColor: '#f7f7f7',
@@ -19,10 +19,10 @@ const frame = {
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: 'Monad Farcaster MiniApp Template',
+    title: 'Share To Mint',
     openGraph: {
-      title: 'Monad Farcaster MiniApp Template',
-      description: 'A template for building mini-apps on Farcaster and Monad',
+      title: 'Share To Mint',
+      description: 'Farcaster Mini App that allows you to mint content on Zora just by sharing it on Farcaster',
     },
     other: {
       'fc:frame': JSON.stringify(frame),

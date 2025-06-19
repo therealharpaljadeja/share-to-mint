@@ -3,17 +3,17 @@ import { APP_URL } from "../../../lib/constants";
 
 export async function GET() {
   const farcasterConfig = {
-    // TODO: Add account association
+    
     frame: {
       version: "1",
-      name: "Monad Farcaster MiniApp Template",
+      name: "Share to Mint",
       iconUrl: `${APP_URL}/images/icon.png`,
       homeUrl: `${APP_URL}`,
       imageUrl: `${APP_URL}/images/feed.png`,
       screenshotUrls: [],
-      tags: ["monad", "farcaster", "miniapp", "template"],
+      tags: ["zora", "farcaster", "miniapp", "share-to-mint"],
       primaryCategory: "developer-tools",
-      buttonTitle: "Launch Template",
+      buttonTitle: "Share to Mint",
       splashImageUrl: `${APP_URL}/images/splash.png`,
       splashBackgroundColor: "#ffffff",
       webhookUrl: `${APP_URL}/api/webhook`,
