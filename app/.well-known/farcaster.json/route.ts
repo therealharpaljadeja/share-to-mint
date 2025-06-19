@@ -13,6 +13,7 @@ export async function GET() {
             version: "1",
             name: "Share to Mint",
             iconUrl: `${APP_URL}/images/icon.png`,
+            castShareUrl: `${APP_URL}/share`,
             homeUrl: `${APP_URL}`,
             imageUrl: `${APP_URL}/images/feed.png`,
             screenshotUrls: [],
