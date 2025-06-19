@@ -1,9 +1,18 @@
 import { useFrame } from '@/components/farcaster-provider'
 import { APP_URL } from '@/lib/constants'
-import { useMutation } from '@tanstack/react-query'
+import { useState } from 'react'
 
 export function FarcasterActions() {
   const { actions } = useFrame()
+  const [ error, setError ] = useState<string | null>(null)
+
+  function addFrame() {
+    try {
+      actions?.addFrame()
+    } catch(error) {
+      console.error(error);
+    }
+  }
 
   return (
     <div className="space-y-4 border border-[#333] rounded-md p-4">
@@ -14,10 +23,11 @@ export function FarcasterActions() {
             <button
               type="button"
               className="bg-white text-black rounded-md p-2 text-sm"
-              onClick={() => actions?.addFrame()}
+              onClick={addFrame}
             >
               addFrame
             </button>
+            {error && <p className="text-sm text-left text-red-500">{error}</p>}
             <button
               type="button"
               className="bg-white text-black rounded-md p-2 text-sm"
