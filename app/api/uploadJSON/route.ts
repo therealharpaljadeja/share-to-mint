@@ -18,13 +18,12 @@ export async function POST(request: NextRequest) {
   }
 
   try {
+    
     const { jsonData, filename } = await request.json();
+    console.log(jsonData, filename)
     const fileName = `${filename}.json`;
     
-    const result = await pinata.upload.public.json({
-        content: jsonData,
-        name: fileName,
-    });
+    const result = await pinata.upload.public.json(jsonData).name(fileName);
 
     return NextResponse.json(result);
   } catch (error) {
