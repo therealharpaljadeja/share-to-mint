@@ -198,6 +198,7 @@ export default function ShareContent() {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [isMinting, setIsMinting] = useState(false);
+    const [mintResult, setMintResult] = useState<any | null>(null);
 
     const castHash = searchParams.get("castHash") || "";
     const viewerFid = Number(searchParams.get("viewerFid")) || 0;
@@ -232,6 +233,7 @@ export default function ShareContent() {
             return;
         }
 
+        setMintResult(null);
         setIsMinting(true);
         try {
             // 1. Construct the final metadata using the direct image URL
@@ -259,7 +261,7 @@ export default function ShareContent() {
             }
 
             const metadataUploadResult = await metadataUploadResponse.json();
-            alert(`Successfully minted! Metadata CID: ${metadataUploadResult.cid}`);
+            setMintResult(metadataUploadResult);
 
         } catch (err) {
             console.error(err);
@@ -384,6 +386,25 @@ export default function ShareContent() {
                                     {isMinting ? 'Coining it...' : 'Coin it'}
                                 </button>
                             </div>
+
+                            {/* Mint Result */}
+                            {mintResult && (
+                                <div className="mt-6 p-4 border border-green-200 bg-green-50 rounded-lg">
+                                    <h3 className="text-lg font-bold text-green-800">Successfully Coined!</h3>
+                                    <p className="text-sm text-green-700 mt-1">Your content metadata has been uploaded to IPFS.</p>
+                                    <div className="mt-4 bg-gray-100 p-3 rounded-md overflow-x-auto">
+                                        <pre className="text-xs text-gray-800"><code>{JSON.stringify(mintResult, null, 2)}</code></pre>
+                                    </div>
+                                    <a 
+                                        href={`https://green-defeated-warbler-251.mypinata.cloud/ipfs/${mintResult.cid}`} 
+                                        target="_blank" 
+                                        rel="noopener noreferrer"
+                                        className="mt-4 inline-block text-sm text-blue-600 hover:underline"
+                                    >
+                                        View on IPFS Gateway
+                                    </a>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>

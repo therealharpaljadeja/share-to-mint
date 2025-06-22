@@ -4,13 +4,13 @@ import { PinataSDK } from 'pinata';
 // It's recommended to use a dedicated gateway for production apps.
 // Replace 'gateway.pinata.cloud' with your dedicated gateway domain for better performance.
 const pinata = new PinataSDK({
-    pinataJwt: process.env.PINATA_API_KEY!,
+    pinataJwt: process.env.PINATA_JWT!,
     pinataGateway: "green-defeated-warbler-251.mypinata.cloud", 
 });
 
 
 export async function POST(request: NextRequest) {
-  if (!process.env.PINATA_API_KEY) {
+  if (!process.env.PINATA_JWT) {
     return NextResponse.json(
       { error: 'Pinata API Key not configured. Please set the PINATA_API_KEY environment variable.' },
       { status: 500 }
