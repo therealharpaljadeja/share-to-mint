@@ -288,7 +288,7 @@ export default function ShareContent() {
 
                         {/* Cast Content */}
                         <div className="mt-4">
-                            <p className="text-text-light text-base">{cast.text}</p>
+                            <p className="text-text-light text-base break-words">{cast.text}</p>
 
                             {/* Embeds */}
                             {cast.embeds && cast.embeds.length > 0 && (
@@ -326,49 +326,14 @@ export default function ShareContent() {
                                 </div>
                             )}
 
-                            {/* Reactions */}
-                            <div className="mt-6 flex items-center space-x-6 text-sm text-text-secondary">
-                                <div className="flex items-center">
-                                    <svg
-                                        className="h-5 w-5 mr-1 text-text-secondary"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                                        />
-                                    </svg>
-                                    {cast.reactions.likes} likes
-                                </div>
-                                <div className="flex items-center">
-                                    <svg
-                                        className="h-5 w-5 mr-1 text-text-secondary"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
-                                        />
-                                    </svg>
-                                    {cast.reactions.recasts} recasts
-                                </div>
-                                <div>
-                                    {new Date(
-                                        cast.timestamp
-                                    ).toLocaleDateString(undefined, {
-                                        year: "numeric",
-                                        month: "short",
-                                        day: "numeric",
-                                    })}
-                                </div>
+                            {/* Mint Button */}
+                            <div className="mt-6">
+                                <button
+                                    type="button"
+                                    className="w-full bg-primary text-text-light font-bold py-3 px-5 rounded-md hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                                >
+                                    Coin it
+                                </button>
                             </div>
                         </div>
                     </div>
