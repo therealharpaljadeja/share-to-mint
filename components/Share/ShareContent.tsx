@@ -263,13 +263,13 @@ export default function ShareContent() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-background-light font-sans py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl mx-auto">
-                <div className="bg-white shadow sm:rounded-lg overflow-hidden">
+                <div className="bg-white shadow-card rounded-card overflow-hidden">
                     {/* Author Section */}
-                    <div className="px-4 py-5 sm:p-6">
-                        <div className="flex items-center space-x-3">
-                            <div className="flex-shrink-0 w-12 h-12">
+                    <div className="p-6">
+                        <div className="flex items-center space-x-4">
+                            <div className="flex-shrink-0 w-10 h-10">
                                 <img
                                     src={cast.author.pfp_url}
                                     alt={cast.author.display_name}
@@ -277,10 +277,10 @@ export default function ShareContent() {
                                 />
                             </div>
                             <div>
-                                <h2 className="text-lg font-semibold text-gray-900">
+                                <h2 className="text-lg font-bold text-text-light">
                                     {cast.author.display_name}
                                 </h2>
-                                <p className="text-sm text-gray-500">
+                                <p className="text-sm text-text-secondary">
                                     @{cast.author.username}
                                 </p>
                             </div>
@@ -288,7 +288,7 @@ export default function ShareContent() {
 
                         {/* Cast Content */}
                         <div className="mt-4">
-                            <p className="text-gray-900 text-lg">{cast.text}</p>
+                            <p className="text-text-light text-base">{cast.text}</p>
 
                             {/* Embeds */}
                             {cast.embeds && cast.embeds.length > 0 && (
@@ -296,7 +296,7 @@ export default function ShareContent() {
                                     {cast.embeds.map((embed, index) => (
                                         <div
                                             key={index}
-                                            className="rounded-lg border border-gray-200 p-4"
+                                            className="rounded-lg border border-border-default p-4"
                                         >
                                             {embed.metadata?.content_type?.startsWith('image/') ? (
                                                 <div className="relative w-full">
@@ -327,10 +327,10 @@ export default function ShareContent() {
                             )}
 
                             {/* Reactions */}
-                            <div className="mt-6 flex items-center space-x-6 text-sm text-gray-500">
+                            <div className="mt-6 flex items-center space-x-6 text-sm text-text-secondary">
                                 <div className="flex items-center">
                                     <svg
-                                        className="h-5 w-5 mr-1"
+                                        className="h-5 w-5 mr-1 text-text-secondary"
                                         fill="none"
                                         stroke="currentColor"
                                         viewBox="0 0 24 24"
@@ -346,7 +346,7 @@ export default function ShareContent() {
                                 </div>
                                 <div className="flex items-center">
                                     <svg
-                                        className="h-5 w-5 mr-1"
+                                        className="h-5 w-5 mr-1 text-text-secondary"
                                         fill="none"
                                         stroke="currentColor"
                                         viewBox="0 0 24 24"

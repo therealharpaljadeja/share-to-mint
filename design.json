@@ -1,0 +1,106 @@
+{
+    "colors": {
+      "background": {
+        "light": "#FFFFFF",
+        "dark": "#000000"
+      },
+      "primary": "#00FF41",
+      "text": {
+        "primary": "#FFFFFF",
+        "secondary": "#999999",
+        "highlight": "#00FF41",
+        "light": "#000000",
+        "dark": "#FFFFFF"
+      },
+      "border": {
+        "default": "#E0E0E0",
+        "active": "#00FF41"
+      },
+      "button": {
+        "buy": "#00FF41",
+        "default": "#222222"
+      }
+    },
+    "typography": {
+      "fontFamily": "Inter, sans-serif",
+      "fontSizes": {
+        "xs": "12px",
+        "sm": "14px",
+        "base": "16px",
+        "lg": "18px",
+        "xl": "20px",
+        "2xl": "24px"
+      },
+      "fontWeights": {
+        "normal": 400,
+        "medium": 500,
+        "bold": 700
+      }
+    },
+    "spacing": {
+      "none": "0px",
+      "xs": "4px",
+      "sm": "8px",
+      "md": "16px",
+      "lg": "24px",
+      "xl": "32px"
+    },
+    "radii": {
+      "none": "0px",
+      "sm": "4px",
+      "md": "8px",
+      "lg": "12px",
+      "xl": "16px",
+      "full": "9999px"
+    },
+    "buttons": {
+      "primary": {
+        "backgroundColor": "#00FF41",
+        "textColor": "#000000",
+        "borderRadius": "8px",
+        "padding": "12px 20px",
+        "fontWeight": "bold"
+      },
+      "secondary": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#000000",
+        "border": "1px solid #E0E0E0",
+        "borderRadius": "8px",
+        "padding": "12px 20px"
+      }
+    },
+    "components": {
+      "card": {
+        "backgroundColor": "#000000",
+        "borderRadius": "16px",
+        "padding": "16px",
+        "boxShadow": "0 4px 12px rgba(0,0,0,0.3)"
+      },
+      "input": {
+        "border": "1px solid #E0E0E0",
+        "borderRadius": "8px",
+        "padding": "12px",
+        "fontSize": "16px"
+      },
+      "avatar": {
+        "size": "40px",
+        "borderRadius": "50%"
+      }
+    },
+    "icons": {
+      "comment": "outline",
+      "share": "filled",
+      "heart": "outline"
+    },
+    "themes": {
+      "light": {
+        "background": "#FFFFFF",
+        "text": "#000000"
+      },
+      "dark": {
+        "background": "#000000",
+        "text": "#FFFFFF"
+      }
+    }
+  }
+  
