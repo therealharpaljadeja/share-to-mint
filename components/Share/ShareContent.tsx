@@ -2,6 +2,11 @@
 
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { validateMetadataURIContent, ValidMetadataURI } from "@zoralabs/coins-sdk";
+import { createCoinCall, DeployCurrency } from "@zoralabs/coins-sdk";
+import { base } from "viem/chains";
+import { useSimulateContract, useWriteContract } from "wagmi";
+import { Address } from "viem";
 
 interface CastAuthor {
     fid: number;
@@ -262,6 +267,34 @@ export default function ShareContent() {
 
             const metadataUploadResult = await metadataUploadResponse.json();
             setMintResult(metadataUploadResult);
+
+
+            const metadataURI = `https://green-defeated-warbler-251.mypinata.cloud/ipfs/${metadataUploadResult.cid}`;
+            const metadataURIContent = await validateMetadataURIContent(metadataURI as ValidMetadataURI);
+
+            if(!metadataURIContent) {
+                throw new Error('Metadata is not valid. Please try again.');
+            }
+
+
+            // Define coin parameters
+            const coinParams = {
+                name: "Share to Mint #1",
+                symbol: "S2M",
+                uri: `ipfs://${metadataUploadResult.cid}`,
+                payoutRecipient: "0xc0708E7852C64eE695e94Ad92E2aB7221635944d" as Address,
+                platformReferrer: "0xc0708E7852C64eE695e94Ad92E2aB7221635944d" as Address,
+                chainId: base.id, // Optional: defaults to base.id
+                currency: DeployCurrency.ETH, // Optional: ZORA or ETH
+            };
+            
+            const contractCallParams = await createCoinCall(coinParams);
+
+            const { data: writeConfig } = useSimulateContract({
+                ...contractCallParams,
+              });
+
+            const { writeContract, status } = useWriteContract(writeConfig as any);
 
         } catch (err) {
             console.error(err);
