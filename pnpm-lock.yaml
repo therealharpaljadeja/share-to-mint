@@ -23,9 +23,15 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.64.2
         version: 5.80.5(react@18.3.1)
+      '@zoralabs/coins-sdk':
+        specifier: ^0.2.3
+        version: 0.2.3(abitype@1.0.8(typescript@5.8.3)(zod@3.25.51))(viem@2.30.6(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.51))
       next:
         specifier: 14.2.6
         version: 14.2.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      pinata:
+        specifier: ^2.4.8
+        version: 2.4.8(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react:
         specifier: ^18
         version: 18.3.1
@@ -184,6 +190,10 @@ packages:
     resolution: {integrity: sha512-Z8hWz/7c33zlmII2AJHja/Wz0C03mm2o+CEBtBylmiun1wC4FMgx1Fal699VQvBUG1lpcJ662WxuRNxKogktDw==}
     peerDependencies:
       typescript: 5.8.3
+
+  '@hey-api/client-fetch@0.8.4':
+    resolution: {integrity: sha512-SWtUjVEFIUdiJGR2NiuF0njsSrSdTe7WHWkp3BLH3DEl2bRhiflOnBo29NSDdrY90hjtTQiTQkBxUgGOF29Xzg==}
+    deprecated: Starting with v0.73.0, this package is bundled directly inside @hey-api/openapi-ts.
 
   '@isaacs/cliui@8.0.2':
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
@@ -654,6 +664,16 @@ packages:
 
   '@walletconnect/window-metadata@1.0.1':
     resolution: {integrity: sha512-9koTqyGrM2cqFRW517BPY/iEtUDx2r1+Pwwu5m7sJ7ka79wi3EyqhqcICk/yDmv6jAS1rjKgTKXlEhanYjijcA==}
+
+  '@zoralabs/coins-sdk@0.2.3':
+    resolution: {integrity: sha512-cW+95UVsnlG6XF5etBH2x7++p1T/uvEWhHkFClEgYS/DtwYvAAVj8Xhk15p5eGn/2q1ujO2Ufjl4vZMq4LGHYQ==}
+    engines: {node: '>=22'}
+    peerDependencies:
+      abitype: ^1.0.8
+      viem: ^2.21.55
+
+  '@zoralabs/protocol-deployments@0.6.1':
+    resolution: {integrity: sha512-iDO5EhLrqDw0keudRq9omuSdvHG852de5/apY2p7QLBDxitQuJ/6/jOaq2WB4B6GPVUh2fTd5+CdoSsbJhJv5g==}
 
   abitype@1.0.8:
     resolution: {integrity: sha512-ZeiI6h3GnW06uYDLx0etQtX/p8E24UaHHBj57RSjK7YBFe7iuVn07EDpOeP451D06sF27VOz9JJPlIKJmXgkEg==}
@@ -1438,6 +1458,18 @@ packages:
     resolution: {integrity: sha512-eW/gHNMlxdSP6dmG6uJip6FXN0EQBwm2clYYd8Wul42Cwu/DK8HEftzsapcNdYe2MfLiIwZqsDk2RDEsTE79hA==}
     engines: {node: '>=10'}
 
+  pinata@2.4.8:
+    resolution: {integrity: sha512-5z2d9pe6q0fO+8GuH5ofy5uxZQtknFUD2K1C1BQ4sTrUKLmW3h0bRCSKWu9d8EQEjDp+2s27s4BXG83lBfW4Ig==}
+    engines: {node: '>=20'}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    peerDependenciesMeta:
+      react:
+        optional: true
+      react-dom:
+        optional: true
+
   pino-abstract-transport@0.5.0:
     resolution: {integrity: sha512-+KAgmVeqXYbTtU2FScx1XS3kNyfZ5TrXY07V96QnUSFqo2gAqlvmaxH67Lj7SWazqsMabf+58ctdTcBgnOLUOQ==}
 
@@ -2198,6 +2230,8 @@ snapshots:
       jose: 5.10.0
       typescript: 5.8.3
       zod: 3.25.51
+
+  '@hey-api/client-fetch@0.8.4': {}
 
   '@isaacs/cliui@8.0.2':
     dependencies:
@@ -3457,6 +3491,15 @@ snapshots:
       '@walletconnect/window-getters': 1.0.1
       tslib: 1.14.1
 
+  '@zoralabs/coins-sdk@0.2.3(abitype@1.0.8(typescript@5.8.3)(zod@3.25.51))(viem@2.30.6(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.51))':
+    dependencies:
+      '@hey-api/client-fetch': 0.8.4
+      '@zoralabs/protocol-deployments': 0.6.1
+      abitype: 1.0.8(typescript@5.8.3)(zod@3.25.51)
+      viem: 2.30.6(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.51)
+
+  '@zoralabs/protocol-deployments@0.6.1': {}
+
   abitype@1.0.8(typescript@5.8.3)(zod@3.22.4):
     optionalDependencies:
       typescript: 5.8.3
@@ -4249,6 +4292,11 @@ snapshots:
   pify@3.0.0: {}
 
   pify@5.0.0: {}
+
+  pinata@2.4.8(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+    optionalDependencies:
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
 
   pino-abstract-transport@0.5.0:
     dependencies:

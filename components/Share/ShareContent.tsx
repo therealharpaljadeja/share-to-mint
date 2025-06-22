@@ -197,6 +197,7 @@ export default function ShareContent() {
     const [cast, setCast] = useState<Cast | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [isMinting, setIsMinting] = useState(false);
 
     const castHash = searchParams.get("castHash") || "";
     const viewerFid = Number(searchParams.get("viewerFid")) || 0;
@@ -221,6 +222,52 @@ export default function ShareContent() {
             loadCast();
         }
     }, [castHash, viewerFid]);
+
+    const handleCoinIt = async () => {
+        if (!cast) return;
+        
+        const imageEmbed = cast.embeds.find(embed => embed.metadata?.content_type?.startsWith('image/'));
+        if (!imageEmbed?.url) {
+            alert("This cast doesn't have an image to mint.");
+            return;
+        }
+
+        setIsMinting(true);
+        try {
+            // 1. Construct the final metadata using the direct image URL
+            const metadata = {
+                name: cast.hash,
+                description: cast.text,
+                image: imageEmbed.url,
+                properties: {
+                    category: "social"
+                }
+            };
+
+            // 2. Upload the metadata JSON
+            const metadataUploadResponse = await fetch('/api/uploadJSON', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    jsonData: metadata,
+                    filename: cast.hash
+                })
+            });
+
+            if (!metadataUploadResponse.ok) {
+                throw new Error('Failed to upload metadata to IPFS.');
+            }
+
+            const metadataUploadResult = await metadataUploadResponse.json();
+            alert(`Successfully minted! Metadata CID: ${metadataUploadResult.cid}`);
+
+        } catch (err) {
+            console.error(err);
+            alert(err instanceof Error ? err.message : 'An unknown error occurred during minting.');
+        } finally {
+            setIsMinting(false);
+        }
+    };
 
     if (isLoading) {
         return (
@@ -330,9 +377,11 @@ export default function ShareContent() {
                             <div className="mt-6">
                                 <button
                                     type="button"
-                                    className="w-full bg-primary text-text-light font-bold py-3 px-5 rounded-md hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                                    onClick={handleCoinIt}
+                                    disabled={isMinting}
+                                    className="w-full bg-primary text-text-light font-bold py-3 px-5 rounded-md hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:bg-gray-400 disabled:cursor-not-allowed"
                                 >
-                                    Coin it
+                                    {isMinting ? 'Coining it...' : 'Coin it'}
                                 </button>
                             </div>
                         </div>
