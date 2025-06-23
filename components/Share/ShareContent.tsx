@@ -11,6 +11,7 @@ import { base } from "viem/chains";
 import { Address } from "viem";
 import { simulateContract, writeContract } from "wagmi/actions";
 import { config } from "../wallet-provider";
+import { useAccount } from "wagmi";
 
 interface CastAuthor {
     fid: number;
@@ -210,6 +211,7 @@ export default function ShareContent() {
     const [error, setError] = useState<string | null>(null);
     const [isMinting, setIsMinting] = useState(false);
     const [mintResult, setMintResult] = useState<any | null>(null);
+    const { isConnected, address, chainId } = useAccount();
 
     const castHash = searchParams.get("castHash") || "";
     const viewerFid = Number(searchParams.get("viewerFid")) || 0;
@@ -251,39 +253,41 @@ export default function ShareContent() {
         setMintResult(null);
         setIsMinting(true);
         try {
-                // 1. Construct the final metadata using the direct image URL
-                const metadata = {
-                    name: cast.hash,
-                    description: cast.text,
-                    image: imageEmbed.url,
-                    properties: {
-                        category: "social"
-                    }
-                };
+            // 1. Construct the final metadata using the direct image URL
+            const metadata = {
+                name: cast.hash,
+                description: cast.text,
+                image: imageEmbed.url,
+                properties: {
+                    category: "social",
+                },
+            };
 
-            //     // 2. Upload the metadata JSON
-                const metadataUploadResponse = await fetch('/api/uploadJSON', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        jsonData: metadata,
-                        filename: cast.hash
-                    })
-                });
+            // 2. Upload the metadata JSON
+            const metadataUploadResponse = await fetch("/api/uploadJSON", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    jsonData: metadata,
+                    filename: cast.hash,
+                }),
+            });
 
-                if (!metadataUploadResponse.ok) {
-                    throw new Error('Failed to upload metadata to IPFS.');
-                }
+            if (!metadataUploadResponse.ok) {
+                throw new Error("Failed to upload metadata to IPFS.");
+            }
 
-                const metadataUploadResult = await metadataUploadResponse.json();
-                setMintResult(metadataUploadResult);
+            const metadataUploadResult = await metadataUploadResponse.json();
+            setMintResult(metadataUploadResult);
 
-                const metadataURI = `https://green-defeated-warbler-251.mypinata.cloud/ipfs/${metadataUploadResult.cid}`;
-                const metadataURIContent = await validateMetadataURIContent(metadataURI as ValidMetadataURI);
+            const metadataURI = `https://green-defeated-warbler-251.mypinata.cloud/ipfs/${metadataUploadResult.cid}`;
+            const metadataURIContent = await validateMetadataURIContent(
+                metadataURI as ValidMetadataURI
+            );
 
-                if(!metadataURIContent) {
-                    throw new Error('Metadata is not valid. Please try again.');
-                }
+            if (!metadataURIContent) {
+                throw new Error("Metadata is not valid. Please try again.");
+            }
 
             // Define coin parameters
             const coinParams = {
@@ -299,15 +303,15 @@ export default function ShareContent() {
             };
 
             const contractCallParams = await createCoinCall(coinParams);
-            
+
             // Set the arguments in state to trigger the simulation hook
-            const { request }  = await simulateContract(config, { ...contractCallParams});
+            const { request } = await simulateContract(config, {
+                ...contractCallParams,
+            });
             console.log(request);
 
             const result = await writeContract(config, request);
             console.log(result);
-
-
         } catch (err) {
             console.error(err);
             alert(
@@ -426,6 +430,12 @@ export default function ShareContent() {
                                             ) : null}
                                         </div>
                                     ))}
+                                </div>
+                            )}
+
+                            {isConnected && (
+                                <div>
+                                    <p>{address}</p>
                                 </div>
                             )}
 
