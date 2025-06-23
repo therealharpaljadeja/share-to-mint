@@ -7,7 +7,7 @@ import {
     ValidMetadataURI,
 } from "@zoralabs/coins-sdk";
 import { createCoinCall, DeployCurrency } from "@zoralabs/coins-sdk";
-import { base } from "viem/chains";
+import { base, baseSepolia } from "viem/chains";
 import { Address } from "viem";
 import { simulateContract, writeContract } from "wagmi/actions";
 import { config } from "../wallet-provider";
@@ -298,7 +298,7 @@ export default function ShareContent() {
                     "0xc0708E7852C64eE695e94Ad92E2aB7221635944d" as Address,
                 platformReferrer:
                     "0xc0708E7852C64eE695e94Ad92E2aB7221635944d" as Address,
-                chainId: base.id, // Optional: defaults to base.id
+                chainId: baseSepolia.id, // Optional: defaults to base.id
                 currency: DeployCurrency.ETH, // Optional: ZORA or ETH
             };
 
