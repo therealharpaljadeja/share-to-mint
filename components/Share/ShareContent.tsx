@@ -8,7 +8,6 @@ import {
 } from "@zoralabs/coins-sdk";
 import { createCoinCall, DeployCurrency } from "@zoralabs/coins-sdk";
 import { base } from "viem/chains";
-import { useSimulateContract, useWriteContract } from "wagmi";
 import { Address } from "viem";
 import { simulateContract, writeContract } from "wagmi/actions";
 import { config } from "../wallet-provider";
@@ -211,46 +210,9 @@ export default function ShareContent() {
     const [error, setError] = useState<string | null>(null);
     const [isMinting, setIsMinting] = useState(false);
     const [mintResult, setMintResult] = useState<any | null>(null);
-    const [contractArgs, setContractArgs] = useState<any>(null);
-
-    const { writeContract, status, error: writeError } = useWriteContract();
-    const { data: writeConfig, error: simulateError } = useSimulateContract({
-        ...contractArgs,
-        enabled: !!contractArgs,
-    });
 
     const castHash = searchParams.get("castHash") || "";
     const viewerFid = Number(searchParams.get("viewerFid")) || 0;
-
-    // Effect to write the contract once simulation is successful
-    useEffect(() => {
-        if (writeConfig?.request) {
-            writeContract(writeConfig.request);
-        }
-    }, [writeConfig, writeContract]);
-
-    // Effect to handle the transaction status
-    useEffect(() => {
-        if (status === 'success') {
-            alert('Transaction successful!');
-            setIsMinting(false);
-            setContractArgs(null); // Reset for next time
-        }
-        if (status === 'error' && writeError) {
-            alert(`Transaction failed: ${writeError.message.split('\n')[0]}`);
-            setIsMinting(false);
-            setContractArgs(null);
-        }
-    }, [status, writeError]);
-    
-    // Effect to handle simulation errors
-    useEffect(() => {
-        if (simulateError) {
-            alert(`Transaction simulation failed: ${simulateError.message.split('\n')[0]}`);
-            setIsMinting(false);
-            setContractArgs(null);
-        }
-    }, [simulateError]);
 
     useEffect(() => {
         console.log("loading");
@@ -353,6 +315,7 @@ export default function ShareContent() {
                     ? err.message
                     : "An unknown error occurred during minting."
             );
+        } finally {
             setIsMinting(false);
         }
     };
