@@ -7,6 +7,7 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://share-to-mint.vercel.app'),
   title: 'Monad Farcaster MiniApp Template',
   description: 'A template for building mini-apps on Farcaster and Monad',
 }

@@ -2,11 +2,16 @@
 
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { validateMetadataURIContent, ValidMetadataURI } from "@zoralabs/coins-sdk";
+import {
+    validateMetadataURIContent,
+    ValidMetadataURI,
+} from "@zoralabs/coins-sdk";
 import { createCoinCall, DeployCurrency } from "@zoralabs/coins-sdk";
 import { base } from "viem/chains";
 import { useSimulateContract, useWriteContract } from "wagmi";
 import { Address } from "viem";
+import { simulateContract, writeContract } from "wagmi/actions";
+import { config } from "../wallet-provider";
 
 interface CastAuthor {
     fid: number;
@@ -40,14 +45,16 @@ interface Cast {
 
 async function fetchCastContent(castHash: string, viewerFid?: number) {
     const response = await fetch(
-        `/api/cast?identifier=${castHash}&type=hash${viewerFid ? `&viewerFid=${viewerFid}` : ''}`
+        `/api/cast?identifier=${castHash}&type=hash${
+            viewerFid ? `&viewerFid=${viewerFid}` : ""
+        }`
     );
-    
+
     if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.error || 'Failed to fetch cast');
+        throw new Error(error.error || "Failed to fetch cast");
     }
-    
+
     return response.json();
 }
 
@@ -204,15 +211,54 @@ export default function ShareContent() {
     const [error, setError] = useState<string | null>(null);
     const [isMinting, setIsMinting] = useState(false);
     const [mintResult, setMintResult] = useState<any | null>(null);
+    const [contractArgs, setContractArgs] = useState<any>(null);
+
+    const { writeContract, status, error: writeError } = useWriteContract();
+    const { data: writeConfig, error: simulateError } = useSimulateContract({
+        ...contractArgs,
+        enabled: !!contractArgs,
+    });
 
     const castHash = searchParams.get("castHash") || "";
     const viewerFid = Number(searchParams.get("viewerFid")) || 0;
 
+    // Effect to write the contract once simulation is successful
     useEffect(() => {
+        if (writeConfig?.request) {
+            writeContract(writeConfig.request);
+        }
+    }, [writeConfig, writeContract]);
+
+    // Effect to handle the transaction status
+    useEffect(() => {
+        if (status === 'success') {
+            alert('Transaction successful!');
+            setIsMinting(false);
+            setContractArgs(null); // Reset for next time
+        }
+        if (status === 'error' && writeError) {
+            alert(`Transaction failed: ${writeError.message.split('\n')[0]}`);
+            setIsMinting(false);
+            setContractArgs(null);
+        }
+    }, [status, writeError]);
+    
+    // Effect to handle simulation errors
+    useEffect(() => {
+        if (simulateError) {
+            alert(`Transaction simulation failed: ${simulateError.message.split('\n')[0]}`);
+            setIsMinting(false);
+            setContractArgs(null);
+        }
+    }, [simulateError]);
+
+    useEffect(() => {
+        console.log("loading");
         async function loadCast() {
             try {
                 setIsLoading(true);
                 setError(null);
+
                 const response = await fetchCastContent(castHash, viewerFid);
                 setCast(response.cast);
             } catch (err) {
@@ -231,8 +277,10 @@ export default function ShareContent() {
 
     const handleCoinIt = async () => {
         if (!cast) return;
-        
-        const imageEmbed = cast.embeds.find(embed => embed.metadata?.content_type?.startsWith('image/'));
+
+        const imageEmbed = cast.embeds.find((embed) =>
+            embed.metadata?.content_type?.startsWith("image/")
+        );
         if (!imageEmbed?.url) {
             alert("This cast doesn't have an image to mint.");
             return;
@@ -241,65 +289,70 @@ export default function ShareContent() {
         setMintResult(null);
         setIsMinting(true);
         try {
-            // 1. Construct the final metadata using the direct image URL
-            const metadata = {
-                name: cast.hash,
-                description: cast.text,
-                image: imageEmbed.url,
-                properties: {
-                    category: "social"
+                // 1. Construct the final metadata using the direct image URL
+                const metadata = {
+                    name: cast.hash,
+                    description: cast.text,
+                    image: imageEmbed.url,
+                    properties: {
+                        category: "social"
+                    }
+                };
+
+            //     // 2. Upload the metadata JSON
+                const metadataUploadResponse = await fetch('/api/uploadJSON', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        jsonData: metadata,
+                        filename: cast.hash
+                    })
+                });
+
+                if (!metadataUploadResponse.ok) {
+                    throw new Error('Failed to upload metadata to IPFS.');
                 }
-            };
 
-            // 2. Upload the metadata JSON
-            const metadataUploadResponse = await fetch('/api/uploadJSON', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    jsonData: metadata,
-                    filename: cast.hash
-                })
-            });
+                const metadataUploadResult = await metadataUploadResponse.json();
+                setMintResult(metadataUploadResult);
 
-            if (!metadataUploadResponse.ok) {
-                throw new Error('Failed to upload metadata to IPFS.');
-            }
+                const metadataURI = `https://green-defeated-warbler-251.mypinata.cloud/ipfs/${metadataUploadResult.cid}`;
+                const metadataURIContent = await validateMetadataURIContent(metadataURI as ValidMetadataURI);
 
-            const metadataUploadResult = await metadataUploadResponse.json();
-            setMintResult(metadataUploadResult);
-
-
-            const metadataURI = `https://green-defeated-warbler-251.mypinata.cloud/ipfs/${metadataUploadResult.cid}`;
-            const metadataURIContent = await validateMetadataURIContent(metadataURI as ValidMetadataURI);
-
-            if(!metadataURIContent) {
-                throw new Error('Metadata is not valid. Please try again.');
-            }
-
+                if(!metadataURIContent) {
+                    throw new Error('Metadata is not valid. Please try again.');
+                }
 
             // Define coin parameters
             const coinParams = {
                 name: "Share to Mint #1",
                 symbol: "S2M",
-                uri: `ipfs://${metadataUploadResult.cid}`,
-                payoutRecipient: "0xc0708E7852C64eE695e94Ad92E2aB7221635944d" as Address,
-                platformReferrer: "0xc0708E7852C64eE695e94Ad92E2aB7221635944d" as Address,
+                uri: `ipfs://bafkreihng4dfywdws3xp6mp5d25vn5o4txrod7oosh4xefylc262odujyi`,
+                payoutRecipient:
+                    "0xc0708E7852C64eE695e94Ad92E2aB7221635944d" as Address,
+                platformReferrer:
+                    "0xc0708E7852C64eE695e94Ad92E2aB7221635944d" as Address,
                 chainId: base.id, // Optional: defaults to base.id
                 currency: DeployCurrency.ETH, // Optional: ZORA or ETH
             };
-            
+
             const contractCallParams = await createCoinCall(coinParams);
+            
+            // Set the arguments in state to trigger the simulation hook
+            const { request }  = await simulateContract(config, { ...contractCallParams});
+            console.log(request);
 
-            const { data: writeConfig } = useSimulateContract({
-                ...contractCallParams,
-              });
+            const result = await writeContract(config, request);
+            console.log(result);
 
-            const { writeContract, status } = useWriteContract(writeConfig as any);
 
         } catch (err) {
             console.error(err);
-            alert(err instanceof Error ? err.message : 'An unknown error occurred during minting.');
-        } finally {
+            alert(
+                err instanceof Error
+                    ? err.message
+                    : "An unknown error occurred during minting."
+            );
             setIsMinting(false);
         }
     };
@@ -370,7 +423,9 @@ export default function ShareContent() {
 
                         {/* Cast Content */}
                         <div className="mt-4">
-                            <p className="text-text-light text-base break-words">{cast.text}</p>
+                            <p className="text-text-light text-base break-words">
+                                {cast.text}
+                            </p>
 
                             {/* Embeds */}
                             {cast.embeds && cast.embeds.length > 0 && (
@@ -380,16 +435,19 @@ export default function ShareContent() {
                                             key={index}
                                             className="rounded-lg border border-border-default p-4"
                                         >
-                                            {embed.metadata?.content_type?.startsWith('image/') ? (
+                                            {embed.metadata?.content_type?.startsWith(
+                                                "image/"
+                                            ) ? (
                                                 <div className="relative w-full">
                                                     <img
                                                         src={embed.url}
                                                         alt="Cast image"
                                                         className="rounded-lg w-full h-auto"
                                                         style={{
-                                                            aspectRatio: embed.metadata.image ? 
-                                                                `${embed.metadata.image.width_px} / ${embed.metadata.image.height_px}` : 
-                                                                'auto'
+                                                            aspectRatio: embed
+                                                                .metadata.image
+                                                                ? `${embed.metadata.image.width_px} / ${embed.metadata.image.height_px}`
+                                                                : "auto",
                                                         }}
                                                     />
                                                 </div>
@@ -416,21 +474,34 @@ export default function ShareContent() {
                                     disabled={isMinting}
                                     className="w-full bg-primary text-text-light font-bold py-3 px-5 rounded-md hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:bg-gray-400 disabled:cursor-not-allowed"
                                 >
-                                    {isMinting ? 'Coining it...' : 'Coin it'}
+                                    {isMinting ? "Coining it..." : "Coin it"}
                                 </button>
                             </div>
 
                             {/* Mint Result */}
                             {mintResult && (
                                 <div className="mt-6 p-4 border border-green-200 bg-green-50 rounded-lg">
-                                    <h3 className="text-lg font-bold text-green-800">Successfully Coined!</h3>
-                                    <p className="text-sm text-green-700 mt-1">Your content metadata has been uploaded to IPFS.</p>
+                                    <h3 className="text-lg font-bold text-green-800">
+                                        Successfully Coined!
+                                    </h3>
+                                    <p className="text-sm text-green-700 mt-1">
+                                        Your content metadata has been uploaded
+                                        to IPFS.
+                                    </p>
                                     <div className="mt-4 bg-gray-100 p-3 rounded-md overflow-x-auto">
-                                        <pre className="text-xs text-gray-800"><code>{JSON.stringify(mintResult, null, 2)}</code></pre>
+                                        <pre className="text-xs text-gray-800">
+                                            <code>
+                                                {JSON.stringify(
+                                                    mintResult,
+                                                    null,
+                                                    2
+                                                )}
+                                            </code>
+                                        </pre>
                                     </div>
-                                    <a 
-                                        href={`https://green-defeated-warbler-251.mypinata.cloud/ipfs/${mintResult.cid}`} 
-                                        target="_blank" 
+                                    <a
+                                        href={`https://green-defeated-warbler-251.mypinata.cloud/ipfs/${mintResult.cid}`}
+                                        target="_blank"
                                         rel="noopener noreferrer"
                                         className="mt-4 inline-block text-sm text-blue-600 hover:underline"
                                     >
