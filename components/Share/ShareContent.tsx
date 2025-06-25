@@ -12,6 +12,9 @@ import { Address } from "viem";
 import { simulateContract, writeContract } from "wagmi/actions";
 import { config } from "../wallet-provider";
 import { useAccount } from "wagmi";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 interface CastAuthor {
     fid: number;
@@ -58,152 +61,6 @@ async function fetchCastContent(castHash: string, viewerFid?: number) {
     return response.json();
 }
 
-const testResponse = {
-    cast: {
-        object: "cast",
-        hash: "0x4781e22f24da53666be998ada44f32d88f035902",
-        author: {
-            object: "user",
-            fid: 499783,
-            username: "tako-unik",
-            display_name: "Tako is based in Los Fomos",
-            pfp_url:
-                "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/c23806fc-7b65-466e-75ad-d5b1642f3500/rectcrop3",
-            custody_address: "0xb3195fd127dc66493934357e0a270243e0cd2155",
-            profile: {
-                bio: {
-                    text: "LFer. Based in /los-fomos • Making onchain spicy | Building /uniklabs - a portable community graph. /cinema-mon-amour simp",
-                    mentioned_channels: [
-                        {
-                            object: "channel_dehydrated",
-                            id: "los-fomos",
-                            name: "Los Fomos",
-                            image_url:
-                                "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/15709126-e03b-4e36-3d57-55c54511de00/original",
-                        },
-                        {
-                            object: "channel_dehydrated",
-                            id: "uniklabs",
-                            name: "Future of fandom",
-                            image_url:
-                                "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/df4fda88-1901-485a-4f66-8b558f65ab00/original",
-                        },
-                        {
-                            object: "channel_dehydrated",
-                            id: "cinema-mon-amour",
-                            name: "Cinéma, Mon Amour",
-                            image_url:
-                                "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/59e9ec9c-167f-4638-7910-546277f23800/original",
-                        },
-                    ],
-                    mentioned_channels_ranges: [
-                        {
-                            start: 15,
-                            end: 25,
-                        },
-                        {
-                            start: 62,
-                            end: 71,
-                        },
-                        {
-                            start: 102,
-                            end: 119,
-                        },
-                    ],
-                },
-            },
-            follower_count: 6698,
-            following_count: 227,
-            verifications: [
-                "0x0de1bf69e2c04e6cb948cb51bc70e13d159a0917",
-                "0x545275e6098eb53b964a4787f14e49446568ad0b",
-            ],
-            verified_addresses: {
-                eth_addresses: [
-                    "0x0de1bf69e2c04e6cb948cb51bc70e13d159a0917",
-                    "0x545275e6098eb53b964a4787f14e49446568ad0b",
-                ],
-                sol_addresses: [
-                    "8v4sa5XCqV534dkoG57CJML871c3MnLu1dDVsoAbTbMe",
-                    "7MA2yqMEMPNVKRDzDd4EaFsw3bvS5jmnEtScvK14Z58",
-                ],
-                primary: {
-                    eth_address: "0x545275e6098eb53b964a4787f14e49446568ad0b",
-                    sol_address: "7MA2yqMEMPNVKRDzDd4EaFsw3bvS5jmnEtScvK14Z58",
-                },
-            },
-            verified_accounts: [
-                {
-                    platform: "x",
-                    username: "tako_unik",
-                },
-            ],
-            power_badge: true,
-            experimental: {
-                neynar_user_score: 0.98,
-                deprecation_notice:
-                    "The `neynar_user_score` field under `experimental` will be deprecated after June 1, 2025, as it will be formally promoted to a stable field named `score` within the user object.",
-            },
-            score: 0.98,
-        },
-        app: {
-            object: "user_dehydrated",
-            fid: 9152,
-            username: "warpcast",
-            display_name: "Warpcast",
-            pfp_url: "https://i.imgur.com/3d6fFAI.png",
-            custody_address: "0x02ef790dd7993a35fd847c053eddae940d055596",
-        },
-        thread_hash: "0x4781e22f24da53666be998ada44f32d88f035902",
-        parent_hash: null,
-        parent_url: "https://warpcast.com/~/channel/los-fomos",
-        root_parent_url: "https://warpcast.com/~/channel/los-fomos",
-        parent_author: {
-            fid: null,
-        },
-        text: "Pau and I drafting something exciting",
-        timestamp: "2025-06-19T13:21:47.000Z",
-        embeds: [
-            {
-                url: "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/99730f4d-a329-4487-dbe4-17fd1fab7100/original",
-                metadata: {
-                    content_type: "image/jpeg",
-                    content_length: 132608,
-                    _status: "RESOLVED",
-                    image: {
-                        width_px: 1320,
-                        height_px: 1229,
-                    },
-                },
-            },
-        ],
-        channel: {
-            object: "channel_dehydrated",
-            id: "los-fomos",
-            name: "Los Fomos",
-            image_url:
-                "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/15709126-e03b-4e36-3d57-55c54511de00/original",
-        },
-        reactions: {
-            likes_count: 9,
-            recasts_count: 0,
-            likes: [],
-            recasts: [],
-        },
-        replies: {
-            count: 4,
-        },
-        mentioned_profiles: [],
-        mentioned_profiles_ranges: [],
-        mentioned_channels: [],
-        mentioned_channels_ranges: [],
-        author_channel_context: {
-            role: "moderator",
-            following: true,
-        },
-    },
-};
-
 export default function ShareContent() {
     const searchParams = useSearchParams();
     const [cast, setCast] = useState<Cast | null>(null);
@@ -212,6 +69,12 @@ export default function ShareContent() {
     const [isMinting, setIsMinting] = useState(false);
     const [mintResult, setMintResult] = useState<any | null>(null);
     const { isConnected, address, chainId } = useAccount();
+    const [name, setName] = useState("");
+    const [symbol, setSymbol] = useState("");
+    const [formErrors, setFormErrors] = useState({
+        name: false,
+        symbol: false,
+    });
 
     const castHash = searchParams.get("castHash") || "";
     const viewerFid = Number(searchParams.get("viewerFid")) || 0;
@@ -239,8 +102,17 @@ export default function ShareContent() {
         }
     }, [castHash, viewerFid]);
 
+    const validateForm = () => {
+        const errors = {
+            name: name.trim() === "",
+            symbol: symbol.trim() === "",
+        };
+        setFormErrors(errors);
+        return !Object.values(errors).some(Boolean);
+    };
+
     const handleCoinIt = async () => {
-        if (!cast) return;
+        if (!validateForm() || !cast) return;
 
         const imageEmbed = cast.embeds.find((embed) =>
             embed.metadata?.content_type?.startsWith("image/")
@@ -291,8 +163,8 @@ export default function ShareContent() {
 
             // Define coin parameters
             const coinParams = {
-                name: "Share to Mint #1",
-                symbol: "S2M",
+                name: name,
+                symbol: symbol,
                 uri: `ipfs://bafkreihng4dfywdws3xp6mp5d25vn5o4txrod7oosh4xefylc262odujyi`,
                 payoutRecipient:
                     "0xc0708E7852C64eE695e94Ad92E2aB7221635944d" as Address,
@@ -365,9 +237,9 @@ export default function ShareContent() {
     }
 
     return (
-        <div className="min-h-screen bg-background-light font-sans py-12 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-background font-sans py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl mx-auto">
-                <div className="bg-white shadow-card rounded-card overflow-hidden">
+                <div className="bg-card shadow-lg rounded-lg overflow-hidden">
                     {/* Author Section */}
                     <div className="p-6">
                         <div className="flex items-center space-x-4">
@@ -379,10 +251,10 @@ export default function ShareContent() {
                                 />
                             </div>
                             <div>
-                                <h2 className="text-lg font-bold text-text-light">
+                                <h2 className="text-lg font-bold text-foreground">
                                     {cast.author.display_name}
                                 </h2>
-                                <p className="text-sm text-text-secondary">
+                                <p className="text-sm text-muted-foreground">
                                     @{cast.author.username}
                                 </p>
                             </div>
@@ -390,7 +262,7 @@ export default function ShareContent() {
 
                         {/* Cast Content */}
                         <div className="mt-4">
-                            <p className="text-text-light text-base break-words">
+                            <p className="text-foreground text-base break-words">
                                 {cast.text}
                             </p>
 
@@ -400,7 +272,7 @@ export default function ShareContent() {
                                     {cast.embeds.map((embed, index) => (
                                         <div
                                             key={index}
-                                            className="rounded-lg border border-border-default p-4"
+                                            className="rounded-lg border p-4"
                                         >
                                             {embed.metadata?.content_type?.startsWith(
                                                 "image/"
@@ -423,7 +295,7 @@ export default function ShareContent() {
                                                     href={embed.url}
                                                     target="_blank"
                                                     rel="noopener noreferrer"
-                                                    className="text-blue-600 hover:underline break-all"
+                                                    className="text-primary hover:underline break-all"
                                                 >
                                                     {embed.url}
                                                 </a>
@@ -434,22 +306,53 @@ export default function ShareContent() {
                             )}
 
                             {isConnected && (
-                                <div>
-                                    <p>{address}</p>
+                                <div className="mt-4">
+                                    <div className="grid w-full max-w-sm items-center gap-1.5">
+                                        <Label htmlFor="name">Name</Label>
+                                        <Input
+                                            id="name"
+                                            placeholder="Name"
+                                            value={name}
+                                            onChange={(e) =>
+                                                setName(e.target.value)
+                                            }
+                                            className={
+                                                formErrors.name
+                                                    ? "border-red-500"
+                                                    : ""
+                                            }
+                                        />
+                                    </div>
+                                    <div className="grid w-full max-w-sm items-center gap-1.5 mt-4">
+                                        <Label htmlFor="symbol">Symbol</Label>
+                                        <Input
+                                            id="symbol"
+                                            placeholder="Symbol"
+                                            value={symbol}
+                                            onChange={(e) =>
+                                                setSymbol(e.target.value)
+                                            }
+                                            className={
+                                                formErrors.symbol
+                                                    ? "border-red-500"
+                                                    : ""
+                                            }
+                                        />
+                                    </div>
+                                    {/* Mint Button */}
+                                    <div className="mt-6">
+                                        <Button
+                                            onClick={handleCoinIt}
+                                            disabled={isMinting}
+                                            className="w-full"
+                                        >
+                                            {isMinting
+                                                ? "Coining it..."
+                                                : "Coin it"}
+                                        </Button>
+                                    </div>
                                 </div>
                             )}
-
-                            {/* Mint Button */}
-                            <div className="mt-6">
-                                <button
-                                    type="button"
-                                    onClick={handleCoinIt}
-                                    disabled={isMinting}
-                                    className="w-full bg-primary text-text-light font-bold py-3 px-5 rounded-md hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:bg-gray-400 disabled:cursor-not-allowed"
-                                >
-                                    {isMinting ? "Coining it..." : "Coin it"}
-                                </button>
-                            </div>
 
                             {/* Mint Result */}
                             {mintResult && (
