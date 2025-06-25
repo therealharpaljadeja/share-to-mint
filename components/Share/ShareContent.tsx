@@ -165,7 +165,7 @@ export default function ShareContent() {
             const coinParams = {
                 name: name,
                 symbol: symbol,
-                uri: `ipfs://bafkreihng4dfywdws3xp6mp5d25vn5o4txrod7oosh4xefylc262odujyi`,
+                uri: `${metadataURI}`,
                 payoutRecipient:
                     "0xc0708E7852C64eE695e94Ad92E2aB7221635944d" as Address,
                 platformReferrer:
