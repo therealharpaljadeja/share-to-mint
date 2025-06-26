@@ -237,58 +237,71 @@ const NotFoundAlert = () => (
     </div>
 )
 
-const CastView = ({ cast }: { cast: Cast }) => (
-    <>
-        <CardHeader>
-            <div className="flex items-center space-x-4">
-                <img
-                    src={cast.author.pfp_url}
-                    alt={cast.author.display_name}
-                    className="h-12 w-12 rounded-full"
-                />
-                <div>
-                    <CardTitle>{cast.author.display_name}</CardTitle>
-                    <p className="text-sm text-muted-foreground">
-                        @{cast.author.username}
-                    </p>
-                </div>
-            </div>
-        </CardHeader>
-        <CardContent>
-            <p className="text-foreground text-base break-words">
-                {cast.text}
-            </p>
+const CastView = ({ cast }: { cast: Cast }) => {
+    const firstImageEmbed = cast.embeds.find((embed) =>
+        embed.metadata?.content_type?.startsWith("image/")
+    );
+    const embedsToShow = cast.embeds.filter(
+        (embed) =>
+            embed === firstImageEmbed ||
+            !embed.metadata?.content_type?.startsWith("image/")
+    );
 
-            {cast.embeds && cast.embeds.length > 0 && (
-                <div className="mt-4 space-y-4">
-                    {cast.embeds.map((embed, index) => (
-                        <div
-                            key={index}
-                            className="rounded-lg border overflow-hidden"
-                        >
-                            {embed.metadata?.content_type?.startsWith("image/") ? (
-                                <img
-                                    src={embed.url}
-                                    alt="Cast image"
-                                    className="w-full h-auto"
-                                />
-                            ) : embed.url ? (
-                                <a
-                                    href={embed.url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-primary hover:underline p-4 block break-all"
-                                >
-                                    {embed.url}
-                                </a>
-                            ) : null}
-                        </div>
-                    ))}
+    return (
+        <>
+            <CardHeader>
+                <div className="flex items-center space-x-4">
+                    <img
+                        src={cast.author.pfp_url}
+                        alt={cast.author.display_name}
+                        className="h-12 w-12 rounded-full"
+                    />
+                    <div>
+                        <CardTitle>{cast.author.display_name}</CardTitle>
+                        <p className="text-sm text-muted-foreground">
+                            @{cast.author.username}
+                        </p>
+                    </div>
                 </div>
-            )}
-        </CardContent>
-    </>
-);
+            </CardHeader>
+            <CardContent>
+                <p className="text-foreground text-base break-words">
+                    {cast.text}
+                </p>
+
+                {embedsToShow.length > 0 && (
+                    <div className="mt-4 space-y-4">
+                        {embedsToShow.map((embed, index) => (
+                            <div
+                                key={index}
+                                className="rounded-lg border overflow-hidden"
+                            >
+                                {embed.metadata?.content_type?.startsWith(
+                                    "image/"
+                                ) ? (
+                                    <img
+                                        src={embed.url}
+                                        alt="Cast image"
+                                        className="w-full h-auto"
+                                    />
+                                ) : embed.url ? (
+                                    <a
+                                        href={embed.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-primary hover:underline p-4 block break-all"
+                                    >
+                                        {embed.url}
+                                    </a>
+                                ) : null}
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </CardContent>
+        </>
+    );
+};
 
 const MintForm = ({ name, setName, symbol, setSymbol, formErrors, isMinting, handleCoinIt }: any) => (
     <div className="space-y-4">
