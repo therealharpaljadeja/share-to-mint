@@ -52,13 +52,16 @@ interface Cast {
 
 // --- API HELPERS --- //
 
-async function fetchCastContent(castHash: string, viewerFid?: number): Promise<{ cast: Cast }> {
+async function fetchCastContent(
+    castHash: string,
+    viewerFid?: number
+): Promise<{ cast: Cast }> {
     const params = new URLSearchParams({
         identifier: castHash,
-        type: 'hash',
+        type: "hash",
     });
     if (viewerFid) {
-        params.set('viewerFid', viewerFid.toString());
+        params.set("viewerFid", viewerFid.toString());
     }
     const response = await fetch(`/api/cast?${params.toString()}`);
 
@@ -82,7 +85,7 @@ function useCast(castHash: string, viewerFid: number) {
             setIsLoading(false);
             setError("No cast hash provided.");
             return;
-        };
+        }
 
         const loadCast = async () => {
             try {
@@ -91,7 +94,9 @@ function useCast(castHash: string, viewerFid: number) {
                 const response = await fetchCastContent(castHash, viewerFid);
                 setCast(response.cast);
             } catch (err) {
-                setError(err instanceof Error ? err.message : "Failed to load cast");
+                setError(
+                    err instanceof Error ? err.message : "Failed to load cast"
+                );
             } finally {
                 setIsLoading(false);
             }
@@ -106,7 +111,10 @@ function useCast(castHash: string, viewerFid: number) {
 function useCoinMint(cast: Cast | null) {
     const [name, setName] = useState("");
     const [symbol, setSymbol] = useState("");
-    const [formErrors, setFormErrors] = useState({ name: false, symbol: false });
+    const [formErrors, setFormErrors] = useState({
+        name: false,
+        symbol: false,
+    });
     const [isMinting, setIsMinting] = useState(false);
     const [mintResult, setMintResult] = useState<any | null>(null);
 
@@ -122,7 +130,7 @@ function useCoinMint(cast: Cast | null) {
     const handleCoinIt = useCallback(async () => {
         if (!validateForm() || !cast) return;
 
-        sdk.haptics.impactOccurred('heavy');
+        sdk.haptics.impactOccurred("heavy");
 
         const imageEmbed = cast.embeds.find((embed) =>
             embed.metadata?.content_type?.startsWith("image/")
@@ -145,7 +153,10 @@ function useCoinMint(cast: Cast | null) {
             const metadataUploadResponse = await fetch("/api/uploadJSON", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ jsonData: metadata, filename: cast.hash }),
+                body: JSON.stringify({
+                    jsonData: metadata,
+                    filename: cast.hash,
+                }),
             });
 
             if (!metadataUploadResponse.ok) {
@@ -154,8 +165,10 @@ function useCoinMint(cast: Cast | null) {
 
             const { cid } = await metadataUploadResponse.json();
             const metadataURI = `ipfs://${cid}`;
-            
-            const metadataURIContent = await validateMetadataURIContent(metadataURI as ValidMetadataURI);
+
+            const metadataURIContent = await validateMetadataURIContent(
+                metadataURI as ValidMetadataURI
+            );
             if (!metadataURIContent) {
                 throw new Error("Metadata is not valid. Please try again.");
             }
@@ -164,23 +177,30 @@ function useCoinMint(cast: Cast | null) {
                 name,
                 symbol,
                 uri: metadataURI,
-                payoutRecipient: "0xc0708E7852C64eE695e94Ad92E2aB7221635944d" as Address,
-                platformReferrer: "0xc0708E7852C64eE695e94Ad92E2aB7221635944d" as Address,
+                payoutRecipient:
+                    "0xc0708E7852C64eE695e94Ad92E2aB7221635944d" as Address,
+                platformReferrer:
+                    "0xc0708E7852C64eE695e94Ad92E2aB7221635944d" as Address,
                 chainId: baseSepolia.id,
                 currency: DeployCurrency.ETH,
             };
 
             const contractCallParams = await createCoinCall(coinParams);
-            const { request } = await simulateContract(config, { ...contractCallParams });
+            const { request } = await simulateContract(config, {
+                ...contractCallParams,
+            });
             const result = await writeContract(config, request);
-            
-            setMintResult({ cid, transactionHash: result });
-            sdk.haptics.notificationOccurred('success');
 
+            setMintResult({ cid, transactionHash: result });
+            sdk.haptics.notificationOccurred("success");
         } catch (err) {
             console.error(err);
-            alert(err instanceof Error ? err.message : "An unknown error occurred during minting.");
-            sdk.haptics.notificationOccurred('error');
+            alert(
+                err instanceof Error
+                    ? err.message
+                    : "An unknown error occurred during minting."
+            );
+            sdk.haptics.notificationOccurred("error");
         } finally {
             setIsMinting(false);
         }
@@ -197,7 +217,6 @@ function useCoinMint(cast: Cast | null) {
         handleCoinIt,
     };
 }
-
 
 // --- UI COMPONENTS --- //
 
@@ -227,7 +246,7 @@ const ErrorAlert = ({ error }: { error: string }) => (
 );
 
 const NotFoundAlert = () => (
-     <div className="min-h-screen bg-background flex items-center justify-center p-4">
+    <div className="min-h-screen bg-background flex items-center justify-center p-4">
         <Alert className="max-w-lg">
             <AlertTitle>No Cast Found</AlertTitle>
             <AlertDescription>
@@ -235,7 +254,7 @@ const NotFoundAlert = () => (
             </AlertDescription>
         </Alert>
     </div>
-)
+);
 
 const CastView = ({ cast }: { cast: Cast }) => {
     const firstImageEmbed = cast.embeds.find((embed) =>
@@ -245,12 +264,9 @@ const CastView = ({ cast }: { cast: Cast }) => {
         (embed) => !embed.metadata?.content_type?.startsWith("image/")
     );
 
-    const imageToRender =
-        firstImageEmbed ||
-        (cast.embeds.length === 0
-            ? { url: `https://client.farcaster.xyz/v2/og-image?castHash=${cast.hash}` }
-            : undefined);
-
+    const imageToRender = firstImageEmbed || {
+        url: `https://client.farcaster.xyz/v2/og-image?castHash=${cast.hash}`,
+    };
     console.log("imageToRender", imageToRender);
 
     return (
@@ -308,7 +324,15 @@ const CastView = ({ cast }: { cast: Cast }) => {
     );
 };
 
-const MintForm = ({ name, setName, symbol, setSymbol, formErrors, isMinting, handleCoinIt }: any) => (
+const MintForm = ({
+    name,
+    setName,
+    symbol,
+    setSymbol,
+    formErrors,
+    isMinting,
+    handleCoinIt,
+}: any) => (
     <div className="space-y-4">
         <div className="grid gap-2">
             <Label htmlFor="name">Coin Name</Label>
@@ -368,7 +392,6 @@ const MintSuccessAlert = ({ cid }: { cid: string }) => (
     </div>
 );
 
-
 // --- MAIN COMPONENT --- //
 
 export default function ShareContent() {
@@ -413,15 +436,17 @@ export default function ShareContent() {
                             <Alert>
                                 <AlertTitle>Connect Your Wallet</AlertTitle>
                                 <AlertDescription>
-                                    Please connect your wallet to coin this cast.
+                                    Please connect your wallet to coin this
+                                    cast.
                                 </AlertDescription>
                             </Alert>
                         )}
-                        {mintResult && <MintSuccessAlert cid={mintResult.cid} />}
+                        {mintResult && (
+                            <MintSuccessAlert cid={mintResult.cid} />
+                        )}
                     </CardContent>
                 </Card>
             </div>
         </div>
     );
 }
-
