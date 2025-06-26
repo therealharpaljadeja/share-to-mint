@@ -251,6 +251,7 @@ const CastView = ({ cast }: { cast: Cast }) => {
             ? { url: `https://client.farcaster.xyz/v2/og-image?castHash=${cast.hash}` }
             : undefined);
 
+    console.log("imageToRender", imageToRender);
 
     return (
         <>
@@ -397,8 +398,7 @@ export default function ShareContent() {
             <div className="max-w-2xl mx-auto">
                 <Card>
                     <CastView cast={cast} />
-                    <CardContent>
-                        <Separator className="my-2" />
+                    <CardContent className="pt-2">
                         {isConnected ? (
                             <MintForm
                                 name={name}
