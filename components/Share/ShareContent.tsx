@@ -20,6 +20,9 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
 import { LuSparkle } from "react-icons/lu";
+import { sdk } from "@farcaster/frame-sdk";
+
+// --- TYPE DEFINITIONS --- //
 
 interface CastAuthor {
     fid: number;
@@ -119,6 +122,8 @@ function useCoinMint(cast: Cast | null) {
     const handleCoinIt = useCallback(async () => {
         if (!validateForm() || !cast) return;
 
+        sdk.haptics.impactOccurred('heavy');
+
         const imageEmbed = cast.embeds.find((embed) =>
             embed.metadata?.content_type?.startsWith("image/")
         );
@@ -170,10 +175,12 @@ function useCoinMint(cast: Cast | null) {
             const result = await writeContract(config, request);
             
             setMintResult({ cid, transactionHash: result });
+            sdk.haptics.notificationOccurred('success');
 
         } catch (err) {
             console.error(err);
             alert(err instanceof Error ? err.message : "An unknown error occurred during minting.");
+            sdk.haptics.notificationOccurred('error');
         } finally {
             setIsMinting(false);
         }
