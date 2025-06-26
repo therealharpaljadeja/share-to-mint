@@ -19,8 +19,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
-
-// --- TYPE DEFINITIONS --- //
+import { LuSparkle } from "react-icons/lu";
 
 interface CastAuthor {
     fid: number;
@@ -292,6 +291,7 @@ const MintForm = ({ name, setName, symbol, setSymbol, formErrors, isMinting, han
                 id="name"
                 placeholder="My Awesome Coin"
                 value={name}
+                disabled={isMinting}
                 onChange={(e) => setName(e.target.value)}
                 className={formErrors.name ? "border-destructive" : ""}
             />
@@ -302,6 +302,7 @@ const MintForm = ({ name, setName, symbol, setSymbol, formErrors, isMinting, han
                 id="symbol"
                 placeholder="COIN"
                 value={symbol}
+                disabled={isMinting}
                 onChange={(e) => setSymbol(e.target.value)}
                 className={formErrors.symbol ? "border-destructive" : ""}
             />
@@ -309,9 +310,16 @@ const MintForm = ({ name, setName, symbol, setSymbol, formErrors, isMinting, han
         <Button
             onClick={handleCoinIt}
             disabled={isMinting}
-            className="w-full"
+            className="w-full bg-black text-white py-6 text-lg hover:bg-gray-900 active:scale-95 transition-transform duration-100"
         >
-            {isMinting ? "Coining it..." : "Coin it"}
+            {isMinting ? (
+                "Coining it..."
+            ) : (
+                <span className="flex items-center justify-center gap-2">
+                    <LuSparkle />
+                    <span>Coin it</span>
+                </span>
+            )}
         </Button>
     </div>
 );
@@ -366,7 +374,8 @@ export default function ShareContent() {
                 <Card>
                     <CastView cast={cast} />
                     <CardContent>
-                        {isConnected ? (
+                        <Separator className="my-6" />
+                        {!isConnected ? (
                             <MintForm
                                 name={name}
                                 setName={setName}
@@ -377,11 +386,10 @@ export default function ShareContent() {
                                 handleCoinIt={handleCoinIt}
                             />
                         ) : (
-                            <Alert variant="destructive" className="text-center flex flex-col items-center">
-                                <span role="img" aria-label="warning" className="mb-2 text-2xl">⚠️</span>
-                                <AlertTitle className="w-full text-center">Farcaster Only</AlertTitle>
-                                <AlertDescription className="w-full mt-2 flex flex-col items-center justify-center">
-                                    <span>This mini app only works on Farcaster. Please open the app via Farcaster to coin this cast.</span>
+                            <Alert>
+                                <AlertTitle>Connect Your Wallet</AlertTitle>
+                                <AlertDescription>
+                                    Please connect your wallet to coin this cast.
                                 </AlertDescription>
                             </Alert>
                         )}
