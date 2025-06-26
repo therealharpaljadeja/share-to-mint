@@ -241,11 +241,16 @@ const CastView = ({ cast }: { cast: Cast }) => {
     const firstImageEmbed = cast.embeds.find((embed) =>
         embed.metadata?.content_type?.startsWith("image/")
     );
-    const embedsToShow = cast.embeds.filter(
-        (embed) =>
-            embed === firstImageEmbed ||
-            !embed.metadata?.content_type?.startsWith("image/")
+    const otherEmbeds = cast.embeds.filter(
+        (embed) => !embed.metadata?.content_type?.startsWith("image/")
     );
+
+    const imageToRender =
+        firstImageEmbed ||
+        (cast.embeds.length === 0
+            ? { url: `https://client.farcaster.xyz/v2/og-image?castHash=${cast.hash}` }
+            : undefined);
+
 
     return (
         <>
@@ -264,40 +269,39 @@ const CastView = ({ cast }: { cast: Cast }) => {
                     </div>
                 </div>
             </CardHeader>
-            <CardContent>
+            <CardContent className="pb-0">
                 <p className="text-foreground text-base break-words">
                     {cast.text}
                 </p>
 
-                {embedsToShow.length > 0 && (
-                    <div className="mt-4 space-y-4">
-                        {embedsToShow.map((embed, index) => (
-                            <div
-                                key={index}
-                                className="rounded-lg border overflow-hidden"
-                            >
-                                {embed.metadata?.content_type?.startsWith(
-                                    "image/"
-                                ) ? (
-                                    <img
-                                        src={embed.url}
-                                        alt="Cast image"
-                                        className="w-full h-auto"
-                                    />
-                                ) : embed.url ? (
-                                    <a
-                                        href={embed.url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="text-primary hover:underline p-4 block break-all"
-                                    >
-                                        {embed.url}
-                                    </a>
-                                ) : null}
-                            </div>
-                        ))}
-                    </div>
-                )}
+                <div className="mt-4 space-y-4">
+                    {imageToRender && (
+                        <div className="rounded-lg border overflow-hidden">
+                            <img
+                                src={imageToRender.url}
+                                alt="Cast image"
+                                className="w-full h-auto"
+                            />
+                        </div>
+                    )}
+                    {/* {otherEmbeds.map((embed, index) => (
+                        <div
+                            key={index}
+                            className="rounded-lg border overflow-hidden"
+                        >
+                            {embed.url ? (
+                                <a
+                                    href={embed.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-primary hover:underline p-4 block break-all"
+                                >
+                                    {embed.url}
+                                </a>
+                            ) : null}
+                        </div>
+                    ))} */}
+                </div>
             </CardContent>
         </>
     );
@@ -394,7 +398,7 @@ export default function ShareContent() {
                 <Card>
                     <CastView cast={cast} />
                     <CardContent>
-                        <Separator className="my-6" />
+                        <Separator className="my-2" />
                         {isConnected ? (
                             <MintForm
                                 name={name}
