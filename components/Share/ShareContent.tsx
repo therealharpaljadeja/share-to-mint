@@ -375,7 +375,7 @@ export default function ShareContent() {
                     <CastView cast={cast} />
                     <CardContent>
                         <Separator className="my-6" />
-                        {!isConnected ? (
+                        {isConnected ? (
                             <MintForm
                                 name={name}
                                 setName={setName}
