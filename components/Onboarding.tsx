@@ -4,7 +4,7 @@ import { useFrame } from "@/components/farcaster-provider";
 import { Button } from "@/components/ui/button";
 
 export function Onboarding() {
-    const { actions, isSDKLoaded } = useFrame();
+    const { actions, context } = useFrame();
 
     const addFrame = () => {
         actions?.addFrame();
@@ -13,7 +13,7 @@ export function Onboarding() {
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
             <div className="max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
-                {isSDKLoaded ? (
+                {context?.client.added ? (
                     <div className="text-center">
                         <p className="text-lg font-medium text-green-600">
                             You're all set!
