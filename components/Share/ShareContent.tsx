@@ -301,23 +301,6 @@ const CastView = ({ cast }: { cast: Cast }) => {
                             />
                         </div>
                     )}
-                    {/* {otherEmbeds.map((embed, index) => (
-                        <div
-                            key={index}
-                            className="rounded-lg border overflow-hidden"
-                        >
-                            {embed.url ? (
-                                <a
-                                    href={embed.url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-primary hover:underline p-4 block break-all"
-                                >
-                                    {embed.url}
-                                </a>
-                            ) : null}
-                        </div>
-                    ))} */}
                 </div>
             </CardContent>
         </>
@@ -421,7 +404,7 @@ export default function ShareContent() {
             <div className="max-w-2xl mx-auto">
                 <Card>
                     <CastView cast={cast} />
-                    <CardContent className="pt-2">
+                    <CardContent className="pt-4">
                         {isConnected ? (
                             <MintForm
                                 name={name}
