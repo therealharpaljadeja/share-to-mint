@@ -23,7 +23,7 @@ export function Navbar() {
                 <img
                   src={context.user.pfpUrl}
                   alt={context.user.displayName}
-                  className="w-8 h-8 rounded-full"
+                  className="w-6 h-6 rounded-full"
                 />
               )}
               <span>{context.user.displayName}</span>
