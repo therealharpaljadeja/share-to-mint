@@ -30,6 +30,8 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
+import { Onboarding } from "@/components/Onboarding";
+
 export default function Home() {
-  return <App />
+  return <Onboarding />;
 }
