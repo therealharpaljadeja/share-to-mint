@@ -27,7 +27,7 @@ export function Onboarding() {
             <div className="text-center">
               <h1 className="text-3xl font-bold text-gray-900">Welcome!</h1>
               <p className="mt-2 text-gray-600">
-                To get started, add this Mini App using the button below.
+                To get started, add this Mini App using the button below and refresh the mini app.
               </p>
             </div>
             <Button
