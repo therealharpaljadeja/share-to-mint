@@ -29,8 +29,7 @@ export function Onboarding() {
                                 Welcome!
                             </h1>
                             <p className="mt-2 text-gray-600">
-                                To get started, add this Mini App to your
-                                Farcaster client.
+                                To get started, add this Mini App using the button below.
                             </p>
                         </div>
                         <Button
