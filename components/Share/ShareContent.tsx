@@ -383,7 +383,7 @@ const MintSuccessAlert = ({ referrer, coinAddress }: { referrer: string | null, 
                     href={`https://testnet.zora.co/coin/bsep:${coinAddress}?referrer=${referrer}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-medium text-black text-primary font-sans hover:underline mt-2 block"
+                    className="font-medium text-black font-sans hover:underline mt-2 block"
                 >
                     View on Zora
                 </a>
