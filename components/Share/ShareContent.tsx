@@ -3,13 +3,14 @@
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
 import {
+    getCoinCreateFromLogs,
     validateMetadataURIContent,
     ValidMetadataURI,
 } from "@zoralabs/coins-sdk";
 import { createCoinCall, DeployCurrency } from "@zoralabs/coins-sdk";
 import { base, baseSepolia } from "viem/chains";
 import { Address } from "viem";
-import { simulateContract, writeContract } from "wagmi/actions";
+import { getTransactionReceipt, simulateContract, writeContract } from "wagmi/actions";
 import { config } from "../wallet-provider";
 import { useAccount } from "wagmi";
 import { Button } from "@/components/ui/button";
@@ -117,6 +118,8 @@ function useCoinMint(cast: Cast | null) {
     });
     const [isMinting, setIsMinting] = useState(false);
     const [mintResult, setMintResult] = useState<any | null>(null);
+    const [coinAddress, setCoinAddress] = useState<string | null>(null);
+    const [referrer, setReferrer] = useState<string | null>(null);
 
     const validateForm = useCallback(() => {
         const errors = {
@@ -192,6 +195,18 @@ function useCoinMint(cast: Cast | null) {
             const result = await writeContract(config, request);
 
             setMintResult({ cid, transactionHash: result });
+            
+            if(result) {
+                let receipt = await getTransactionReceipt(config, {
+                    hash: result,
+                  })
+
+                const coinDeployment = await getCoinCreateFromLogs(receipt);
+                if(coinDeployment) {
+                    setCoinAddress(coinDeployment.coin);
+                    setReferrer(coinDeployment.platformReferrer);
+                }
+            }
             sdk.haptics.notificationOccurred("success");
         } catch (err) {
             console.error(err);
@@ -215,6 +230,8 @@ function useCoinMint(cast: Cast | null) {
         isMinting,
         mintResult,
         handleCoinIt,
+        coinAddress,
+        referrer,
     };
 }
 
@@ -356,19 +373,19 @@ const MintForm = ({
     </div>
 );
 
-const MintSuccessAlert = ({ cid }: { cid: string }) => (
+const MintSuccessAlert = ({ referrer, coinAddress }: { referrer: string | null, coinAddress: string | null }) => (
     <div className="mt-6">
         <Alert variant="default">
             <AlertTitle>Successfully Coined!</AlertTitle>
             <AlertDescription>
                 Your content metadata has been uploaded to IPFS.
                 <a
-                    href={`https://ipfs.io/ipfs/${cid}`}
+                    href={`https://testnet.zora.co/coin/bsep:${coinAddress}?referrer=${referrer}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-medium text-primary hover:underline mt-2 block"
+                    className="font-medium text-black text-primary font-sans hover:underline mt-2 block"
                 >
-                    View on IPFS Gateway
+                    View on Zora
                 </a>
             </AlertDescription>
         </Alert>
@@ -393,6 +410,8 @@ export default function ShareContent() {
         isMinting,
         mintResult,
         handleCoinIt,
+        coinAddress,
+        referrer,
     } = useCoinMint(cast);
 
     if (isLoading) return <LoadingSkeleton />;
@@ -425,7 +444,7 @@ export default function ShareContent() {
                             </Alert>
                         )}
                         {mintResult && (
-                            <MintSuccessAlert cid={mintResult.cid} />
+                            <MintSuccessAlert referrer={referrer} coinAddress={coinAddress} />
                         )}
                     </CardContent>
                 </Card>
