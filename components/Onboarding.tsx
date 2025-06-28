@@ -12,13 +12,8 @@ export function Onboarding() {
     actions?.addFrame();
   };
 
-  console.log(context?.client.safeAreaInsets?.top);
-  console.log(context?.client.safeAreaInsets?.bottom);
-  console.log(context?.client.safeAreaInsets?.left);
-  console.log(context?.client.safeAreaInsets?.right);
-
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 m-4">
       <div className="max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
         {context?.client.added ? (
           <div className="text-center">
