@@ -37,7 +37,7 @@ export default function Coin() {
     if (error) return <ErrorAlert error={error} />;
 
     return (
-        <div className="min-h-screen bg-background font-sans py-12 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-background font-sans py-12 px-4 sm:px-6 lg:px-8 mt-4">
             <div className="max-w-2xl mx-auto">
                 <Card>
                     <CastView cast={cast} />
