@@ -13,7 +13,7 @@ export function Onboarding() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 m-4">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-4">
       <div className="max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
         {context?.client.added ? (
           <div className="text-center">
