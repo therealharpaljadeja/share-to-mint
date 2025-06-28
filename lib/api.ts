@@ -1,3 +1,5 @@
+import { Cast } from "@/components/screens/coin/types";
+
 export const NEYNAR_API_KEY = process.env.NEYNAR_API_KEY || '';
 
 if (!NEYNAR_API_KEY) {
@@ -28,3 +30,25 @@ export async function fetchCastContent(castHash: string, viewerFid?: number) {
     throw error;
   }
 } 
+
+
+export async function fetchCastContentFromFrontend(
+  castHash: string,
+  viewerFid?: number
+): Promise<{ cast: Cast }> {
+  const params = new URLSearchParams({
+      identifier: castHash,
+      type: "hash",
+  });
+  if (viewerFid) {
+      params.set("viewerFid", viewerFid.toString());
+  }
+  const response = await fetch(`/api/cast?${params.toString()}`);
+
+  if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || "Failed to fetch cast");
+  }
+
+  return response.json();
+}
