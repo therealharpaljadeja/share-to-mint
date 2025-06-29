@@ -37,6 +37,8 @@ export default function PageContent({
     const { connect } = useConnect();
     let content = null;
 
+    console.log("isWaitingForUserToConfirm", isWaitingForUserToConfirm);
+
     if (isUploadingMetadata) {
         content = (
             <Alert>

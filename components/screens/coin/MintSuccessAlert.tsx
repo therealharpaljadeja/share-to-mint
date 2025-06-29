@@ -8,7 +8,7 @@ export default function MintSuccessAlert({
     coinAddress: string | null;
 }) {
     return (
-        <div className="mt-6">
+        <div>
             <Alert variant="default">
                 <AlertTitle>Successfully Coined!</AlertTitle>
                 <AlertDescription>
