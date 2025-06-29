@@ -38,6 +38,7 @@ export default function Coin() {
     if (error === "No cast found." || !cast) return <NotFoundAlert />;
     if (error) return <ErrorAlert error={error} />;
 
+    console.log("isConnected", isConnected);
     console.log("coinAddress", coinAddress);
     console.log("referrer", referrer);
     console.log("isUploadingMetadata", isUploadingMetadata);
