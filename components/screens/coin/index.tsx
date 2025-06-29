@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useAccount } from "wagmi";
+import { useAccount, useConnect } from "wagmi";
 import { Card, CardContent} from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import useCast from "@/hooks/useCast";
@@ -12,6 +12,8 @@ import NotFoundAlert from "./NotFoundAlert";
 import CastView from "./CastView";
 import MintForm from "./MintForm";
 import MintSuccessAlert from "./MintSuccessAlert";
+import { Button } from "@/components/ui/button";
+import farcasterFrame from "@farcaster/frame-wagmi-connector";
 
 export default function Coin() {
     const searchParams = useSearchParams();
@@ -19,6 +21,7 @@ export default function Coin() {
     const viewerFid = Number(searchParams.get("viewerFid")) || 0;
 
     const { isConnected } = useAccount();
+    const { connect } = useConnect();
     const { cast, isLoading, error, imageEmbedURL } = useCast(castHash, viewerFid);
     const {
         name,
@@ -82,6 +85,7 @@ export default function Coin() {
                                     Please connect your wallet to coin this
                                     cast.
                                 </AlertDescription>
+                                <Button className="bg-black text-white font-sans" onClick={() => connect({ connector: farcasterFrame() })}>Connect Wallet</Button>
                             </Alert>
                         )}
                     </CardContent>
