@@ -14,6 +14,7 @@ import MintForm from "./MintForm";
 import MintSuccessAlert from "./MintSuccessAlert";
 import { Button } from "@/components/ui/button";
 import farcasterFrame from "@farcaster/frame-wagmi-connector";
+import PageContent from "./PageContent";
 
 export default function Coin() {
     const searchParams = useSearchParams();
@@ -41,53 +42,25 @@ export default function Coin() {
     if (error === "No cast found." || !cast) return <NotFoundAlert />;
     if (error) return <ErrorAlert error={error} />;
 
-    console.log("isConnected", isConnected);
-    console.log("coinAddress", coinAddress);
-    console.log("referrer", referrer);
-    console.log("isUploadingMetadata", isUploadingMetadata);
-    console.log("isWaitingForUserToConfirm", isWaitingForUserToConfirm);
-
     return (
         <div className="min-h-screen bg-background font-sans py-12 px-4 sm:px-6 lg:px-8 mt-8">
             <div className="max-w-2xl mx-auto">
                 <Card>
                     <CastView cast={cast} />
                     <CardContent className="pt-4">
-                        {isUploadingMetadata && (
-                            <Alert>
-                                <AlertTitle>Uploading Metadata</AlertTitle>
-                                <AlertDescription>Please wait while we upload the metadata to IPFS.</AlertDescription>
-                            </Alert>
-                        )}
-                        {isWaitingForUserToConfirm && (
-                            <Alert>
-                                <AlertTitle>Waiting for user to confirm</AlertTitle>
-                                <AlertDescription>Please wait while we wait for the user to confirm the transaction.</AlertDescription>
-                            </Alert>
-                        )}
-                        {coinAddress && referrer && (
-                            <MintSuccessAlert referrer={referrer} coinAddress={coinAddress} />
-                        )}
-                        {isConnected && !(coinAddress || referrer || isUploadingMetadata || isWaitingForUserToConfirm) ? (
-                            <MintForm
-                                name={name}
-                                setName={setName}
-                                symbol={symbol}
-                                setSymbol={setSymbol}
-                                formErrors={formErrors}
-                                isMinting={isMinting || isUploadingMetadata || isWaitingForUserToConfirm}
-                                handleCoinIt={handleCoinIt}
+                        <PageContent
+                            isUploadingMetadata={isUploadingMetadata}
+                            isWaitingForUserToConfirm={isWaitingForUserToConfirm}
+                            coinAddress={coinAddress}
+                            referrer={referrer}
+                            name={name}
+                            setName={setName}
+                            symbol={symbol}
+                            setSymbol={setSymbol}
+                            formErrors={formErrors}
+                            isMinting={isMinting}
+                            handleCoinIt={handleCoinIt}
                             />
-                        ) : (
-                            <Alert>
-                                <AlertTitle>Connect Your Wallet</AlertTitle>
-                                <AlertDescription>
-                                    Please connect your wallet to coin this
-                                    cast.
-                                </AlertDescription>
-                                <Button className="bg-black text-white font-sans" onClick={() => connect({ connector: farcasterFrame() })}>Connect Wallet</Button>
-                            </Alert>
-                        )}
                     </CardContent>
                 </Card>
             </div>
