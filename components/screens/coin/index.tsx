@@ -21,8 +21,6 @@ export default function Coin() {
     const castHash = searchParams.get("castHash") || "";
     const viewerFid = Number(searchParams.get("viewerFid")) || 0;
 
-    const { isConnected } = useAccount();
-    const { connect } = useConnect();
     const { cast, isLoading, error, imageEmbedURL } = useCast(castHash, viewerFid);
     const {
         name,

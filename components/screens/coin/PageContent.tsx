@@ -36,6 +36,9 @@ export default function PageContent({
     const { isConnected } = useAccount();
     const { connect } = useConnect();
     let content = null;
+
+    console.log("isUploadingMetadata", isUploadingMetadata);
+    console.log("isWaitingForUserToConfirm", isWaitingForUserToConfirm);
     
     if (isUploadingMetadata) {
         content = (
@@ -51,7 +54,7 @@ export default function PageContent({
             <Alert>
                 <AlertTitle>Waiting for user to confirm</AlertTitle>
                 <AlertDescription>
-                    Please wait while we wait for the user to confirm the transaction.
+                    Waiting for the user to confirm the transaction.
                 </AlertDescription>
             </Alert>
         );
