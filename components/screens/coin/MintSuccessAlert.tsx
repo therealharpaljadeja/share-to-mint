@@ -23,29 +23,19 @@ export default function MintSuccessAlert({
 
         const coin = response.data?.zora20Token;
 
-        if (coin) {
-            await sdk.actions.composeCast({
-                text: `Trade ${coin.name}`,
-                embeds: [
-                    `https://testnet.zora.co/coin/bsep:${coinAddress}?referrer=${referrer}`,
-                ],
-            });
-        } else {
-            await sdk.actions.composeCast({
-                embeds: [
-                    `https://testnet.zora.co/coin/bsep:${coinAddress}?referrer=${referrer}`,
-                ],
-            });
-        }
+        await sdk.actions.composeCast({
+            text: coin ? `Trade ${coin.name}` : "",
+            embeds: [
+                `https://testnet.zora.co/coin/bsep:${coinAddress}?referrer=${referrer}`,
+            ],
+        });
     }
 
     return (
         <div>
             <Alert variant="default">
                 <AlertTitle>Successfully Coined!</AlertTitle>
-                <AlertDescription>
-                    Your coin has been minted!
-                </AlertDescription>
+                <AlertDescription>Your coin has been minted!</AlertDescription>
                 <div className="mt-4 flex flex-col gap-2">
                     <Button
                         className="rounded-xl bg-black text-white font-sans hover:bg-black hover:text-white"
@@ -61,7 +51,11 @@ export default function MintSuccessAlert({
                         className="rounded-xl bg-[#855DCC] text-white font-sans flex items-center gap-2 hover:bg-[#855DCC] hover:text-white"
                         onClick={composeCast}
                     >
-                        <img src="/images/farcaster-transparent-white.png" alt="Farcaster" style={{ height: '1.5em', width: 'auto' }} />
+                        <img
+                            src="/images/farcaster-transparent-white.png"
+                            alt="Farcaster"
+                            style={{ height: "1.5em", width: "auto" }}
+                        />
                         Share on Farcaster
                     </Button>
                 </div>
