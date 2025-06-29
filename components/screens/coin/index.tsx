@@ -66,7 +66,7 @@ export default function Coin() {
                                 symbol={symbol}
                                 setSymbol={setSymbol}
                                 formErrors={formErrors}
-                                isMinting={isMinting}
+                                isMinting={isMinting || isUploadingMetadata || isWaitingForUserToConfirm}
                                 handleCoinIt={handleCoinIt}
                             />
                         ) : (
