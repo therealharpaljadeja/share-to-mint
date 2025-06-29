@@ -38,6 +38,7 @@ async function uploadMetadataToIPFS(cast: Cast, image: string) {
     const { cid } = await metadataUploadResponse.json();
     const metadataURI = `${process.env.NEXT_PUBLIC_PINATA_GATEWAY}/ipfs/${cid}`;
 
+    console.log("metadataURI", metadataURI);
     const metadataURIContent = await validateMetadataURIContent(
         metadataURI as ValidMetadataURI
     );
