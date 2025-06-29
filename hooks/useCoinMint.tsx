@@ -94,7 +94,7 @@ export default function useCoinMint(cast: Cast | null, image: string) {
     }, [name, symbol]);
 
     const handleCoinIt = useCallback(async () => {
-        if (!validateForm() || !cast) return;
+        if (!cast) return;
 
         await heavyHapticImpact();
 
@@ -130,6 +130,7 @@ export default function useCoinMint(cast: Cast | null, image: string) {
                 }
                 sdk.haptics.notificationOccurred("success");
             } else {
+                console.log(result);
                 sdk.haptics.notificationOccurred("error");
             }
         } catch (err) {
@@ -140,7 +141,7 @@ export default function useCoinMint(cast: Cast | null, image: string) {
             setIsWaitingForUserToConfirm(false);
             setIsMinting(false);
         }
-    }, [cast, name, symbol, validateForm, image]);
+    }, [cast, name, symbol, image]);
 
     return {
         name,

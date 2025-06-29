@@ -1,4 +1,8 @@
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import sdk from "@farcaster/frame-sdk";
+import { getCoin } from "@zoralabs/coins-sdk";
+import { baseSepolia } from "wagmi/chains";
 
 export default function MintSuccessAlert({
     referrer,
@@ -7,21 +11,57 @@ export default function MintSuccessAlert({
     referrer: string | null;
     coinAddress: string | null;
 }) {
+    async function openLink(url: string) {
+        await sdk.actions.openUrl(url);
+    }
+
+    async function composeCast() {
+        const response = await getCoin({
+            address: coinAddress as string,
+            chain: baseSepolia.id,
+        });
+
+        const coin = response.data?.zora20Token;
+
+        if (coin) {
+            await sdk.actions.composeCast({
+                text: `Trade ${coin.name}`,
+                embeds: [
+                    `https://testnet.zora.co/coin/bsep:${coinAddress}?referrer=${referrer}`,
+                ],
+            });
+        } else {
+            await sdk.actions.composeCast({
+                embeds: [
+                    `https://testnet.zora.co/coin/bsep:${coinAddress}?referrer=${referrer}`,
+                ],
+            });
+        }
+    }
+
     return (
         <div>
             <Alert variant="default">
                 <AlertTitle>Successfully Coined!</AlertTitle>
                 <AlertDescription>
                     Your content metadata has been uploaded to IPFS.
-                    <a
-                        href={`https://testnet.zora.co/coin/bsep:${coinAddress}?referrer=${referrer}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="font-medium text-black font-sans hover:underline mt-2 block"
+                </AlertDescription>
+                <div className="flex flex-col gap-2">
+                    <Button
+                        onClick={() =>
+                            openLink(
+                                `https://testnet.zora.co/coin/bsep:${coinAddress}?referrer=${referrer}`
+                            )
+                        }
                     >
                         View on Zora
-                    </a>
-                </AlertDescription>
+                    </Button>
+                    <Button
+                        onClick={composeCast}
+                    >
+                        Share on Farcaster
+                    </Button>
+                </div>
             </Alert>
         </div>
     );
