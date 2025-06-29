@@ -46,9 +46,9 @@ export default function MintSuccessAlert({
                 <AlertDescription>
                     Your coin has been minted!
                 </AlertDescription>
-                <div className="flex flex-col gap-2">
+                <div className="mt-4 flex flex-col gap-2">
                     <Button
-                        className="rounded-xl bg-black text-white font-sans"
+                        className="rounded-xl bg-black text-white font-sans hover:bg-black hover:text-white"
                         onClick={() =>
                             openLink(
                                 `https://testnet.zora.co/coin/bsep:${coinAddress}?referrer=${referrer}`
@@ -58,10 +58,10 @@ export default function MintSuccessAlert({
                         View on Zora
                     </Button>
                     <Button
-                        className="rounded-xl bg-[#855DCC] text-white font-sans flex items-center gap-2"
+                        className="rounded-xl bg-[#855DCC] text-white font-sans flex items-center gap-2 hover:bg-[#855DCC] hover:text-white"
                         onClick={composeCast}
                     >
-                        <img src="/images/farcaster-transparent-white.png" alt="Farcaster" style={{ height: '1.5em', width: 'auto' }} className="mr-2" />
+                        <img src="/images/farcaster-transparent-white.png" alt="Farcaster" style={{ height: '1.5em', width: 'auto' }} />
                         Share on Farcaster
                     </Button>
                 </div>
