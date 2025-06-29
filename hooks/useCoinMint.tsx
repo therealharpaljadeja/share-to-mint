@@ -98,11 +98,14 @@ export default function useCoinMint(cast: Cast | null, image: string) {
 
         setIsUploadingMetadata(true);
         try {
+            console.log("Uploading metadata to IPFS");
             const metadataURI = await uploadMetadataToIPFS(cast, image);
             setIsUploadingMetadata(false);
-           
+            console.log("Metadata uploaded to IPFS");
 
+            console.log("Generating transaction request");
             const request = await generateTransactionRequest(name, symbol, metadataURI);
+            console.log("Transaction request generated");
 
             setIsWaitingForUserToConfirm(true);
             console.log("Waiting for user to confirm");
