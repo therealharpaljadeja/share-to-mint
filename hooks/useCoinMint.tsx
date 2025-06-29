@@ -82,6 +82,7 @@ export default function useCoinMint(cast: Cast | null, image: string) {
     const [referrer, setReferrer] = useState<string | null>(null);
     const [isUploadingMetadata, setIsUploadingMetadata] = useState(false);
     const [isWaitingForUserToConfirm, setIsWaitingForUserToConfirm] = useState(false);
+    
     const validateForm = useCallback(() => {
         const errors = {
             name: name.trim() === "",

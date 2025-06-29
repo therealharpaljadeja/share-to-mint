@@ -38,6 +38,11 @@ export default function Coin() {
     if (error === "No cast found." || !cast) return <NotFoundAlert />;
     if (error) return <ErrorAlert error={error} />;
 
+    console.log("coinAddress", coinAddress);
+    console.log("referrer", referrer);
+    console.log("isUploadingMetadata", isUploadingMetadata);
+    console.log("isWaitingForUserToConfirm", isWaitingForUserToConfirm);
+
     return (
         <div className="min-h-screen bg-background font-sans py-12 px-4 sm:px-6 lg:px-8 mt-8">
             <div className="max-w-2xl mx-auto">
@@ -59,7 +64,7 @@ export default function Coin() {
                         {coinAddress && referrer && (
                             <MintSuccessAlert referrer={referrer} coinAddress={coinAddress} />
                         )}
-                        {isConnected && !coinAddress && !referrer && !isUploadingMetadata && !isWaitingForUserToConfirm ? (
+                        {isConnected && !(coinAddress || referrer || isUploadingMetadata || isWaitingForUserToConfirm) ? (
                             <MintForm
                                 name={name}
                                 setName={setName}
