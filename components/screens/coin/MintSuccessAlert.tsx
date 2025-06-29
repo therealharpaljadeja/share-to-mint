@@ -44,10 +44,11 @@ export default function MintSuccessAlert({
             <Alert variant="default">
                 <AlertTitle>Successfully Coined!</AlertTitle>
                 <AlertDescription>
-                    Your content metadata has been uploaded to IPFS.
+                    Your coin has been minted!
                 </AlertDescription>
                 <div className="flex flex-col gap-2">
                     <Button
+                        className="rounded-xl bg-black text-white font-sans"
                         onClick={() =>
                             openLink(
                                 `https://testnet.zora.co/coin/bsep:${coinAddress}?referrer=${referrer}`
@@ -57,8 +58,10 @@ export default function MintSuccessAlert({
                         View on Zora
                     </Button>
                     <Button
+                        className="rounded-xl bg-[#855DCC] text-white font-sans flex items-center gap-2"
                         onClick={composeCast}
                     >
+                        <img src="/images/farcaster-transparent-white.png" alt="Farcaster" style={{ height: '1.5em', width: 'auto' }} className="mr-2" />
                         Share on Farcaster
                     </Button>
                 </div>

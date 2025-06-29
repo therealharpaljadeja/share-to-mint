@@ -45,7 +45,7 @@ export default function PageContent({
             <Alert>
                 <AlertTitle>Uploading Metadata</AlertTitle>
                 <AlertDescription>
-                    Please wait while we upload the metadata to IPFS.
+                    Please wait while we upload the metadata.
                 </AlertDescription>
             </Alert>
         );
