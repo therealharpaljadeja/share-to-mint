@@ -30,6 +30,8 @@ export default function Coin() {
         handleCoinIt,
         coinAddress,
         referrer,
+        isUploadingMetadata,
+        isWaitingForUserToConfirm,
     } = useCoinMint(cast, imageEmbedURL ?? "");
 
     if (isLoading) return <LoadingSkeleton />;
@@ -42,7 +44,22 @@ export default function Coin() {
                 <Card>
                     <CastView cast={cast} />
                     <CardContent className="pt-4">
-                        {isConnected ? (
+                        {isUploadingMetadata && (
+                            <Alert>
+                                <AlertTitle>Uploading Metadata</AlertTitle>
+                                <AlertDescription>Please wait while we upload the metadata to IPFS.</AlertDescription>
+                            </Alert>
+                        )}
+                        {isWaitingForUserToConfirm && (
+                            <Alert>
+                                <AlertTitle>Waiting for user to confirm</AlertTitle>
+                                <AlertDescription>Please wait while we wait for the user to confirm the transaction.</AlertDescription>
+                            </Alert>
+                        )}
+                        {coinAddress && referrer && (
+                            <MintSuccessAlert referrer={referrer} coinAddress={coinAddress} />
+                        )}
+                        {isConnected && !coinAddress && !referrer && !isUploadingMetadata && !isWaitingForUserToConfirm ? (
                             <MintForm
                                 name={name}
                                 setName={setName}
@@ -60,9 +77,6 @@ export default function Coin() {
                                     cast.
                                 </AlertDescription>
                             </Alert>
-                        )}
-                        {coinAddress && referrer && (
-                            <MintSuccessAlert referrer={referrer} coinAddress={coinAddress} />
                         )}
                     </CardContent>
                 </Card>

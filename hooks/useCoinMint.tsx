@@ -49,7 +49,7 @@ async function uploadMetadataToIPFS(cast: Cast, image: string) {
     return metadataURI;
 }
 
-async function deployCoin(name: string, symbol: string, metadataURI: string) {
+async function generateTransactionRequest(name: string, symbol: string, metadataURI: string) {
     const coinParams = {
         name,
         symbol,
@@ -65,9 +65,8 @@ async function deployCoin(name: string, symbol: string, metadataURI: string) {
     const { request } = await simulateContract(config, {
         ...contractCallParams,
     });
-    const result = await writeContract(config, request);
 
-    return result;
+    return request;
 }
 
 
@@ -81,7 +80,8 @@ export default function useCoinMint(cast: Cast | null, image: string) {
     const [isMinting, setIsMinting] = useState(false);
     const [coinAddress, setCoinAddress] = useState<string | null>(null);
     const [referrer, setReferrer] = useState<string | null>(null);
-
+    const [isUploadingMetadata, setIsUploadingMetadata] = useState(false);
+    const [isWaitingForUserToConfirm, setIsWaitingForUserToConfirm] = useState(false);
     const validateForm = useCallback(() => {
         const errors = {
             name: name.trim() === "",
@@ -96,13 +96,23 @@ export default function useCoinMint(cast: Cast | null, image: string) {
 
         await heavyHapticImpact();
 
-        setIsMinting(true);
+        setIsUploadingMetadata(true);
         try {
             const metadataURI = await uploadMetadataToIPFS(cast, image);
+            setIsUploadingMetadata(false);
+           
 
-            const result = await deployCoin(name, symbol, metadataURI);
+            const request = await generateTransactionRequest(name, symbol, metadataURI);
+
+            setIsWaitingForUserToConfirm(true);
+            console.log("Waiting for user to confirm");
+            const result = await writeContract(config, request);
+
+            setIsWaitingForUserToConfirm(false);
+          
             
             if(result) {
+                setIsMinting(true);
                 let receipt = await getTransactionReceipt(config, {
                     hash: result,
                   })
@@ -111,13 +121,18 @@ export default function useCoinMint(cast: Cast | null, image: string) {
                 if(coinDeployment) {
                     setCoinAddress(coinDeployment.coin);
                     setReferrer(coinDeployment.platformReferrer);
+                    setIsMinting(false);
                 }
                 sdk.haptics.notificationOccurred("success");
+            } else {
+                sdk.haptics.notificationOccurred("error");
             }
         } catch (err) {
             console.error(err);
             sdk.haptics.notificationOccurred("error");
         } finally {
+            setIsUploadingMetadata(false);
+            setIsWaitingForUserToConfirm(false);
             setIsMinting(false);
         }
     }, [cast, name, symbol, validateForm, image]);
@@ -132,5 +147,7 @@ export default function useCoinMint(cast: Cast | null, image: string) {
         handleCoinIt,
         coinAddress,
         referrer,
+        isUploadingMetadata,
+        isWaitingForUserToConfirm,
     };
 }
