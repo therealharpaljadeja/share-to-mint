@@ -138,8 +138,8 @@ function useCoinMint(cast: Cast | null) {
         const imageEmbed = cast.embeds.find((embed) =>
             embed.metadata?.content_type?.startsWith("image/")
         );
+
         if (!imageEmbed?.url) {
-            alert("This cast doesn't have an image to mint.");
             return;
         }
 
@@ -284,7 +284,6 @@ const CastView = ({ cast }: { cast: Cast }) => {
     const imageToRender = firstImageEmbed || {
         url: `https://client.farcaster.xyz/v2/og-image?castHash=${cast.hash}`,
     };
-    console.log("imageToRender", imageToRender);
 
     return (
         <>
