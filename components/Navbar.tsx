@@ -14,7 +14,7 @@ export function Navbar() {
       <div className="container mx-auto px-4 h-16 flex justify-between items-center">
         <div className="text-lg font-bold">
           {/* Placeholder for logo */}
-          <span className="text-gray-800">Logo</span>
+          <span className="text-gray-800">ShareToMint</span>
         </div>
         <div>
           {context?.user ? (

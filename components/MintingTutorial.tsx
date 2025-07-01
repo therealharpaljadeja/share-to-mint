@@ -9,8 +9,8 @@ interface MintingTutorialProps {
 
 const tutorialSteps: StepContent[] = [
   {
-    title: "Find a Farcaster Cast",
-    description: "Browse through Farcaster and find an interesting cast that you'd like to mint. Look for posts with engaging content, images, or discussions that resonate with you. Once you find a cast you want to turn into a collectible, you're ready for the next step.",
+    title: "Select a Farcaster Cast",
+    description: "You can select any cast posted by you and click on the 'Share' button.",
     media: {
       type: 'image',
       src: '/images/feed.png',
