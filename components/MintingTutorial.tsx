@@ -60,7 +60,7 @@ export function MintingTutorial({ onComplete }: MintingTutorialProps) {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center p-4 mt-20">
+    <div className="flex flex-col items-center justify-center py-4 px-8 mt-20">
       <div className="mb-6 text-center">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">
           How to use Share to Mint
