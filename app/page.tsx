@@ -1,6 +1,6 @@
 import { APP_URL } from '@/lib/constants'
 import type { Metadata } from 'next'
-import { Onboarding } from "@/components/Onboarding";
+import { MainApp } from "@/components/MainApp";
 
 const frame = {
   version: 'next',
@@ -32,5 +32,5 @@ export async function generateMetadata(): Promise<Metadata> {
 
 
 export default function Home() {
-  return <Onboarding />;
+  return <MainApp />;
 }
