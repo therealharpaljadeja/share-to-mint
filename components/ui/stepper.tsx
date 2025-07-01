@@ -125,10 +125,6 @@ export function Stepper({
             Back
           </Button>
 
-          <span className="text-sm text-gray-500">
-            {currentStep + 1} of {steps.length}
-          </span>
-
           <Button
             onClick={handleNext}
             className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white"
