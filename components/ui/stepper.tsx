@@ -129,7 +129,7 @@ export function Stepper({
 
           <Button
             onClick={handleNext}
-            className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white"
+            className="flex items-center gap-2 bg-[#855DCC] hover:bg-[#855DCC] text-white"
           >
             {isLastStep ? 'Get Started' : 'Continue'}
             {!isLastStep && <IoChevronForward className="w-4 h-4" />}

@@ -18,33 +18,23 @@ const tutorialSteps: StepContent[] = [
     }
   },
   {
-    title: "Share the Cast",
-    description: "Share or recast the content you want to mint. This action helps spread the content and prepares it for the minting process. The more engagement a cast has, the more valuable your mint might become.",
-    // You can add a gif or video here later
-    // media: {
-    //   type: 'gif',
-    //   src: '/images/share-demo.gif',
-    //   alt: 'Demonstration of sharing a cast'
-    // }
-  },
-  {
-    title: "Access Share to Mint",
-    description: "Once you've shared the cast, you'll see a 'Share to Mint' frame appear. This special frame is your gateway to creating a collectible NFT from the shared content. Click on it to start the minting process.",
+    title: "Enter coin details",
+    description: "Give the coin a name and symbol.",
     media: {
       type: 'image',
-      src: '/images/icon.png',
-      alt: 'Share to Mint frame'
+      src: '/images/minting.gif',
+      alt: 'Minting the coin'
     }
   },
   {
-    title: "Create Your Coin",
-    description: "In the minting interface, you'll need to provide a name and symbol for your coin. Choose something memorable and relevant to the content you're minting. Then hit 'Coin it' to complete the process and create your unique collectible!",
+    title: "Share it with friends!",
+    description: "Once the coin is minted, you can share it with your friends. They can then view or mint the coin on Zora!",
     // You can add a video or gif showing the minting form here
-    // media: {
-    //   type: 'video',
-    //   src: '/videos/minting-demo.mp4',
-    //   alt: 'Minting form demonstration'
-    // }
+    media: {
+      type: 'image',
+      src: '/images/sharing.gif',
+      alt: 'Sharing the coin'
+    }
   }
 ];
 
