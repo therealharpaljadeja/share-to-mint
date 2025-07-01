@@ -78,11 +78,11 @@ export function Stepper({
       {/* Step content */}
       <div className="bg-white rounded-lg shadow-lg p-8 min-h-[400px] flex flex-col">
         <div className="flex-1">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">
+          <h2 className="text-xl font-bold text-gray-900 mb-4">
             {steps[currentStep]?.title}
           </h2>
 
-          <p className="text-gray-600 text-lg leading-relaxed pb-6">
+          <p className="text-gray-600 text-md leading-relaxed pb-6">
             {steps[currentStep]?.description}
           </p>
           
