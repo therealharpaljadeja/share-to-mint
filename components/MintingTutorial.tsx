@@ -13,8 +13,8 @@ const tutorialSteps: StepContent[] = [
     description: "You can select any cast posted by you and click on the 'Share' button.",
     media: {
       type: 'image',
-      src: '/images/feed.png',
-      alt: 'Farcaster feed showing various casts'
+      src: '/images/share_tutorial.gif',
+      alt: 'How to share the cast'
     }
   },
   {

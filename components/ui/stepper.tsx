@@ -81,10 +81,14 @@ export function Stepper({
           <h2 className="text-2xl font-bold text-gray-900 mb-4">
             {steps[currentStep]?.title}
           </h2>
+
+          <p className="text-gray-600 text-lg leading-relaxed pb-6">
+            {steps[currentStep]?.description}
+          </p>
           
           {/* Media content */}
           {steps[currentStep]?.media && (
-            <div className="mb-6">
+            <div>
               {steps[currentStep].media?.type === 'video' ? (
                 <video
                   src={steps[currentStep].media!.src}
@@ -105,9 +109,7 @@ export function Stepper({
             </div>
           )}
 
-          <p className="text-gray-600 text-lg leading-relaxed">
-            {steps[currentStep]?.description}
-          </p>
+          
         </div>
 
         {/* Navigation buttons */}
