@@ -6,6 +6,7 @@ import { createCoinCall, DeployCurrency, getCoinCreateFromLogs, validateMetadata
 import { useState, useCallback } from "react";
 import { baseSepolia } from "viem/chains";
 import { getTransactionReceipt, simulateContract, writeContract } from "wagmi/actions";
+import { useOnboardingState } from "./useOnboardingState";
 
 async function heavyHapticImpact() {
     const capabilities = await sdk.getCapabilities();
@@ -72,6 +73,7 @@ async function generateTransactionRequest(name: string, symbol: string, metadata
 
 
 export default function useCoinMint(cast: Cast | null, image: string) {
+    const { markMintingCompleted } = useOnboardingState();
     const [name, setName] = useState("");
     const [symbol, setSymbol] = useState("");
     const [formErrors, setFormErrors] = useState({
@@ -127,6 +129,8 @@ export default function useCoinMint(cast: Cast | null, image: string) {
                     setCoinAddress(coinDeployment.coin);
                     setReferrer(coinDeployment.platformReferrer);
                     setIsMinting(false);
+                    // Mark that the user has completed their first mint
+                    markMintingCompleted();
                 }
                 sdk.haptics.notificationOccurred("success");
             } else {

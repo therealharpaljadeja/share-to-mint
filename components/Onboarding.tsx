@@ -3,14 +3,45 @@
 import { useFrame } from "@/components/farcaster-provider";
 import { Button } from "@/components/ui/button";
 import { sdk } from "@farcaster/frame-sdk";
+import { useOnboardingState } from "@/hooks/useOnboardingState";
+import { MintingTutorial } from "./MintingTutorial";
 
 export function Onboarding() {
   const { actions, context } = useFrame();
+  const { 
+    shouldShowTutorial, 
+    isLoading, 
+    markTutorialViewed 
+  } = useOnboardingState();
 
   const addFrame = () => {
     sdk.haptics.impactOccurred('heavy');
     actions?.addFrame();
   };
+
+  const handleTutorialComplete = () => {
+    markTutorialViewed();
+    // Refresh the page to show the main app
+    window.location.reload();
+  };
+
+  // Show loading state while checking onboarding status
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-4">
+        <div className="max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
+          <div className="text-center">
+            <p className="text-gray-600">Loading...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Show tutorial if mini app is added but user hasn't seen tutorial or minted
+  // if (context?.client.added && shouldShowTutorial) {
+    return <MintingTutorial onComplete={handleTutorialComplete} />;
+  // }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-4">
