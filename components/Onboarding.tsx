@@ -11,18 +11,11 @@ export function Onboarding() {
   const { 
     shouldShowTutorial, 
     isLoading, 
-    markTutorialViewed 
   } = useOnboardingState();
 
   const addFrame = () => {
     sdk.haptics.impactOccurred('heavy');
     actions?.addFrame();
-  };
-
-  const handleTutorialComplete = () => {
-    markTutorialViewed();
-    // Refresh the page to show the main app
-    window.location.reload();
   };
 
   // Show loading state while checking onboarding status
@@ -39,9 +32,9 @@ export function Onboarding() {
   }
 
   // Show tutorial if mini app is added but user hasn't seen tutorial or minted
-  // if (context?.client.added && shouldShowTutorial) {
-    return <MintingTutorial onComplete={handleTutorialComplete} />;
-  // }
+  if (context?.client.added && shouldShowTutorial) {
+    return <MintingTutorial />;
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-4">

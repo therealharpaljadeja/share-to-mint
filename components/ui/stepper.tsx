@@ -56,7 +56,7 @@ export function Stepper({
                 className={cn(
                   "w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium transition-colors",
                   index <= currentStep
-                    ? "bg-blue-500 text-white"
+                    ? "bg-[#855DCC] text-white"
                     : "bg-gray-200 text-gray-500"
                 )}
               >

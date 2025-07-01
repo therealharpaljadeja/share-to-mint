@@ -3,9 +3,6 @@
 import { useState } from "react";
 import { Stepper, type StepContent } from "@/components/ui/stepper";
 
-interface MintingTutorialProps {
-  onComplete: () => void;
-}
 
 const tutorialSteps: StepContent[] = [
   {
@@ -38,15 +35,11 @@ const tutorialSteps: StepContent[] = [
   }
 ];
 
-export function MintingTutorial({ onComplete }: MintingTutorialProps) {
+export function MintingTutorial() {
   const [currentStep, setCurrentStep] = useState(0);
 
   const handleStepChange = (step: number) => {
     setCurrentStep(step);
-  };
-
-  const handleComplete = () => {
-    onComplete();
   };
 
   return (
@@ -64,7 +57,6 @@ export function MintingTutorial({ onComplete }: MintingTutorialProps) {
         steps={tutorialSteps}
         currentStep={currentStep}
         onStepChange={handleStepChange}
-        onComplete={handleComplete}
       />
     </div>
   );
