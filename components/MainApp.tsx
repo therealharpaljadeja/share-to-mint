@@ -9,7 +9,6 @@ export function MainApp() {
   const { 
     shouldShowTutorial, 
     isLoading, 
-    hasViewedTutorial,
     hasCompletedMinting
   } = useOnboardingState();
 
