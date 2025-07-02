@@ -6,11 +6,8 @@ import { Onboarding } from "./Onboarding";
 
 
 export function MainApp() {
-  const { context } = useFrame();
   const { 
-    shouldShowTutorial,
     isLoading,
-    hasCompletedMinting
   } = useOnboardingState();
 
 
