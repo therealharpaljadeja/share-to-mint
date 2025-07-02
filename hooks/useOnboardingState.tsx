@@ -19,8 +19,7 @@ export function useOnboardingState() {
       try {
         // Check database for user's minting history
         const hasMinted = await hasUserCompletedMinting(context.user.fid);
-        console.log("hasMinted", hasMinted);
-        setShouldShowTutorial(hasMinted);
+        setShouldShowTutorial(!hasMinted);
       } catch (error) {
         console.error('Error checking minting status:', error);
       } finally {
