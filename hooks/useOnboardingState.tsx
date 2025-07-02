@@ -12,9 +12,6 @@ export function useOnboardingState() {
   useEffect(() => {
     async function checkMintingStatus() {
       if (!context?.user?.fid) {
-        // If user is not authenticated, fall back to localStorage for now
-        const localMintingCompleted = localStorage.getItem('hasCompletedMinting') === 'true';
-        setHasCompletedMinting(localMintingCompleted);
         setIsLoading(false);
         return;
       }
@@ -22,6 +19,7 @@ export function useOnboardingState() {
       try {
         // Check database for user's minting history
         const hasMinted = await hasUserCompletedMinting(context.user.fid);
+        console.log("hasMinted", hasMinted);
         setHasCompletedMinting(hasMinted);
       } catch (error) {
         console.error('Error checking minting status:', error);
