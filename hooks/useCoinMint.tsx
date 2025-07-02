@@ -75,7 +75,6 @@ async function generateTransactionRequest(name: string, symbol: string, metadata
 
 
 export default function useCoinMint(cast: Cast | null, image: string) {
-    const { markMintingCompleted } = useOnboardingState();
     const { context } = useFrame();
     const [name, setName] = useState("");
     const [symbol, setSymbol] = useState("");
@@ -149,20 +148,14 @@ export default function useCoinMint(cast: Cast | null, image: string) {
 
                             if (mintSuccess) {
                                 // Mark that the user has completed their first mint
-                                markMintingCompleted();
                             } else {
                                 console.error('Failed to store mint record in database');
-                                // Still mark as completed locally for fallback
-                                markMintingCompleted();
                             }
                         } catch (error) {
                             console.error('Error storing mint record:', error);
-                            // Still mark as completed locally for fallback
-                            markMintingCompleted();
                         }
                     } else {
-                        // If user not authenticated or no cast, just mark locally
-                        markMintingCompleted();
+                        
                     }
                 }
                 sdk.haptics.notificationOccurred("success");

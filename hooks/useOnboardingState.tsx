@@ -6,7 +6,7 @@ import { hasUserCompletedMinting } from "@/lib/database";
 
 export function useOnboardingState() {
   const { context } = useFrame();
-  const [hasCompletedMinting, setHasCompletedMinting] = useState<boolean | null>(null);
+  const [shouldShowTutorial, setShouldShowTutorial] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -20,12 +20,9 @@ export function useOnboardingState() {
         // Check database for user's minting history
         const hasMinted = await hasUserCompletedMinting(context.user.fid);
         console.log("hasMinted", hasMinted);
-        setHasCompletedMinting(hasMinted);
+        setShouldShowTutorial(hasMinted);
       } catch (error) {
         console.error('Error checking minting status:', error);
-        // Fall back to localStorage on error
-        const localMintingCompleted = localStorage.getItem('hasCompletedMinting') === 'true';
-        setHasCompletedMinting(localMintingCompleted);
       } finally {
         setIsLoading(false);
       }
@@ -34,25 +31,8 @@ export function useOnboardingState() {
     checkMintingStatus();
   }, [context?.user?.fid]);
 
-  const markMintingCompleted = () => {
-    // This function is now called from useCoinMint after successful database insert
-    // but we still update local state for immediate UI feedback
-    setHasCompletedMinting(true);
-    // Keep localStorage as backup
-    localStorage.setItem('hasCompletedMinting', 'true');
-  };
-
-  const resetOnboardingState = () => {
-    setHasCompletedMinting(false);
-    localStorage.removeItem('hasCompletedMinting');
-    // Note: This doesn't delete from database - you might want to add that functionality
-  };
-
   return {
-    hasCompletedMinting,
-    markMintingCompleted,
-    resetOnboardingState,
-    shouldShowTutorial: hasCompletedMinting === false,
+    shouldShowTutorial,
     isLoading,
   };
 } 
