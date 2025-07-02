@@ -1,26 +1,53 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useFrame } from "@/components/farcaster-provider";
+import { hasUserCompletedMinting } from "@/lib/database";
 
 export function useOnboardingState() {
-  // This will be done based on the minting history of the user from the backend
+  const { context } = useFrame();
   const [hasCompletedMinting, setHasCompletedMinting] = useState<boolean | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Check localStorage for minting history
-    const mintingCompleted = localStorage.getItem('hasCompletedMinting') === 'true';
-    
-    setHasCompletedMinting(mintingCompleted);
-  }, []);
+    async function checkMintingStatus() {
+      if (!context?.user?.fid) {
+        // If user is not authenticated, fall back to localStorage for now
+        const localMintingCompleted = localStorage.getItem('hasCompletedMinting') === 'true';
+        setHasCompletedMinting(localMintingCompleted);
+        setIsLoading(false);
+        return;
+      }
+
+      try {
+        // Check database for user's minting history
+        const hasMinted = await hasUserCompletedMinting(context.user.fid);
+        setHasCompletedMinting(hasMinted);
+      } catch (error) {
+        console.error('Error checking minting status:', error);
+        // Fall back to localStorage on error
+        const localMintingCompleted = localStorage.getItem('hasCompletedMinting') === 'true';
+        setHasCompletedMinting(localMintingCompleted);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    checkMintingStatus();
+  }, [context?.user?.fid]);
 
   const markMintingCompleted = () => {
-    localStorage.setItem('hasCompletedMinting', 'true');
+    // This function is now called from useCoinMint after successful database insert
+    // but we still update local state for immediate UI feedback
     setHasCompletedMinting(true);
+    // Keep localStorage as backup
+    localStorage.setItem('hasCompletedMinting', 'true');
   };
 
   const resetOnboardingState = () => {
-    localStorage.removeItem('hasCompletedMinting');
     setHasCompletedMinting(false);
+    localStorage.removeItem('hasCompletedMinting');
+    // Note: This doesn't delete from database - you might want to add that functionality
   };
 
   return {
@@ -28,6 +55,6 @@ export function useOnboardingState() {
     markMintingCompleted,
     resetOnboardingState,
     shouldShowTutorial: hasCompletedMinting === false,
-    isLoading: hasCompletedMinting === null,
+    isLoading,
   };
 } 

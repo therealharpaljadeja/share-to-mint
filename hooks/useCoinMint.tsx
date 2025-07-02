@@ -7,6 +7,8 @@ import { useState, useCallback } from "react";
 import { baseSepolia } from "viem/chains";
 import { getTransactionReceipt, simulateContract, writeContract } from "wagmi/actions";
 import { useOnboardingState } from "./useOnboardingState";
+import { useFrame } from "@/components/farcaster-provider";
+import { storeMintRecord } from "@/lib/database";
 
 async function heavyHapticImpact() {
     const capabilities = await sdk.getCapabilities();
@@ -74,6 +76,7 @@ async function generateTransactionRequest(name: string, symbol: string, metadata
 
 export default function useCoinMint(cast: Cast | null, image: string) {
     const { markMintingCompleted } = useOnboardingState();
+    const { context } = useFrame();
     const [name, setName] = useState("");
     const [symbol, setSymbol] = useState("");
     const [formErrors, setFormErrors] = useState({
@@ -120,17 +123,47 @@ export default function useCoinMint(cast: Cast | null, image: string) {
             
             if(result) {
                 setIsMinting(true);
+                
                 let receipt = await getTransactionReceipt(config, {
                     hash: result,
-                  })
+                })
 
                 const coinDeployment = await getCoinCreateFromLogs(receipt);
                 if(coinDeployment) {
                     setCoinAddress(coinDeployment.coin);
                     setReferrer(coinDeployment.platformReferrer);
                     setIsMinting(false);
-                    // Mark that the user has completed their first mint
-                    markMintingCompleted();
+                    
+                    // Store mint record in database
+                    if (context?.user?.fid && cast) {
+                        try {
+                            const mintSuccess = await storeMintRecord({
+                                userFid: context.user.fid,
+                                castHash: cast.hash,
+                                coinAddress: coinDeployment.coin,
+                                coinName: name,
+                                coinSymbol: symbol,
+                                transactionHash: result,
+                                referrer: coinDeployment.platformReferrer,
+                            });
+
+                            if (mintSuccess) {
+                                // Mark that the user has completed their first mint
+                                markMintingCompleted();
+                            } else {
+                                console.error('Failed to store mint record in database');
+                                // Still mark as completed locally for fallback
+                                markMintingCompleted();
+                            }
+                        } catch (error) {
+                            console.error('Error storing mint record:', error);
+                            // Still mark as completed locally for fallback
+                            markMintingCompleted();
+                        }
+                    } else {
+                        // If user not authenticated or no cast, just mark locally
+                        markMintingCompleted();
+                    }
                 }
                 sdk.haptics.notificationOccurred("success");
             } else {

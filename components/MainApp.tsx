@@ -4,13 +4,15 @@ import { useFrame } from "@/components/farcaster-provider";
 import { useOnboardingState } from "@/hooks/useOnboardingState";
 import { Onboarding } from "./Onboarding";
 
+
 export function MainApp() {
   const { context } = useFrame();
   const { 
-    shouldShowTutorial, 
-    isLoading, 
+    shouldShowTutorial,
+    isLoading,
     hasCompletedMinting
   } = useOnboardingState();
+
 
   // Show loading state while checking contexts
   if (isLoading) {
@@ -26,5 +28,4 @@ export function MainApp() {
   }
 
   return <Onboarding />;
-
 } 
