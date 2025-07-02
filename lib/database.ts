@@ -35,6 +35,7 @@ export async function hasUserCompletedMinting(userFid: number): Promise<boolean>
 // Store a new mint record
 export async function storeMintRecord(mintData: MintRecord): Promise<boolean> {
   try {
+    console.log("Storing mint record in database", mintData);
     const { error } = await supabase
       .from('user_mints')
       .insert({
