@@ -15,33 +15,42 @@ export interface Database {
           id: string
           user_fid: number
           cast_hash: string
+          coin_description: string
+          coin_image: string
           coin_address: string
           coin_name: string
           coin_symbol: string
           transaction_hash: string
           referrer: string | null
+          zora_link: string
           created_at: string
         }
         Insert: {
           id?: string
           user_fid: number
           cast_hash: string
+          coin_description: string
+          coin_image: string
           coin_address: string
           coin_name: string
           coin_symbol: string
           transaction_hash: string
           referrer?: string | null
+          zora_link?: string
           created_at?: string
         }
         Update: {
           id?: string
           user_fid?: number
           cast_hash?: string
+          coin_description?: string
+          coin_image?: string
           coin_address?: string
           coin_name?: string
           coin_symbol?: string
           transaction_hash?: string
           referrer?: string | null
+          zora_link?: string
           created_at?: string
         }
       }

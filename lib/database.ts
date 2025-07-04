@@ -1,6 +1,8 @@
 import { supabase } from './supabase'
 
 export interface MintRecord {
+  coinDescription: string
+  coinImage: string
   userFid: number
   castHash: string
   coinAddress: string
@@ -8,6 +10,7 @@ export interface MintRecord {
   coinSymbol: string
   transactionHash: string
   referrer?: string | null
+  zoraLink: string
 }
 
 // Check if user has completed any mints

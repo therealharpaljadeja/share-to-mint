@@ -137,6 +137,8 @@ export default function useCoinMint(cast: Cast | null, image: string) {
                     if (context?.user?.fid && cast) {
                         try {
                             const mintSuccess = await storeMintRecord({
+                                coinDescription: cast.text,
+                                coinImage: image,
                                 userFid: context.user.fid,
                                 castHash: cast.hash,
                                 coinAddress: coinDeployment.coin,
@@ -144,6 +146,7 @@ export default function useCoinMint(cast: Cast | null, image: string) {
                                 coinSymbol: symbol,
                                 transactionHash: result,
                                 referrer: coinDeployment.platformReferrer,
+                                zoraLink: `https://testnet.zora.co/coin/bsep:${coinAddress}?referrer=${PLATFORM_REFERRER}`,
                             });
 
                             if (mintSuccess) {
