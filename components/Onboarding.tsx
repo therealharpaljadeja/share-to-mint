@@ -16,7 +16,7 @@ export function Onboarding() {
   } = useOnboardingState();
 
   useEffect(() => {
-
+    console.log("getting mints");
     async function init() {
       const mints = await getAllMints();
       console.log("All mints:", mints);
