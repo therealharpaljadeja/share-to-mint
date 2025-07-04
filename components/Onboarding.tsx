@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { sdk } from "@farcaster/frame-sdk";
 import { useOnboardingState } from "@/hooks/useOnboardingState";
 import { MintingTutorial } from "./MintingTutorial";
+import { useEffect } from "react";
+import { getAllMints } from "@/lib/database";
 
 export function Onboarding() {
   const { actions, context } = useFrame();
@@ -12,6 +14,16 @@ export function Onboarding() {
     shouldShowTutorial, 
     isLoading, 
   } = useOnboardingState();
+
+  useEffect(() => {
+    console.log("getting mints");
+    async function init() {
+      const mints = await getAllMints();
+      console.log("All mints:", mints);
+    }
+
+    init();
+  }, []);
 
   const addFrame = () => {
     sdk.haptics.impactOccurred('heavy');

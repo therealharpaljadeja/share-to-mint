@@ -99,4 +99,24 @@ export async function getUserMintCount(userFid: number): Promise<number> {
     console.error('Error in getUserMintCount:', error)
     return 0
   }
+}
+
+// Get all mints (for admin or analytics)
+export async function getAllMints() {
+  try {
+    const { data, error } = await supabase
+      .from('user_mints')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching all mints:', error);
+      return [];
+    }
+
+    return data || [];
+  } catch (error) {
+    console.error('Error in getAllMints:', error);
+    return [];
+  }
 } 
