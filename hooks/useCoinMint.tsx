@@ -149,6 +149,8 @@ export default function useCoinMint(cast: Cast | null, image: string) {
                                 zoraLink: `https://testnet.zora.co/coin/bsep:${coinAddress}?referrer=${PLATFORM_REFERRER}`,
                             });
 
+                            console.log("mintSuccess", mintSuccess);
+
                             if (mintSuccess) {
                                 // Mark that the user has completed their first mint
                             } else {
