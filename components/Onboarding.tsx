@@ -16,9 +16,13 @@ export function Onboarding() {
   } = useOnboardingState();
 
   useEffect(() => {
-    getAllMints().then((mints) => {
+
+    async function init() {
+      const mints = await getAllMints();
       console.log("All mints:", mints);
-    });
+    }
+
+    init();
   }, []);
 
   const addFrame = () => {
