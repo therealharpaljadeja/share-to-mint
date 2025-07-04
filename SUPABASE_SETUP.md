@@ -26,6 +26,7 @@ CREATE TABLE user_mints (
     coin_address TEXT NOT NULL,
     coin_name TEXT NOT NULL,
     coin_symbol TEXT NOT NULL,
+    coin_image TEXT NOT NULL,
     coin_description TEXT,
     transaction_hash TEXT NOT NULL,
     referrer TEXT,

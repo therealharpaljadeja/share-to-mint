@@ -146,7 +146,7 @@ export default function useCoinMint(cast: Cast | null, image: string) {
                                 coinSymbol: symbol,
                                 transactionHash: result,
                                 referrer: coinDeployment.platformReferrer,
-                                zoraLink: `https://testnet.zora.co/coin/bsep:${coinAddress}?referrer=${PLATFORM_REFERRER}`,
+                                zoraLink: `https://testnet.zora.co/coin/bsep:${coinDeployment.coin}?referrer=${PLATFORM_REFERRER}`,
                             });
 
                             console.log("mintSuccess", mintSuccess);
