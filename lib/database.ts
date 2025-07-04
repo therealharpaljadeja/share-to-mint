@@ -1,7 +1,7 @@
 import { supabase } from './supabase'
 
 export interface MintRecord {
-  coinDescription: string
+  coinDescription: string | null
   coinImage: string
   userFid: number
   castHash: string
@@ -47,6 +47,9 @@ export async function storeMintRecord(mintData: MintRecord): Promise<boolean> {
         coin_address: mintData.coinAddress,
         coin_name: mintData.coinName,
         coin_symbol: mintData.coinSymbol,
+        coin_description: mintData.coinDescription,
+        coin_image: mintData.coinImage,
+        zora_link: mintData.zoraLink,
         transaction_hash: mintData.transactionHash,
         referrer: mintData.referrer,
       })

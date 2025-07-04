@@ -15,7 +15,7 @@ export interface Database {
           id: string
           user_fid: number
           cast_hash: string
-          coin_description: string
+          coin_description: string | null
           coin_image: string
           coin_address: string
           coin_name: string
@@ -29,7 +29,7 @@ export interface Database {
           id?: string
           user_fid: number
           cast_hash: string
-          coin_description: string
+          coin_description: string | null
           coin_image: string
           coin_address: string
           coin_name: string
@@ -43,7 +43,7 @@ export interface Database {
           id?: string
           user_fid?: number
           cast_hash?: string
-          coin_description?: string
+          coin_description: string | null
           coin_image?: string
           coin_address?: string
           coin_name?: string
