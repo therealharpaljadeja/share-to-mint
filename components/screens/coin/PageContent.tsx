@@ -2,7 +2,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import MintForm from "./MintForm";
 import MintSuccessAlert from "./MintSuccessAlert";
-import farcasterFrame from "@farcaster/frame-wagmi-connector";
+import miniAppConnector from "@farcaster/miniapp-wagmi-connector";
 import { useAccount, useConnect } from "wagmi";
 
 interface PageContentProps {
@@ -81,7 +81,7 @@ export default function PageContent({
                 </AlertDescription>
                 <Button
                     className="bg-black text-white font-sans"
-                    onClick={() => connect({ connector: farcasterFrame() })}
+                    onClick={() => connect({ connector: miniAppConnector() })}
                 >
                     Connect Wallet
                 </Button>

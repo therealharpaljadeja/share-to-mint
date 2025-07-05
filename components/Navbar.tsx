@@ -2,9 +2,9 @@
 
 import { useFrame } from "@/components/farcaster-provider";
 import { Button } from "@/components/ui/button";
-import { farcasterFrame } from "@farcaster/frame-wagmi-connector";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { FiXSquare } from "react-icons/fi";
+import { farcasterMiniApp as miniAppConnector } from '@farcaster/miniapp-wagmi-connector'
 
 export function Navbar() {
     const { context } = useFrame();
@@ -52,7 +52,7 @@ export function Navbar() {
                             variant="outline"
                             onClick={() => {
                               console.log("connecting wallet");
-                              connect({ connector: farcasterFrame() })
+                              connect({ connector: miniAppConnector() })
                             }
                             }
                             className="bg-black text-white font-sans hover:bg-black hover:text-white"
