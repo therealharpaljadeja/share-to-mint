@@ -31,9 +31,9 @@ export const BuyCoinForm: React.FC<BuyCoinFormProps> = ({
                         <img
                             src={coinImage}
                             alt={coinName}
-                            className="w-32 h-32 rounded-lg object-cover border mr-4"
+                            className="w-48 h-48 rounded-lg object-cover border"
                         />
-                    </div>
+                    </div>  
                     <div className="flex flex-col text-center space-y-2 min-w-0 break-words">
                         <div className="text-base font-semibold leading-tight break-words whitespace-normal">
                             {coinName}
