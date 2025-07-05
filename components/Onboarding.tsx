@@ -14,7 +14,7 @@ import {
     CardDescription,
 } from "@/components/ui/card";
 import React from "react";
-import { FiExternalLink } from "react-icons/fi";
+import { FiExternalLink, FiEye } from "react-icons/fi";
  
 
 
@@ -24,6 +24,13 @@ function MintedCoinsList({ coins }: { coins: any[] }) {
   const openZoraLink = (url: string) => {
       sdk.haptics.impactOccurred("heavy");
       sdk.actions.openUrl(url);
+  }
+
+  const openCast = (castHash: string) => {
+    sdk.haptics.impactOccurred("heavy");
+    sdk.actions.viewCast({ 
+      hash: castHash,
+    })
   }
 
     if (!coins.length) return null;
@@ -47,6 +54,9 @@ function MintedCoinsList({ coins }: { coins: any[] }) {
                         </CardContent>
                         <button onClick={() => openZoraLink(coin.zora_link)} className="p-2 ml-4 rounded hover:bg-gray-100" aria-label="External Link">
                             <FiExternalLink size={20} />
+                        </button>
+                        <button onClick={() => openCast(coin.cast_hash)} className="p-2 ml-4 rounded hover:bg-gray-100" aria-label="View Cast">
+                            <FiEye size={20} />
                         </button>
                     </Card>
                 </div>
