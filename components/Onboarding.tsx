@@ -28,7 +28,7 @@ function MintedCoinsList({ coins }: { coins: any[] }) {
 
     if (!coins.length) return null;
     return (
-        <div className="space-y-4 mt-16 w-full max-w-md">
+        <div className="space-y-2 mt-16 w-full max-w-md">
             {coins.map((coin, idx) => (
                 <div key={coin.id || idx}>
                     <Card className="flex flex-row items-center p-4">
