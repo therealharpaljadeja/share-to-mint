@@ -88,7 +88,7 @@ export const BuyCoinForm: React.FC<BuyCoinFormProps> = ({
                             type="button"
                             variant="outline"
                             size="lg"
-                            className="min-w-[100px] text-xs"
+                            className="min-w-[100px] text-xs px-0"
                             onClick={() => setAmount(amt)}
                             disabled={!isBuyingAvailable}
                         >
