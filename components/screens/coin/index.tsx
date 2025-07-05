@@ -15,7 +15,7 @@ import React from "react";
 
 function CastAlreadyMintedWarning() {
     return (
-        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col flex-1 items-center justify-center">
         <Alert
             variant="default"
             className="mb-4 border-yellow-400 bg-yellow-50"
@@ -63,8 +63,8 @@ export default function Coin() {
     if (error) return <ErrorAlert error={error} />;
 
     return (
-        <div className="min-h-screen bg-background font-sans py-12 px-4 sm:px-6 lg:px-8 mt-8">
-            <div className="max-w-2xl mx-auto">
+        <div className="min-h-screen flex flex-col bg-background font-sans py-12 px-4 sm:px-6 lg:px-8 mt-8">
+            <div className="max-w-2xl flex-1 mx-auto">
                 {alreadyMinted ? (
                     <CastAlreadyMintedWarning />
                 ) : (
