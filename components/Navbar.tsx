@@ -3,12 +3,13 @@
 import { useFrame } from "@/components/farcaster-provider";
 import { Button } from "@/components/ui/button";
 import { farcasterFrame } from "@farcaster/frame-wagmi-connector";
-import { useConnect, useDisconnect } from "wagmi";
+import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { FiXSquare } from "react-icons/fi";
 
 export function Navbar() {
     const { context } = useFrame();
     const { connect } = useConnect();
+    const { address } = useAccount();
     const { disconnect } = useDisconnect();
 
     return (
@@ -19,17 +20,19 @@ export function Navbar() {
                     <span className="text-gray-800">ShareToMint</span>
                 </div>
                 <div>
-                    {context?.user ? (
+                    {!address && context?.user ? (
                         <div className="flex items-center space-x-2">
-                            <FiXSquare
-                                className="ml-2 cursor-pointer hover:text-red-500"
-                                size={20}
-                                title="Disconnect"
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    disconnect();
-                                }}
-                            />
+                            <Button variant="outline">
+                                <FiXSquare
+                                    className="ml-2 cursor-pointer hover:text-gray-800"
+                                    size={20}
+                                    title="Disconnect"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        disconnect();
+                                    }}
+                                />
+                            </Button>
                             <Button
                                 variant="outline"
                                 className="flex items-center space-x-2"
