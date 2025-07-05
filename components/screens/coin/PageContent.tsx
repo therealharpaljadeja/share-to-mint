@@ -59,7 +59,7 @@ export default function PageContent({
             </Alert>
         );
     } else if (coinAddress && referrer) {
-        content = <MintSuccessAlert referrer={referrer} coinAddress={coinAddress} />;
+        content = <MintSuccessAlert coinAddress={coinAddress} />;
     } else if (isConnected) {
         content = (
             <MintForm
