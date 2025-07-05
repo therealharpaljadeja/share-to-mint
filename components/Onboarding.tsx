@@ -45,10 +45,10 @@ function MintedCoinsList({ coins }: { coins: any[] }) {
                             className="w-20 h-20 rounded-lg object-cover mr-4 border"
                         />
                         <CardContent className="p-0 flex-1">
-                            <CardTitle className="text-lg font-semibold">
+                            <CardTitle className="text-lg text-center font-semibold">
                                 {coin.coin_name}
                             </CardTitle>
-                            <CardDescription className="capitalize text-gray-500">
+                            <CardDescription className="capitalize text-center text-gray-500">
                                 {coin.coin_symbol}
                             </CardDescription>
                         </CardContent>
