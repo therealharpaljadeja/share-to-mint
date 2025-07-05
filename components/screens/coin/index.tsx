@@ -66,7 +66,7 @@ export default function Coin() {
             <div className="max-w-2xl flex flex-col justify-center items-center flex-1 mx-auto">
                 {coin ? (
                     // <CastAlreadyMintedWarning />
-                    <BuyCoinForm coinImage={coin.coin_image} coinName={cast.text} coinSymbol={cast.text} balance={0} onBuy={() => {}} isBuyingAvailable={false} />
+                    <BuyCoinForm coinImage={coin.coin_image} coinName={cast.text} coinSymbol={cast.text} balance={0} onBuy={() => {}} />
                 ) : (
                     <Card>
                         <CastView cast={cast} />

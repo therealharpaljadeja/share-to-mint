@@ -9,7 +9,6 @@ interface BuyCoinFormProps {
     coinSymbol: string;
     balance: number;
     onBuy: () => void;
-    isBuyingAvailable: boolean;
     presetAmounts?: string[];
 }
 
@@ -19,7 +18,6 @@ export const BuyCoinForm: React.FC<BuyCoinFormProps> = ({
     coinSymbol,
     balance,
     onBuy,
-    isBuyingAvailable,
     presetAmounts = ["0.001", "0.01", "0.1"],
 }) => {
     const [amount, setAmount] = React.useState("0.001");
@@ -57,11 +55,7 @@ export const BuyCoinForm: React.FC<BuyCoinFormProps> = ({
                 {/* Amount input */}
                 <div className="w-full mb-4">
                     <div
-                        className={`flex items-center border rounded-lg px-4 py-4 bg-gray-50 ${
-                            !isBuyingAvailable
-                                ? "border-red-400"
-                                : "border-gray-200"
-                        }`}
+                        className={`flex items-center border rounded-lg px-4 py-4 bg-gray-50 border-gray-200`}
                         style={{ minWidth: 0 }}
                     >
                         <Input
@@ -70,7 +64,7 @@ export const BuyCoinForm: React.FC<BuyCoinFormProps> = ({
                             step="any"
                             value={amount}
                             onChange={(e) => setAmount(e.target.value)}
-                            disabled={!isBuyingAvailable}
+                            // disabled={!isBuyingAvailable}
                             className="text-2xl font-semibold border-0 bg-transparent focus:ring-0 focus:outline-none p-0 h-auto shadow-none flex-grow min-w-0"
                             placeholder="0.00"
                             style={{ width: "100px", minWidth: 0 }}
@@ -90,7 +84,7 @@ export const BuyCoinForm: React.FC<BuyCoinFormProps> = ({
                             size="lg"
                             className="min-w-[100px] text-xs px-0"
                             onClick={() => setAmount(amt)}
-                            disabled={!isBuyingAvailable}
+                            // disabled={!isBuyingAvailable}
                         >
                             {amt} ETH
                         </Button>
@@ -102,7 +96,7 @@ export const BuyCoinForm: React.FC<BuyCoinFormProps> = ({
                     style={{ backgroundColor: "#00FF00", color: "#fff" }}
                     size="lg"
                     onClick={onBuy}
-                    disabled={!isBuyingAvailable}
+                    // disabled={!isBuyingAvailable}
                 >
                     Buy
                 </Button>
