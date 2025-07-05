@@ -63,7 +63,7 @@ export default function Coin() {
 
     return (
         <div className="min-h-screen flex flex-col bg-background font-sans py-12 px-4 sm:px-6 lg:px-8 mt-8">
-            <div className="max-w-2xl flex flex-col justify-center items-center flex-1 mx-auto">
+            <div className="max-w-2xl flex flex-col justify-center items-center flex-1">
                 {coin ? (
                     // <CastAlreadyMintedWarning />
                     <BuyCoinForm coinImage={coin.coin_image} coinName={coin.coin_name} coinSymbol={coin.coin_symbol} balance={0} onBuy={() => {}} />
