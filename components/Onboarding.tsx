@@ -49,9 +49,6 @@ function MintedCoinsList({ coins }: { coins: any[] }) {
                             <FiExternalLink size={20} />
                         </button>
                     </Card>
-                    {idx < coins.length - 1 && (
-                        <hr className="my-2 border-gray-200" />
-                    )}
                 </div>
             ))}
         </div>
