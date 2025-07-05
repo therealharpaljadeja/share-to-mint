@@ -12,6 +12,8 @@ export function Navbar() {
     const { address } = useAccount();
     const { disconnect } = useDisconnect();
 
+    console.log(address, context);
+
     return (
         <nav className="fixed top-0 left-0 right-0 bg-white bg-opacity-80 backdrop-blur-sm shadow-md z-50">
             <div className="container mx-auto px-4 h-16 flex justify-between items-center">
