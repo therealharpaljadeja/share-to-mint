@@ -50,7 +50,7 @@ function MintedCoinsList({ coins }: { coins: any[] }) {
                         </button>
                     </Card>
                     {idx < coins.length - 1 && (
-                        <hr className="my-2 border-[2px] border-gray-200" />
+                        <hr className="my-2 border-gray-200" />
                     )}
                 </div>
             ))}
