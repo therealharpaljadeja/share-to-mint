@@ -14,9 +14,18 @@ import {
     CardDescription,
 } from "@/components/ui/card";
 import React from "react";
+import { FiExternalLink } from "react-icons/fi";
+ 
+
 
 // MintedCoinsList component for showing user's minted coins
 function MintedCoinsList({ coins }: { coins: any[] }) {
+
+  const openZoraLink = (url: string) => {
+      sdk.haptics.impactOccurred("heavy");
+      sdk.actions.openUrl(url);
+  }
+
     if (!coins.length) return null;
     return (
         <div className="space-y-4 mt-16 w-full max-w-md">
@@ -36,9 +45,12 @@ function MintedCoinsList({ coins }: { coins: any[] }) {
                                 {coin.coin_symbol}
                             </CardDescription>
                         </CardContent>
+                        <button onClick={() => openZoraLink(coin.zora_link)} className="p-2 ml-4 rounded hover:bg-gray-100" aria-label="External Link">
+                            <FiExternalLink size={20} />
+                        </button>
                     </Card>
                     {idx < coins.length - 1 && (
-                        <hr className="my-4 border-gray-200" />
+                        <hr className="my-2 border-[2px] border-gray-200" />
                     )}
                 </div>
             ))}
