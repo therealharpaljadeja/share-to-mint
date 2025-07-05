@@ -28,7 +28,7 @@ export function Navbar() {
                                     size={20}
                                     title="Disconnect"
                                     onClick={(e) => {
-                                        e.stopPropagation();
+                                        console.log('wallet disconnected');
                                         disconnect();
                                     }}
                                 />
@@ -50,8 +50,10 @@ export function Navbar() {
                     ) : (
                         <Button
                             variant="outline"
-                            onClick={() =>
-                                connect({ connector: farcasterFrame() })
+                            onClick={() => {
+                              console.log("connecting wallet");
+                              connect({ connector: farcasterFrame() })
+                            }
                             }
                             className="bg-black text-white font-sans"
                         >
