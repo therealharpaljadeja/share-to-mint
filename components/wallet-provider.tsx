@@ -1,12 +1,12 @@
 import { farcasterFrame } from '@farcaster/frame-wagmi-connector'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { http, WagmiProvider, createConfig } from 'wagmi'
-import { baseSepolia } from 'wagmi/chains'
+import { base } from 'wagmi/chains'
 
 export const config = createConfig({
-  chains: [baseSepolia],
+  chains: [base],
   transports: {
-    [baseSepolia.id]: http('https://base-sepolia.g.alchemy.com/v2/asadO7mcJuXhjcpNjaAT5'),
+    [base.id]: http('https://base-mainnet.g.alchemy.com/v2/asadO7mcJuXhjcpNjaAT5'),
   },
   connectors: [farcasterFrame()],
 })

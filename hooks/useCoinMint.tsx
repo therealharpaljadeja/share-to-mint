@@ -4,7 +4,7 @@ import { PAYOUT_RECIPIENT, PLATFORM_REFERRER } from "@/lib/constants";
 import { sdk } from "@farcaster/frame-sdk";
 import { createCoinCall, DeployCurrency, getCoinCreateFromLogs, validateMetadataURIContent, ValidMetadataURI } from "@zoralabs/coins-sdk";
 import { useState, useCallback } from "react";
-import { baseSepolia } from "viem/chains";
+import { base } from "viem/chains";
 import { getTransactionReceipt, simulateContract, writeContract } from "wagmi/actions";
 import { useOnboardingState } from "./useOnboardingState";
 import { useFrame } from "@/components/farcaster-provider";
@@ -60,7 +60,7 @@ async function generateTransactionRequest(name: string, symbol: string, metadata
         uri: metadataURI,
         payoutRecipient: PAYOUT_RECIPIENT,
         platformReferrer:PLATFORM_REFERRER,
-        chainId: baseSepolia.id,
+        chainId: base.id,
         currency: DeployCurrency.ETH,
     };
 
@@ -146,7 +146,7 @@ export default function useCoinMint(cast: Cast | null, image: string) {
                                 coinSymbol: symbol,
                                 transactionHash: result,
                                 referrer: coinDeployment.platformReferrer,
-                                zoraLink: `https://testnet.zora.co/coin/bsep:${coinDeployment.coin}?referrer=${PLATFORM_REFERRER}`,
+                                zoraLink: `${process.env.NEXT_PUBLIC_ZORA_URL}/coin/base:${coinDeployment.coin}?referrer=${PLATFORM_REFERRER}`,
                             });
 
                             console.log("mintSuccess", mintSuccess);

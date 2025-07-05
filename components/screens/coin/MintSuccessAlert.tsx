@@ -1,14 +1,13 @@
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import { PLATFORM_REFERRER } from "@/lib/constants";
 import sdk from "@farcaster/frame-sdk";
 import { getCoin } from "@zoralabs/coins-sdk";
-import { baseSepolia } from "wagmi/chains";
+import { base } from "wagmi/chains";
 
 export default function MintSuccessAlert({
-    referrer,
     coinAddress,
 }: {
-    referrer: string | null;
     coinAddress: string | null;
 }) {
     async function openLink(url: string) {
@@ -18,7 +17,7 @@ export default function MintSuccessAlert({
     async function composeCast() {
         const response = await getCoin({
             address: coinAddress as string,
-            chain: baseSepolia.id,
+            chain: base.id,
         });
 
         const coin = response.data?.zora20Token;
@@ -26,7 +25,7 @@ export default function MintSuccessAlert({
         await sdk.actions.composeCast({
             text: coin ? `Trade ${coin.name}` : "",
             embeds: [
-                `https://testnet.zora.co/coin/bsep:${coinAddress}?referrer=${referrer}`,
+                `${process.env.NEXT_PUBLIC_ZORA_URL}/coin/base:${coinAddress}?referrer=${PLATFORM_REFERRER}`,
             ],
         });
     }
@@ -41,7 +40,7 @@ export default function MintSuccessAlert({
                         className="rounded-xl bg-black text-white font-sans hover:bg-black hover:text-white"
                         onClick={() =>
                             openLink(
-                                `https://testnet.zora.co/coin/bsep:${coinAddress}?referrer=${referrer}`
+                                `${process.env.NEXT_PUBLIC_ZORA_URL}/coin/base:${coinAddress}?referrer=${PLATFORM_REFERRER}`
                             )
                         }
                     >
