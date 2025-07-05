@@ -15,10 +15,10 @@ import React from "react";
 
 function CastAlreadyMintedWarning() {
     return (
-        <div className="flex flex-col flex-1 items-center justify-center">
+        <div className="h-full flex flex-col justify-center">
         <Alert
             variant="default"
-            className="mb-4 border-yellow-400 bg-yellow-50"
+            className="border-yellow-400 bg-yellow-50"
         >
             <AlertTitle>Already Minted</AlertTitle>
             <AlertDescription>
