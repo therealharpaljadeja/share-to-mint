@@ -95,16 +95,6 @@ export const BuyCoinForm: React.FC<BuyCoinFormProps> = ({
                             {amt} ETH
                         </Button>
                     ))}
-                    <Button
-                        type="button"
-                        variant="outline"
-                        size="lg"
-                        className="min-w-[100px] text-xs"
-                        onClick={() => setAmount(balance.toString())}
-                        disabled={!isBuyingAvailable}
-                    >
-                        Max
-                    </Button>
                 </div>
                 {/* Buy button */}
                 <Button
