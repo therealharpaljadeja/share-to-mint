@@ -55,7 +55,7 @@ export function Navbar() {
                               connect({ connector: farcasterFrame() })
                             }
                             }
-                            className="bg-black text-white font-sans"
+                            className="bg-black text-white font-sans hover:bg-black hover:text-white"
                         >
                             Sign in
                         </Button>
