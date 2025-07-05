@@ -15,6 +15,7 @@ import React from "react";
 
 function CastAlreadyMintedWarning() {
     return (
+        <div className="flex flex-col items-center justify-center">
         <Alert
             variant="default"
             className="mb-4 border-yellow-400 bg-yellow-50"
@@ -24,6 +25,7 @@ function CastAlreadyMintedWarning() {
                 This cast has already been minted. You cannot mint it again.
             </AlertDescription>
         </Alert>
+        </div>
     );
 }
 
