@@ -128,23 +128,23 @@ export async function getAllMints() {
 }
 
 // Check if a cast hash is already minted
-export async function isCastAlreadyMinted(castHash: string): Promise<boolean> {
+export async function isCastAlreadyMinted(castHash: string) {
   try {
     const { data, error } = await supabase
       .from('user_mints')
-      .select('id')
+      .select('*')  // Select all fields instead of just id
       .eq('cast_hash', castHash)
       .limit(1)
       .single();
 
     if (error && error.code !== 'PGRST116') { // PGRST116 = no rows returned
       console.error('Error checking cast hash:', error);
-      return false;
+      return null;
     }
 
-    return !!data;
+    return data;
   } catch (error) {
     console.error('Error in isCastAlreadyMinted:', error);
-    return false;
+    return null;
   }
 } 
