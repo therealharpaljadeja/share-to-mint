@@ -85,11 +85,11 @@ export function Onboarding() {
     }
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-4">
+        <div className="flex flex-col min-h-screen bg-gray-50 p-4">
             {context?.client.added ? (
                 <MintedCoinsList coins={mintedCoins} />
             ) : (
-                <div className="max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
+                <div className="max-w-md flex items-center justify-center p-8 space-y-6 bg-white rounded-lg shadow-md">
                     <div className="text-center">
                         <h1 className="text-3xl font-bold text-gray-900">
                             Welcome!
