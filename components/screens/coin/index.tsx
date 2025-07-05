@@ -15,7 +15,6 @@ import React from "react";
 
 function CastAlreadyMintedWarning() {
     return (
-        <div className="h-full flex flex-col justify-center">
         <Alert
             variant="default"
             className="border-yellow-400 bg-yellow-50"
@@ -25,7 +24,6 @@ function CastAlreadyMintedWarning() {
                 This cast has already been minted. You cannot mint it again.
             </AlertDescription>
         </Alert>
-        </div>
     );
 }
 
@@ -64,7 +62,7 @@ export default function Coin() {
 
     return (
         <div className="min-h-screen flex flex-col bg-background font-sans py-12 px-4 sm:px-6 lg:px-8 mt-8">
-            <div className="max-w-2xl flex-1 mx-auto">
+            <div className="max-w-2xl flex flex-col justify-center items-center flex-1 mx-auto">
                 {alreadyMinted ? (
                     <CastAlreadyMintedWarning />
                 ) : (
