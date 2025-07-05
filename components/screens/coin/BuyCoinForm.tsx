@@ -92,8 +92,8 @@ export const BuyCoinForm: React.FC<BuyCoinFormProps> = ({
                 </div>
                 {/* Buy button */}
                 <Button
-                    className="w-full text-base font-bold py-6 rounded-xl bg-[#00FF00] text-white hover:bg-[#00e600] disabled:opacity-60 disabled:cursor-not-allowed"
-                    style={{ backgroundColor: "#00FF00", color: "#fff" }}
+                    className="w-full text-base font-bold py-6 rounded-xl bg-[#08d808] text-white hover:bg-[#00e600] disabled:opacity-60 disabled:cursor-not-allowed"
+                    style={{ backgroundColor: "#08d808", color: "#fff" }}
                     size="lg"
                     onClick={onBuy}
                     // disabled={!isBuyingAvailable}
