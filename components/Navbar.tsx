@@ -22,7 +22,7 @@ export function Navbar() {
                     <span className="text-gray-800">ShareToMint</span>
                 </div>
                 <div>
-                    {!address && context?.user ? (
+                    {address && context?.user ? (
                         <div className="flex items-center space-x-2">
                             <Button variant="outline">
                                 <FiXSquare
