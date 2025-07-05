@@ -2,9 +2,14 @@ import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import useCoinTrade from "@/hooks/useCoinTrade";
+import { PLATFORM_REFERRER } from "@/lib/constants";
+import { useFrame } from "@/components/farcaster-provider";
+import { useAccount } from "wagmi";
 
 interface BuyCoinFormProps {
     coinImage: string;
+    coinAddress: string;
     coinName: string;
     coinSymbol: string;
     balance: number;
@@ -14,13 +19,14 @@ interface BuyCoinFormProps {
 
 export const BuyCoinForm: React.FC<BuyCoinFormProps> = ({
     coinImage,
+    coinAddress,
     coinName,
     coinSymbol,
     balance,
     onBuy,
     presetAmounts = ["0.001", "0.01", "0.1"],
 }) => {
-    const [amount, setAmount] = React.useState("0.001");
+    const { buyCoin, setAmount, amount } = useCoinTrade(coinAddress);
 
     return (
         <Card className="w-full max-w-md mx-auto p-0">
@@ -95,7 +101,7 @@ export const BuyCoinForm: React.FC<BuyCoinFormProps> = ({
                     className="w-full text-base font-bold py-6 rounded-xl bg-[#08d808] text-white hover:bg-[#00e600] disabled:opacity-60 disabled:cursor-not-allowed"
                     style={{ backgroundColor: "#08d808", color: "#fff" }}
                     size="lg"
-                    onClick={onBuy}
+                    onClick={buyCoin}
                     // disabled={!isBuyingAvailable}
                 >
                     Buy
