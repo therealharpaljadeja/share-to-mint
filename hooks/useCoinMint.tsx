@@ -73,6 +73,8 @@ async function generateTransactionRequest(name: string, symbol: string, metadata
         value: parseEther("0"),
     });
 
+    console.log("simulateContract", request);
+
     return request;
 }
 
