@@ -6,7 +6,7 @@ import { base } from 'wagmi/chains'
 export const config = createConfig({
   chains: [base],
   transports: {
-    [base.id]: http('https://base-mainnet.g.alchemy.com/v2/asadO7mcJuXhjcpNjaAT5'),
+    [base.id]: http(),
   },
   connectors: [miniAppConnector()],
 })
