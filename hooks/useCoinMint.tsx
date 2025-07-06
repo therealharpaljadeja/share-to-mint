@@ -65,6 +65,8 @@ async function generateTransactionRequest(name: string, symbol: string, metadata
     };
 
     const contractCallParams = await createCoinCall(coinParams);
+
+    console.log("contractCallParams", contractCallParams);
     
     const { request } = await simulateContract(config, {
         ...contractCallParams,
