@@ -203,7 +203,7 @@ export default function useCoinMint(cast: Cast | null, image: string) {
             }
         }
         init();
-    }, [hash]);
+    }, [hash, error]);
 
     return {
         name,
