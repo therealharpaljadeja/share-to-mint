@@ -92,7 +92,7 @@ export default function useCoinMint(cast: Cast | null, image: string) {
     const [referrer, setReferrer] = useState<string | null>(null);
     const [isUploadingMetadata, setIsUploadingMetadata] = useState(false);
     const [isWaitingForUserToConfirm, setIsWaitingForUserToConfirm] = useState(false);
-    const { sendTransaction, data: hash } = useSendTransaction();
+    const { sendTransaction, data: hash, error } = useSendTransaction();
     
     const validateForm = useCallback(() => {
         const errors = {
@@ -125,7 +125,7 @@ export default function useCoinMint(cast: Cast | null, image: string) {
             setIsWaitingForUserToConfirm(true);
             console.log("Waiting for user to confirm");
             console.log("config for writeContract", config);
-            const result = await sendTransaction({
+            await sendTransaction({
                 to: address,
                 data: functionData,
                 value: parseEther("0"),
@@ -147,7 +147,13 @@ export default function useCoinMint(cast: Cast | null, image: string) {
 
     useEffect(() => {
         async function init() {
+            if(error) {
+                console.error(error);
+                sdk.haptics.notificationOccurred("error");
+            }
+
             if(hash) {
+                console.log("hash", hash);
                 setIsMinting(true);
                 
                 let receipt = await getTransactionReceipt(config, {
