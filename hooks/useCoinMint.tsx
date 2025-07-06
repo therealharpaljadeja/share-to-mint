@@ -126,6 +126,7 @@ export default function useCoinMint(cast: Cast | null, image: string) {
             const result = await sendTransaction(config, {
                 to: address,
                 data: functionData,
+                chainId: 8453,
                 value: parseEther("0"),
             });
 
