@@ -5,11 +5,11 @@ import { sdk } from "@farcaster/frame-sdk";
 import { createCoinCall, DeployCurrency, getCoinCreateFromLogs, validateMetadataURIContent, ValidMetadataURI } from "@zoralabs/coins-sdk";
 import { useState, useCallback } from "react";
 import { base } from "viem/chains";
-import { getTransactionReceipt, simulateContract, writeContract } from "wagmi/actions";
+import { getTransactionReceipt, sendTransaction, simulateContract, writeContract } from "wagmi/actions";
 import { useOnboardingState } from "./useOnboardingState";
 import { useFrame } from "@/components/farcaster-provider";
 import { storeMintRecord } from "@/lib/database";
-import { parseEther } from "viem";
+import { encodeFunctionData, parseEther } from "viem";
 
 async function heavyHapticImpact() {
     const capabilities = await sdk.getCapabilities();
@@ -70,7 +70,6 @@ async function generateTransactionRequest(name: string, symbol: string, metadata
     
     const { request } = await simulateContract(config, {
         ...contractCallParams,
-        value: parseEther("0"),
     });
 
     console.log("simulateContract", request);
@@ -118,10 +117,17 @@ export default function useCoinMint(cast: Cast | null, image: string) {
             const request = await generateTransactionRequest(name, symbol, metadataURI);
             console.log("Transaction request generated");
 
+            const { abi, functionName, args, address} = request;
+            const functionData = encodeFunctionData({ abi, functionName, args });
+
             setIsWaitingForUserToConfirm(true);
             console.log("Waiting for user to confirm");
             console.log("config for writeContract", config);
-            const result = await writeContract(config, request);
+            const result = await sendTransaction(config, {
+                to: address,
+                data: functionData,
+                value: parseEther("0"),
+            });
 
             setIsWaitingForUserToConfirm(false);
           
