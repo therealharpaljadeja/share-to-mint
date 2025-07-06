@@ -3,13 +3,14 @@ import { config } from "@/components/wallet-provider";
 import { PAYOUT_RECIPIENT, PLATFORM_REFERRER } from "@/lib/constants";
 import { sdk } from "@farcaster/frame-sdk";
 import { createCoinCall, DeployCurrency, getCoinCreateFromLogs, validateMetadataURIContent, ValidMetadataURI } from "@zoralabs/coins-sdk";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { base } from "viem/chains";
-import { getTransactionReceipt, sendTransaction, simulateContract, writeContract } from "wagmi/actions";
+import { getTransactionReceipt, simulateContract } from "wagmi/actions";
 import { useOnboardingState } from "./useOnboardingState";
 import { useFrame } from "@/components/farcaster-provider";
 import { storeMintRecord } from "@/lib/database";
 import { encodeFunctionData, parseEther } from "viem";
+import { useSendTransaction } from "wagmi";
 
 async function heavyHapticImpact() {
     const capabilities = await sdk.getCapabilities();
@@ -91,6 +92,7 @@ export default function useCoinMint(cast: Cast | null, image: string) {
     const [referrer, setReferrer] = useState<string | null>(null);
     const [isUploadingMetadata, setIsUploadingMetadata] = useState(false);
     const [isWaitingForUserToConfirm, setIsWaitingForUserToConfirm] = useState(false);
+    const { sendTransaction, data: hash } = useSendTransaction();
     
     const validateForm = useCallback(() => {
         const errors = {
@@ -123,23 +125,35 @@ export default function useCoinMint(cast: Cast | null, image: string) {
             setIsWaitingForUserToConfirm(true);
             console.log("Waiting for user to confirm");
             console.log("config for writeContract", config);
-            const result = await sendTransaction(config, {
+            const result = await sendTransaction({
                 to: address,
                 data: functionData,
-                chainId: 8453,
                 value: parseEther("0"),
             });
 
             setIsWaitingForUserToConfirm(false);
           
             
-            if(result) {
+           
+        } catch (err) {
+            console.error(err);
+            sdk.haptics.notificationOccurred("error");
+        } finally {
+            setIsUploadingMetadata(false);
+            setIsWaitingForUserToConfirm(false);
+            setIsMinting(false);
+        }
+    }, [cast, name, symbol, validateForm, image]);
+
+    useEffect(() => {
+        async function init() {
+            if(hash) {
                 setIsMinting(true);
                 
                 let receipt = await getTransactionReceipt(config, {
-                    hash: result,
+                    hash,
                 })
-
+    
                 const coinDeployment = await getCoinCreateFromLogs(receipt);
                 if(coinDeployment) {
                     setCoinAddress(coinDeployment.coin);
@@ -157,13 +171,13 @@ export default function useCoinMint(cast: Cast | null, image: string) {
                                 coinAddress: coinDeployment.coin,
                                 coinName: name,
                                 coinSymbol: symbol,
-                                transactionHash: result,
+                                transactionHash: hash,
                                 referrer: coinDeployment.platformReferrer,
                                 zoraLink: `${process.env.NEXT_PUBLIC_ZORA_URL}/coin/base:${coinDeployment.coin}?referrer=${PLATFORM_REFERRER}`,
                             });
-
+    
                             console.log("mintSuccess", mintSuccess);
-
+    
                             if (mintSuccess) {
                                 // Mark that the user has completed their first mint
                             } else {
@@ -178,18 +192,12 @@ export default function useCoinMint(cast: Cast | null, image: string) {
                 }
                 sdk.haptics.notificationOccurred("success");
             } else {
-                console.log(result)
+                console.log(hash)
                 sdk.haptics.notificationOccurred("error");
             }
-        } catch (err) {
-            console.error(err);
-            sdk.haptics.notificationOccurred("error");
-        } finally {
-            setIsUploadingMetadata(false);
-            setIsWaitingForUserToConfirm(false);
-            setIsMinting(false);
         }
-    }, [cast, name, symbol, validateForm, image]);
+        init();
+    }, [hash]);
 
     return {
         name,
