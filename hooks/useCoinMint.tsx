@@ -69,11 +69,11 @@ async function generateTransactionRequest(name: string, symbol: string, metadata
 
     console.log("contractCallParams", contractCallParams);
     
-    const { request } = await simulateContract(config, {
+    const { request, result } = await simulateContract(config, {
         ...contractCallParams,
     });
 
-    console.log("simulateContract", request);
+    console.log("simulateContract", request, result);
 
     return request;
 }
