@@ -120,6 +120,7 @@ export default function useCoinMint(cast: Cast | null, image: string) {
 
             setIsWaitingForUserToConfirm(true);
             console.log("Waiting for user to confirm");
+            console.log("config for writeContract", config);
             const result = await writeContract(config, request);
 
             setIsWaitingForUserToConfirm(false);
