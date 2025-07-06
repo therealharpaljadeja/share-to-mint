@@ -5,15 +5,25 @@ import { Button } from "@/components/ui/button";
 import { useAccount, useChainId, useConnect, useDisconnect } from "wagmi";
 import { FiXSquare } from "react-icons/fi";
 import { farcasterMiniApp as miniAppConnector } from '@farcaster/miniapp-wagmi-connector'
+import { config } from "./wallet-provider";
+import { base } from "viem/chains";
+import { switchChain } from "wagmi/actions";
+import { useEffect } from "react";
 
 export function Navbar() {
     const { context } = useFrame();
     const { connect } = useConnect();
-    const { address } = useAccount();
+    const { address, isConnected } = useAccount();
     const chainId = useChainId();
     const { disconnect } = useDisconnect();
 
-    console.log(address, context, chainId);
+    useEffect(() => {
+        if(isConnected) {
+            (async() => {
+               await switchChain(config, { chainId: base.id })
+           })();
+        }
+    }, [isConnected])
 
     return (
         <nav className="fixed top-0 left-0 right-0 bg-white bg-opacity-80 backdrop-blur-sm shadow-md z-50">
