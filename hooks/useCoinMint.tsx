@@ -9,6 +9,7 @@ import { getTransactionReceipt, simulateContract, writeContract } from "wagmi/ac
 import { useOnboardingState } from "./useOnboardingState";
 import { useFrame } from "@/components/farcaster-provider";
 import { storeMintRecord } from "@/lib/database";
+import { parseEther } from "viem";
 
 async function heavyHapticImpact() {
     const capabilities = await sdk.getCapabilities();
@@ -63,13 +64,13 @@ async function generateTransactionRequest(name: string, symbol: string, metadata
         chainId: base.id,
         currency: DeployCurrency.ETH,
     };
-
     const contractCallParams = await createCoinCall(coinParams);
 
     console.log("contractCallParams", contractCallParams);
     
     const { request } = await simulateContract(config, {
         ...contractCallParams,
+        value: parseEther("0"),
     });
 
     return request;
