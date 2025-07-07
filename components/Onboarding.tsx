@@ -122,7 +122,7 @@ export function Onboarding() {
                         </p>
                     </div>
                     <Button
-                        onClick={addFrame}
+                        onClick={addMiniApp}
                         className="w-full bg-black text-white hover:bg-gray-800"
                     >
                         Add Mini App
