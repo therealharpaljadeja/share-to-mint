@@ -25,6 +25,7 @@ function MintedCoinsList({ coins }: { coins: any[] }) {
   const openZoraLink = (url: string) => {
       haptics?.impactOccurred("heavy");
       sdk.actions?.openUrl(url);
+      console.log("openZoraLink", url);
   }
 
   const openCast = (castHash: string) => {
