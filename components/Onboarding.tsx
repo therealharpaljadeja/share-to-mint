@@ -66,20 +66,22 @@ function MintedCoinsList({ coins }: { coins: any[] }) {
                         </div>
                     </Card>
                     {openIdx === idx && (
-                        <div className="flex flex-row justify-end gap-2 bg-gray-50 border-x border-b rounded-b-lg p-4 -mt-2">
+                        <div className="flex flex-row justify-end gap-4 bg-gray-50 border-x border-b rounded-b-lg p-4 -mt-2">
                             <button
                                 onClick={e => { e.stopPropagation(); openZoraLink(coin.zora_link); }}
-                                className="p-2 rounded hover:bg-gray-100"
+                                className="flex flex-col items-center p-2 rounded hover:bg-gray-100"
                                 aria-label="External Link"
                             >
                                 <FiExternalLink size={20} />
+                                <span className="text-xs text-gray-500 mt-1">View on Zora</span>
                             </button>
                             <button
                                 onClick={e => { e.stopPropagation(); openCast(coin.cast_hash); }}
-                                className="p-2 rounded hover:bg-gray-100"
+                                className="flex flex-col items-center p-2 rounded hover:bg-gray-100"
                                 aria-label="View Cast"
                             >
                                 <FiEye size={20} />
+                                <span className="text-xs text-gray-500 mt-1">View Cast</span>
                             </button>
                         </div>
                     )}
