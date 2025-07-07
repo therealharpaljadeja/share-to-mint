@@ -107,7 +107,7 @@ export function Onboarding() {
             {context?.client.added ? (
                 <MintedCoinsList coins={mintedCoins} />
             ) : (
-                <div className="max-w-md flex items-center justify-center p-8 space-y-6 bg-white rounded-lg shadow-md">
+                <div className="max-w-md flex flex-1 flex-col items-center justify-center p-8 mt-16 space-y-6 bg-white rounded-lg shadow-md">
                     <div className="text-center">
                         <h1 className="text-3xl font-bold text-gray-900">
                             Welcome!
