@@ -15,6 +15,7 @@ import {
 import React from "react";
 import { FiExternalLink, FiEye } from "react-icons/fi";
 import sdk from "@farcaster/miniapp-sdk";
+import { GoMegaphone } from "react-icons/go";
 
 
 // MintedCoinsList component for showing user's minted coins
@@ -32,6 +33,20 @@ function MintedCoinsList({ coins }: { coins: any[] }) {
     haptics?.impactOccurred("heavy");
     actions?.viewCast({ 
       hash: castHash,
+    })
+  }
+
+  const composeCastOnFarcaster = (coin: any) => {
+    haptics?.impactOccurred("heavy");
+    sdk.actions?.composeCast({
+      text: `I just minted a coin on Zora using Share to Mint! Check it out!`,
+      embeds: [
+        coin.zora_link
+      ],
+      parent: {
+        type: 'cast',
+        hash: coin.cast_hash
+      }
     })
   }
 
@@ -67,6 +82,14 @@ function MintedCoinsList({ coins }: { coins: any[] }) {
                     </Card>
                     {openIdx === idx && (
                         <div className="flex flex-row justify-end gap-4 bg-gray-50 border-x border-t border-t-gray-200 border-b rounded-b-lg p-4">
+                            <button
+                                onClick={e => { e.stopPropagation(); composeCastOnFarcaster(coin); }}
+                                className="flex flex-col items-center p-2 rounded hover:bg-gray-100"
+                                aria-label="Cast"
+                            >
+                                <GoMegaphone size={20} />
+                                <span className="text-xs text-gray-500 mt-1">Cast on Farcaster</span>
+                            </button>
                             <button
                                 onClick={e => { e.stopPropagation(); openZoraLink(coin.zora_link); }}
                                 className="flex flex-col items-center p-2 rounded hover:bg-gray-100"
