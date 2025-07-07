@@ -111,8 +111,6 @@ async function waitForTransactionReceipt(
                 await new Promise((res) => setTimeout(res, interval));
                 continue;
             }
-            console.error("Error getting transaction receipt:", error);
-            return null;
         }
     }
 }
