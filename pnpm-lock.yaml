@@ -14,9 +14,9 @@ importers:
       '@farcaster/frame-node':
         specifier: ^0.0.41
         version: 0.0.41(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)
-      '@farcaster/frame-sdk':
-        specifier: ^0.0.64
-        version: 0.0.64(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.51)
+      '@farcaster/miniapp-sdk':
+        specifier: ^0.1.4
+        version: 0.1.4(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.51)
       '@farcaster/miniapp-wagmi-connector':
         specifier: ^1.0.0
         version: 1.0.0(@farcaster/miniapp-sdk@0.1.4(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.51))(@wagmi/core@2.17.2(@tanstack/query-core@5.80.5)(@types/react@18.3.23)(react@18.3.1)(typescript@5.8.3)(use-sync-external-store@1.4.0(react@18.3.1))(viem@2.30.6(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.51)))(viem@2.30.6(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.51))
@@ -199,9 +199,6 @@ packages:
 
   '@farcaster/frame-node@0.0.41':
     resolution: {integrity: sha512-+bjCMb4gCZZBpd+/tC0VQt+9CLALjNfS/JkXt0XpDlnlwN3Ata1okie0ZdeH3h97hvJRvhXCMg15WV71kAb+hQ==}
-
-  '@farcaster/frame-sdk@0.0.64':
-    resolution: {integrity: sha512-mrFXmkRc5RR6/PDaN3Rho4YFEh2oI2s9eg5NA9pHUEN9oPt4Sd5ShdeX/0/uVxOk3/EbVL69lGIGce5hYbUyhw==}
 
   '@farcaster/miniapp-core@0.3.4':
     resolution: {integrity: sha512-rh7Da/GYKzGb+J0kaTSI7ZeUWbh45gwAdsKcXP2T4UE4vHLRsmf7+3R0KbfStvqtuHLhWv8s43REtQ9ytFTmUQ==}
@@ -2325,20 +2322,6 @@ snapshots:
       - encoding
       - typescript
       - utf-8-validate
-
-  '@farcaster/frame-sdk@0.0.64(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.51)':
-    dependencies:
-      '@farcaster/frame-core': 0.2.0(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)
-      '@farcaster/quick-auth': 0.0.6(typescript@5.8.3)
-      comlink: 4.4.2
-      eventemitter3: 5.0.1
-      ox: 0.4.4(typescript@5.8.3)(zod@3.25.51)
-    transitivePeerDependencies:
-      - bufferutil
-      - encoding
-      - typescript
-      - utf-8-validate
-      - zod
 
   '@farcaster/miniapp-core@0.3.4(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)':
     dependencies:

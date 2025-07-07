@@ -2,7 +2,6 @@
 
 import { useFrame } from "@/components/farcaster-provider";
 import { Button } from "@/components/ui/button";
-import { sdk } from "@farcaster/frame-sdk";
 import { useOnboardingState } from "@/hooks/useOnboardingState";
 import { MintingTutorial } from "./MintingTutorial";
 import { useEffect } from "react";
@@ -20,14 +19,16 @@ import { FiExternalLink, FiEye } from "react-icons/fi";
 // MintedCoinsList component for showing user's minted coins
 function MintedCoinsList({ coins }: { coins: any[] }) {
 
+    const { actions, haptics } = useFrame();
+
   const openZoraLink = (url: string) => {
-      sdk.haptics.impactOccurred("heavy");
-      sdk.actions.openUrl(url);
+      haptics?.impactOccurred("heavy");
+      actions?.openUrl(url);
   }
 
   const openCast = (castHash: string) => {
-    sdk.haptics.impactOccurred("heavy");
-    sdk.actions.viewCast({ 
+    haptics?.impactOccurred("heavy");
+    actions?.viewCast({ 
       hash: castHash,
     })
   }
@@ -65,7 +66,7 @@ function MintedCoinsList({ coins }: { coins: any[] }) {
 }
 
 export function Onboarding() {
-    const { actions, context } = useFrame();
+    const { actions, context, haptics } = useFrame();
     const { shouldShowTutorial, isLoading } = useOnboardingState();
     const [mintedCoins, setMintedCoins] = React.useState<any[]>([]);
 
@@ -80,7 +81,7 @@ export function Onboarding() {
     }, []);
 
     const addFrame = () => {
-        sdk.haptics.impactOccurred("heavy");
+        haptics?.impactOccurred("heavy");
         actions?.addMiniApp();
     };
 

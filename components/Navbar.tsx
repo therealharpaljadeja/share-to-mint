@@ -13,7 +13,6 @@ export function Navbar() {
     const { disconnect } = useDisconnect();
     const chainId = useChainId();
     
-    console.log("chainId", chainId);
 
     return (
         <nav className="fixed top-0 left-0 right-0 bg-white bg-opacity-80 backdrop-blur-sm shadow-md z-50">

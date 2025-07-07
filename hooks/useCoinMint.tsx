@@ -1,7 +1,7 @@
 import { Cast } from "@/components/screens/coin/types";
 import { config } from "@/components/wallet-provider";
 import { PAYOUT_RECIPIENT, PLATFORM_REFERRER } from "@/lib/constants";
-import { sdk } from "@farcaster/frame-sdk";
+import { sdk } from "@farcaster/miniapp-sdk";
 import { createCoinCall, DeployCurrency, getCoinCreateFromLogs, validateMetadataURIContent, ValidMetadataURI } from "@zoralabs/coins-sdk";
 import { useState, useCallback, useEffect } from "react";
 import { base } from "viem/chains";

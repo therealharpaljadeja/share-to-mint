@@ -1,7 +1,7 @@
+import { useFrame } from "@/components/farcaster-provider";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { PLATFORM_REFERRER } from "@/lib/constants";
-import sdk from "@farcaster/frame-sdk";
 import { getCoin } from "@zoralabs/coins-sdk";
 import { base } from "wagmi/chains";
 
@@ -10,8 +10,9 @@ export default function MintSuccessAlert({
 }: {
     coinAddress: string | null;
 }) {
+    const { actions } = useFrame();
     async function openLink(url: string) {
-        await sdk.actions.openUrl(url);
+        await actions?.openUrl(url);
     }
 
     async function composeCast() {
@@ -22,7 +23,7 @@ export default function MintSuccessAlert({
 
         const coin = response.data?.zora20Token;
 
-        await sdk.actions.composeCast({
+        await actions?.composeCast({
             text: coin ? `Trade ${coin.name}` : "",
             embeds: [
                 `${process.env.NEXT_PUBLIC_ZORA_URL}/coin/base:${coinAddress}?referrer=${PLATFORM_REFERRER}`,
