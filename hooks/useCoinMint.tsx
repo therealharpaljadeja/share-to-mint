@@ -130,12 +130,7 @@ export default function useCoinMint(cast: Cast | null, image: string) {
                 to: address,
                 data: functionData,
                 value: parseEther("0"),
-            });
-
-            setIsWaitingForUserToConfirm(false);
-          
-            
-           
+            });          
         } catch (err) {
             console.error(err);
             sdk.haptics.notificationOccurred("error");
