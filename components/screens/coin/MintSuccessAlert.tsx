@@ -1,8 +1,10 @@
 import { useFrame } from "@/components/farcaster-provider";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import useCast from "@/hooks/useCast";
 import { PLATFORM_REFERRER } from "@/lib/constants";
 import { getCoin } from "@zoralabs/coins-sdk";
+import { useSearchParams } from "next/navigation";
 import { base } from "wagmi/chains";
 
 export default function MintSuccessAlert({
@@ -11,7 +13,10 @@ export default function MintSuccessAlert({
     coinAddress: string | null;
 }) {
     const { actions } = useFrame();
+    const searchParams = useSearchParams();
+
     async function openLink(url: string) {
+        console.log("openLink", url);
         await actions?.openUrl(url);
     }
 
@@ -28,6 +33,10 @@ export default function MintSuccessAlert({
             embeds: [
                 `${process.env.NEXT_PUBLIC_ZORA_URL}/coin/base:${coinAddress}?referrer=${PLATFORM_REFERRER}`,
             ],
+            parent: searchParams.get("castHash") ? {
+                type: 'cast',
+                hash: searchParams.get("castHash") as string,
+            } : undefined
         });
     }
 
