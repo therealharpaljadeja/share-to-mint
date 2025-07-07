@@ -81,7 +81,7 @@ export function Onboarding() {
 
     const addFrame = () => {
         sdk.haptics.impactOccurred("heavy");
-        actions?.addFrame();
+        actions?.addMiniApp();
     };
 
     // Show loading state while checking onboarding status
