@@ -67,7 +67,7 @@ function MintedCoinsList({ coins }: { coins: any[] }) {
 }
 
 export function Onboarding() {
-    const { actions, context, haptics } = useFrame();
+    const { context, haptics } = useFrame();
     const { shouldShowTutorial, isLoading } = useOnboardingState();
     const [mintedCoins, setMintedCoins] = React.useState<any[]>([]);
 

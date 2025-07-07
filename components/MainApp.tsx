@@ -7,12 +7,12 @@ import { Onboarding } from "./Onboarding";
 
 export function MainApp() {
   const { 
-    isLoading,
-  } = useOnboardingState();
-
+    isSDKLoaded,
+  } = useFrame();
+  const { isLoading } = useOnboardingState();
 
   // Show loading state while checking contexts
-  if (isLoading) {
+  if (isSDKLoaded && isLoading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-4">
         <div className="max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
