@@ -53,9 +53,6 @@ export default function PageContent({
         content = (
             <Alert>
                 <AlertTitle>Waiting for user to confirm</AlertTitle>
-                <AlertDescription>
-                    Waiting for the user to confirm the transaction.
-                </AlertDescription>
             </Alert>
         );
     } else if (coinAddress && referrer) {

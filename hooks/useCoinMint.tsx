@@ -130,13 +130,13 @@ export default function useCoinMint(cast: Cast | null, image: string) {
                 to: address,
                 data: functionData,
                 value: parseEther("0"),
-            });          
+            });        
         } catch (err) {
             console.error(err);
             sdk.haptics.notificationOccurred("error");
         } finally {
             setIsUploadingMetadata(false);
-            setIsWaitingForUserToConfirm(false);
+           
             setIsMinting(false);
         }
     }, [cast, name, symbol, validateForm, image]);
@@ -144,6 +144,7 @@ export default function useCoinMint(cast: Cast | null, image: string) {
     useEffect(() => {
         async function init() {
             if(error) {
+                setIsWaitingForUserToConfirm(false);
                 console.error(error);
                 sdk.haptics.notificationOccurred("error");
             }
@@ -151,7 +152,7 @@ export default function useCoinMint(cast: Cast | null, image: string) {
             if(hash) {
                 console.log("hash", hash);
                 setIsMinting(true);
-                
+                setIsWaitingForUserToConfirm(false);
                 let receipt = await getTransactionReceipt(config, {
                     hash,
                 })
