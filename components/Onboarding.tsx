@@ -19,8 +19,8 @@ import sdk from "@farcaster/miniapp-sdk";
 
 // MintedCoinsList component for showing user's minted coins
 function MintedCoinsList({ coins }: { coins: any[] }) {
-
     const { actions, haptics } = useFrame();
+    const [openIdx, setOpenIdx] = React.useState<number | null>(null);
 
   const openZoraLink = (url: string) => {
       haptics?.impactOccurred("heavy");
@@ -40,7 +40,10 @@ function MintedCoinsList({ coins }: { coins: any[] }) {
         <div className="space-y-2 mt-16 w-full max-w-md">
             {coins.map((coin, idx) => (
                 <div key={coin.id || idx}>
-                    <Card className="flex flex-row items-center p-4">
+                    <Card
+                        className="flex flex-row items-center p-4 cursor-pointer select-none"
+                        onClick={() => setOpenIdx(openIdx === idx ? null : idx)}
+                    >
                         <img
                             src={coin.coin_image}
                             alt={coin.coin_name}
@@ -54,13 +57,32 @@ function MintedCoinsList({ coins }: { coins: any[] }) {
                                 {coin.coin_symbol}
                             </CardDescription>
                         </CardContent>
-                        <button onClick={() => openZoraLink(coin.zora_link)} className="p-2 ml-4 rounded hover:bg-gray-100" aria-label="External Link">
-                            <FiExternalLink size={20} />
-                        </button>
-                        <button onClick={() => openCast(coin.cast_hash)} className="p-2 ml-4 rounded hover:bg-gray-100" aria-label="View Cast">
-                            <FiEye size={20} />
-                        </button>
+                        <div className="ml-4">
+                            {openIdx === idx ? (
+                                <span className="text-gray-500">▲</span>
+                            ) : (
+                                <span className="text-gray-500">▼</span>
+                            )}
+                        </div>
                     </Card>
+                    {openIdx === idx && (
+                        <div className="flex flex-row justify-end gap-2 bg-gray-50 border-x border-b rounded-b-lg p-4 -mt-2">
+                            <button
+                                onClick={e => { e.stopPropagation(); openZoraLink(coin.zora_link); }}
+                                className="p-2 rounded hover:bg-gray-100"
+                                aria-label="External Link"
+                            >
+                                <FiExternalLink size={20} />
+                            </button>
+                            <button
+                                onClick={e => { e.stopPropagation(); openCast(coin.cast_hash); }}
+                                className="p-2 rounded hover:bg-gray-100"
+                                aria-label="View Cast"
+                            >
+                                <FiEye size={20} />
+                            </button>
+                        </div>
+                    )}
                 </div>
             ))}
         </div>
