@@ -2,7 +2,7 @@
 
 import { useFrame } from "@/components/farcaster-provider";
 import { Button } from "@/components/ui/button";
-import { useAccount, useChainId, useConnect, useDisconnect } from "wagmi";
+import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { BiUnlink } from "react-icons/bi";
 import { farcasterMiniApp as miniAppConnector } from '@farcaster/miniapp-wagmi-connector'
 
@@ -11,7 +11,6 @@ export function Navbar() {
     const { connect } = useConnect();
     const { address } = useAccount();
     const { disconnect } = useDisconnect();
-    const chainId = useChainId();
     
 
     return (
@@ -35,7 +34,7 @@ export function Navbar() {
                                         className="w-6 h-6 rounded-full"
                                     />
                                 )}
-                                <span>{context.user.displayName}</span>
+                                <span>{context.user.displayName ? context.user.displayName.length > 10 ? `${context.user.displayName.slice(0, 10)}...` : context.user.displayName : context.user.username}</span>
                             </Button>
                             <Button variant="outline">
                                 <BiUnlink
