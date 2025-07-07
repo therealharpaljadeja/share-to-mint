@@ -66,7 +66,7 @@ function MintedCoinsList({ coins }: { coins: any[] }) {
                         </div>
                     </Card>
                     {openIdx === idx && (
-                        <div className="flex flex-row justify-end gap-4 bg-gray-50 border-x border-t border-t-gray-200 border-b rounded-b-lg p-4 -mt-2">
+                        <div className="flex flex-row justify-end gap-4 bg-gray-50 border-x border-t border-t-gray-200 border-b rounded-b-lg p-4">
                             <button
                                 onClick={e => { e.stopPropagation(); openZoraLink(coin.zora_link); }}
                                 className="flex flex-col items-center p-2 rounded hover:bg-gray-100"
