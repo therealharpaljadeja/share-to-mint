@@ -112,6 +112,7 @@ export default function useCoinMint(cast: Cast | null, image: string) {
         try {
             console.log("Uploading metadata to IPFS");
             const metadataURI = await uploadMetadataToIPFS(cast, image);
+            setIsWaitingForUserToConfirm(true);
             setIsUploadingMetadata(false);
             console.log("Metadata uploaded to IPFS");
 
@@ -122,7 +123,7 @@ export default function useCoinMint(cast: Cast | null, image: string) {
             const { abi, functionName, args, address} = request;
             const functionData = encodeFunctionData({ abi, functionName, args });
 
-            setIsWaitingForUserToConfirm(true);
+            
             console.log("Waiting for user to confirm");
             console.log("config for writeContract", config);
             await sendTransaction({
