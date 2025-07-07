@@ -9,8 +9,8 @@ import { getTransactionReceipt, simulateContract } from "wagmi/actions";
 import { useOnboardingState } from "./useOnboardingState";
 import { useFrame } from "@/components/farcaster-provider";
 import { storeMintRecord } from "@/lib/database";
-import { encodeFunctionData, parseEther } from "viem";
-import { useSendTransaction } from "wagmi";
+import { Address, encodeFunctionData, parseEther } from "viem";
+import { useAccount, useSendTransaction } from "wagmi";
 
 async function heavyHapticImpact() {
     const capabilities = await sdk.getCapabilities();
@@ -55,7 +55,7 @@ async function uploadMetadataToIPFS(cast: Cast, image: string) {
     return metadataURI;
 }
 
-async function generateTransactionRequest(name: string, symbol: string, metadataURI: string) {
+async function generateTransactionRequest(name: string, symbol: string, metadataURI: string, recipient: Address) {
     const coinParams = {
         name,
         symbol,
@@ -81,6 +81,7 @@ async function generateTransactionRequest(name: string, symbol: string, metadata
 
 export default function useCoinMint(cast: Cast | null, image: string) {
     const { context } = useFrame();
+    const { address: recipient } = useAccount();
     const [name, setName] = useState("");
     const [symbol, setSymbol] = useState("");
     const [formErrors, setFormErrors] = useState({
@@ -104,7 +105,7 @@ export default function useCoinMint(cast: Cast | null, image: string) {
     }, [name, symbol]);
 
     const handleCoinIt = useCallback(async () => {
-        if (!validateForm() || !cast) return;
+        if (!validateForm() || !cast || !recipient) return;
 
         await heavyHapticImpact();
 
@@ -117,7 +118,7 @@ export default function useCoinMint(cast: Cast | null, image: string) {
             console.log("Metadata uploaded to IPFS");
 
             console.log("Generating transaction request");
-            const request = await generateTransactionRequest(name, symbol, metadataURI);
+            const request = await generateTransactionRequest(name, symbol, metadataURI, recipient);
             console.log("Transaction request generated");
 
             const { abi, functionName, args, address} = request;
