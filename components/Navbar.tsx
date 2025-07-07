@@ -3,7 +3,7 @@
 import { useFrame } from "@/components/farcaster-provider";
 import { Button } from "@/components/ui/button";
 import { useAccount, useChainId, useConnect, useDisconnect } from "wagmi";
-import { FiXSquare } from "react-icons/fi";
+import { BiUnlink } from "react-icons/bi";
 import { farcasterMiniApp as miniAppConnector } from '@farcaster/miniapp-wagmi-connector'
 
 export function Navbar() {
@@ -25,17 +25,6 @@ export function Navbar() {
                 <div>
                     {address && context?.user ? (
                         <div className="flex items-center space-x-2">
-                            <Button variant="outline">
-                                <FiXSquare
-                                    className="cursor-pointer hover:text-gray-800"
-                                    size={20}
-                                    title="Disconnect"
-                                    onClick={(e) => {
-                                        console.log('wallet disconnected');
-                                        disconnect();
-                                    }}
-                                />
-                            </Button>
                             <Button
                                 variant="outline"
                                 className="flex items-center space-x-2"
@@ -48,6 +37,17 @@ export function Navbar() {
                                     />
                                 )}
                                 <span>{context.user.displayName}</span>
+                            </Button>
+                            <Button variant="outline">
+                                <BiUnlink
+                                    className="cursor-pointer hover:text-gray-800"
+                                    size={20}
+                                    title="Disconnect"
+                                    onClick={(e) => {
+                                        console.log('wallet disconnected');
+                                        disconnect();
+                                    }}
+                                />
                             </Button>
                         </div>
                     ) : (
