@@ -80,10 +80,13 @@ export function Onboarding() {
         init();
     }, []);
 
-    const addFrame = () => {
+    const addMiniApp = () => {
+        console.log("adding mini app");
         haptics?.impactOccurred("heavy");
         actions?.addMiniApp();
     };
+
+    console.log("context", context);
 
     // Show loading state while checking onboarding status
     if (isLoading) {
