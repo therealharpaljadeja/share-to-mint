@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/card";
 import React from "react";
 import { FiExternalLink, FiEye } from "react-icons/fi";
+import sdk from "@farcaster/miniapp-sdk";
 
 
 // MintedCoinsList component for showing user's minted coins
@@ -83,7 +84,7 @@ export function Onboarding() {
     const addMiniApp = () => {
         console.log("adding mini app");
         haptics?.impactOccurred("heavy");
-        actions?.addMiniApp();
+        sdk.actions?.addMiniApp();
     };
 
     console.log("context", context);
