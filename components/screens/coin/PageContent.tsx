@@ -52,7 +52,7 @@ export default function PageContent({
     } else if (isWaitingForUserToConfirm) {
         content = (
             <Alert>
-                <AlertTitle>Waiting for user to confirm</AlertTitle>
+                <AlertTitle className="mb-0">Waiting for user to confirm</AlertTitle>
             </Alert>
         );
     } else if (coinAddress && referrer) {
@@ -77,7 +77,7 @@ export default function PageContent({
                     Please connect your wallet to coin this cast.
                 </AlertDescription>
                 <Button
-                    className="bg-black text-white font-sans"
+                    className="mt-4 bg-black text-white font-sans hover:bg-black hover:text-white"
                     onClick={() => connect({ connector: miniAppConnector() })}
                 >
                     Connect Wallet
