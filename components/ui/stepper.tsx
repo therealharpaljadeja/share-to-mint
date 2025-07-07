@@ -67,7 +67,7 @@ export function Stepper({
               <div
                 className={cn(
                   "h-0.5 w-16 mx-2 transition-colors",
-                  index < currentStep ? "bg-blue-500" : "bg-gray-200"
+                  index < currentStep ? "bg-[#855DCC]" : "bg-gray-200"
                 )}
               />
             )}
@@ -126,14 +126,15 @@ export function Stepper({
             <IoChevronBack className="w-4 h-4" />
             Back
           </Button>
-
-          <Button
-            onClick={handleNext}
-            className="flex items-center gap-2 bg-[#855DCC] hover:bg-[#855DCC] text-white"
-          >
-            {isLastStep ? 'Get Started' : 'Continue'}
-            {!isLastStep && <IoChevronForward className="w-4 h-4" />}
-          </Button>
+          {!isLastStep && (
+            <Button
+              onClick={handleNext}
+              className="flex items-center gap-2 bg-[#855DCC] hover:bg-[#855DCC] text-white"
+            >
+              Continue
+              <IoChevronForward className="w-4 h-4" />
+            </Button>
+          )}
         </div>
       </div>
     </div>
