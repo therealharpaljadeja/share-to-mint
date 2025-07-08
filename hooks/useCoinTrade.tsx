@@ -1,13 +1,13 @@
 import React, { useCallback, useMemo } from "react";
-import { createTradeCall, TradeParameters } from "@zoralabs/coins-sdk";
-import { Address, parseEther } from "viem";
-import { simulateContract, writeContract } from "wagmi/actions";
-import { config } from "@/components/wallet-provider";
-import { useAccount, useSendTransaction } from "wagmi";
-import { PLATFORM_REFERRER } from "@/lib/constants";
+import { createTradeCall, tradeCoin, TradeParameters } from "@zoralabs/coins-sdk";
+import { useAccount, usePublicClient, useSendTransaction, useWalletClient } from "wagmi";
+import { Account, PublicClient, WalletClient } from "viem";
 
 export default function useCoinTrade(coinAddress: string) {
     const { address } = useAccount();
+    const { data: walletClient } = useWalletClient();
+    const publicClient = usePublicClient();
+    const account = useAccount();
     const [amount, setAmount] = React.useState("0.001");
     const { sendTransaction, data: hash, error } = useSendTransaction();
 
@@ -31,11 +31,14 @@ export default function useCoinTrade(coinAddress: string) {
     const buyCoin = useCallback(async () => {
         const quote = await createTradeCall(tradeParams);
         console.log("quote", quote);
-        await sendTransaction({
-            to: quote.call.target as `0x${string}`,
-            data: quote.call.data as `0x${string}`,
-            value: BigInt(quote.call.value),
-        });
+        const receipt = await tradeCoin({
+            tradeParameters: tradeParams,
+            walletClient: walletClient as WalletClient,
+            account: account as unknown as Account,
+            publicClient: publicClient as PublicClient,
+            validateTransaction: false, // Skip validation and gas estimation
+          });
+          console.log("receipt", receipt);
     }, [coinAddress, amount, address, tradeParams]);
 
     return {
