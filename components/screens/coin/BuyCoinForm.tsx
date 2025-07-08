@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -32,6 +32,12 @@ export const BuyCoinForm: React.FC<BuyCoinFormProps> = ({
     const [balance, setBalance] = useState("0");
     const { actions } = useFrame();
     const {address} = useAccount();
+
+    useEffect(() => {
+        if(address) {
+            getBalanceOfConnectedWallet();
+        }
+    }, [address]);
 
     async function getBalanceOfConnectedWallet() {
         if(!address) return;
