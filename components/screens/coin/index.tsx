@@ -13,7 +13,41 @@ import { isCastAlreadyMinted } from "@/lib/database";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import React, { useEffect } from "react";
 import BuyCoinForm from "./BuyCoinForm";
+import { Button } from "@/components/ui/button";
+import { useFrame } from "@/components/farcaster-provider";
 
+function PromptAuthorToCoinContent({ castHash }: { castHash: string }) {
+    const { actions } = useFrame();
+    function promptCast() {
+        actions?.composeCast({
+            text: "You should coin this cast using Share to Mint!",
+            embeds: [
+                "https://farcaster.xyz/miniapps/2rzmuYxkv2ZP/share-to-mint",
+            ],
+            parent: { type: "cast", hash: castHash },
+        });
+    }
+
+    return (
+        <div className="w-full flex flex-1 flex-col items-center justify-center p-8 mt-16 space-y-6 bg-white rounded-lg shadow-md">
+            <div className="text-center">
+                <h1 className="text-3xl font-bold text-gray-900">
+                    Ask Author to Coin
+                </h1>
+                <p className="mt-2 text-gray-600">
+                    The author of this cast has not yet minted a coin. Ask them
+                    to coin it using the button below.
+                </p>
+            </div>
+            <Button
+                onClick={promptCast}
+                className="w-full bg-black text-white hover:bg-gray-800"
+            >
+                Ask by casting
+            </Button>
+        </div>
+    );
+}
 
 export default function Coin() {
     const searchParams = useSearchParams();
@@ -53,13 +87,20 @@ export default function Coin() {
     if (isLoading) return <LoadingSkeleton />;
     if (error === "No cast found." || !cast) return <NotFoundAlert />;
     if (error) return <ErrorAlert error={error} />;
-    if(viewerFid !== cast.author.fid) return <div>You are not the author of this cast.</div>
+    if (viewerFid !== cast.author.fid)
+        return <PromptAuthorToCoinContent castHash={castHash} />;
 
     return (
         <div className="min-h-screen flex flex-col bg-background font-sans py-12 px-4 sm:px-6 lg:px-8 mt-8">
             <div className="max-w-2xl flex flex-col justify-center items-center flex-1">
                 {coin ? (
-                    <BuyCoinForm coinAddress={coin.coin_address} coinImage={coin.coin_image} coinName={coin.coin_name} coinSymbol={coin.coin_symbol} onBuy={() => {}} />
+                    <BuyCoinForm
+                        coinAddress={coin.coin_address}
+                        coinImage={coin.coin_image}
+                        coinName={coin.coin_name}
+                        coinSymbol={coin.coin_symbol}
+                        onBuy={() => {}}
+                    />
                 ) : (
                     <Card>
                         <CastView cast={cast} />
