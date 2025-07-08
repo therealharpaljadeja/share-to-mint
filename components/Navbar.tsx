@@ -17,7 +17,7 @@ export function Navbar() {
             <div className="container mx-auto px-4 h-16 flex justify-between items-center">
                 <div className="text-lg font-bold">
                     {/* Placeholder for logo */}
-                    <img src="/icon.png" alt="ShareToMint" className="w-6 h-6" />
+                    <img src="/images/icon.png" alt="ShareToMint" className="w-6 h-6" />
                 </div>
                 <div>
                     {address && context?.user ? (
