@@ -12,13 +12,12 @@ export function Navbar() {
     const { address } = useAccount();
     const { disconnect } = useDisconnect();
     
-
     return (
         <nav className="fixed top-0 left-0 right-0 bg-white bg-opacity-80 backdrop-blur-sm shadow-md z-50">
             <div className="container mx-auto px-4 h-16 flex justify-between items-center">
                 <div className="text-lg font-bold">
                     {/* Placeholder for logo */}
-                    <span className="text-gray-800">ShareToMint</span>
+                    <img src="/icon.png" alt="ShareToMint" className="w-6 h-6" />
                 </div>
                 <div>
                     {address && context?.user ? (

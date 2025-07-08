@@ -11,22 +11,9 @@ import CastView from "./CastView";
 import PageContent from "./PageContent";
 import { isCastAlreadyMinted } from "@/lib/database";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
-import React from "react";
+import React, { useEffect } from "react";
 import BuyCoinForm from "./BuyCoinForm";
 
-function CastAlreadyMintedWarning() {
-    return (
-        <Alert
-            variant="default"
-            className="border-yellow-400 bg-yellow-50"
-        >
-            <AlertTitle>Already Minted</AlertTitle>
-            <AlertDescription>
-                This cast has already been minted. You cannot mint it again.
-            </AlertDescription>
-        </Alert>
-    );
-}
 
 export default function Coin() {
     const searchParams = useSearchParams();
@@ -38,6 +25,7 @@ export default function Coin() {
         castHash,
         viewerFid
     );
+
     const {
         name,
         setName,
@@ -52,9 +40,14 @@ export default function Coin() {
         isWaitingForUserToConfirm,
     } = useCoinMint(cast, imageEmbedURL ?? "");
 
-    React.useEffect(() => {
-        if (!castHash) return;
-        isCastAlreadyMinted(castHash).then(setCoin);
+    useEffect(() => {
+        async function checkIfCastIsAlreadyMinted() {
+            if (!castHash) return;
+            const coin = await isCastAlreadyMinted(castHash);
+            setCoin(coin);
+        }
+
+        checkIfCastIsAlreadyMinted();
     }, [castHash]);
 
     if (isLoading) return <LoadingSkeleton />;
@@ -65,7 +58,6 @@ export default function Coin() {
         <div className="min-h-screen flex flex-col bg-background font-sans py-12 px-4 sm:px-6 lg:px-8 mt-8">
             <div className="max-w-2xl flex flex-col justify-center items-center flex-1">
                 {coin ? (
-                    // <CastAlreadyMintedWarning />
                     <BuyCoinForm coinAddress={coin.coin_address} coinImage={coin.coin_image} coinName={coin.coin_name} coinSymbol={coin.coin_symbol} balance={0} onBuy={() => {}} />
                 ) : (
                     <Card>

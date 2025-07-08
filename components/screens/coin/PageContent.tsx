@@ -20,6 +20,45 @@ interface PageContentProps {
     handleCoinIt: () => void;
 }
 
+function UploadingMetadata() {
+    return (
+        <Alert>
+            <AlertTitle>Uploading Metadata</AlertTitle>
+            <AlertDescription>
+                Please wait while we upload the metadata.
+            </AlertDescription>
+        </Alert>
+    );
+}
+
+function WaitingForUserToConfirm() {
+    return (
+        <Alert>
+            <AlertTitle className="mb-0">
+                Waiting for user to confirm
+            </AlertTitle>
+        </Alert>
+    );
+}
+
+function ConnectWallet() {
+    const { connect } = useConnect();
+    return (
+        <Alert>
+            <AlertTitle>Connect Your Wallet</AlertTitle>
+            <AlertDescription>
+                Please connect your wallet to coin this cast.
+            </AlertDescription>
+            <Button
+                className="mt-4 bg-black text-white font-sans hover:bg-black hover:text-white"
+                onClick={() => connect({ connector: miniAppConnector() })}
+            >
+                Connect Wallet
+            </Button>
+        </Alert>
+    );
+}
+
 export default function PageContent({
     isUploadingMetadata,
     isWaitingForUserToConfirm,
@@ -34,57 +73,30 @@ export default function PageContent({
     handleCoinIt,
 }: PageContentProps) {
     const { isConnected } = useAccount();
-    const { connect } = useConnect();
-    let content = null;
 
-    console.log("isUploadingMetadata", isUploadingMetadata);
-    console.log("isWaitingForUserToConfirm", isWaitingForUserToConfirm);
-    
-    if (isUploadingMetadata) {
-        content = (
-            <Alert>
-                <AlertTitle>Uploading Metadata</AlertTitle>
-                <AlertDescription>
-                    Please wait while we upload the metadata.
-                </AlertDescription>
-            </Alert>
-        );
-    } else if (isWaitingForUserToConfirm) {
-        content = (
-            <Alert>
-                <AlertTitle className="mb-0">Waiting for user to confirm</AlertTitle>
-            </Alert>
-        );
-    } else if (coinAddress && referrer) {
-        content = <MintSuccessAlert coinAddress={coinAddress} />;
-    } else if (isConnected) {
-        content = (
+    if (isUploadingMetadata) return <UploadingMetadata />;
+
+    if (isWaitingForUserToConfirm) return <WaitingForUserToConfirm />;
+
+    if (coinAddress && referrer)
+        return <MintSuccessAlert coinAddress={coinAddress} />;
+
+    if (isConnected)
+        return (
             <MintForm
                 name={name}
                 setName={setName}
                 symbol={symbol}
                 setSymbol={setSymbol}
                 formErrors={formErrors}
-                isMinting={isMinting || isUploadingMetadata || isWaitingForUserToConfirm}
+                isMinting={
+                    isMinting ||
+                    isUploadingMetadata ||
+                    isWaitingForUserToConfirm
+                }
                 handleCoinIt={handleCoinIt}
             />
         );
-    } else {
-        content = (
-            <Alert>
-                <AlertTitle>Connect Your Wallet</AlertTitle>
-                <AlertDescription>
-                    Please connect your wallet to coin this cast.
-                </AlertDescription>
-                <Button
-                    className="mt-4 bg-black text-white font-sans hover:bg-black hover:text-white"
-                    onClick={() => connect({ connector: miniAppConnector() })}
-                >
-                    Connect Wallet
-                </Button>
-            </Alert>
-        );
-    }
 
-    return content;
+    return <ConnectWallet />;
 }

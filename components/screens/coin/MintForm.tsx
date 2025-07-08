@@ -18,7 +18,7 @@ export default function MintForm({
                 <Label htmlFor="name">Coin Name</Label>
                 <Input
                     id="name"
-                    placeholder="My Awesome Coin"
+                    placeholder="My Awesome Content Coin"
                     value={name}
                     disabled={isMinting}
                     onChange={(e) => setName(e.target.value)}
