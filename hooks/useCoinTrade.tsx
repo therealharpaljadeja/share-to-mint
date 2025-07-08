@@ -1,7 +1,8 @@
 import React, { useCallback, useMemo } from "react";
 import { createTradeCall, tradeCoin, TradeParameters } from "@zoralabs/coins-sdk";
 import { useAccount, usePublicClient, useSendTransaction, useWalletClient } from "wagmi";
-import { Account, PublicClient, WalletClient } from "viem";
+import { Account, parseEther, PublicClient, WalletClient } from "viem";
+import sdk from "@farcaster/miniapp-sdk";
 
 export default function useCoinTrade(coinAddress: string) {
     const { address } = useAccount();
@@ -31,13 +32,19 @@ export default function useCoinTrade(coinAddress: string) {
     const buyCoin = useCallback(async () => {
         // const quote = await createTradeCall(tradeParams);
         // console.log("quote", quote);
-        const receipt = await tradeCoin({
-            tradeParameters: tradeParams,
-            walletClient: walletClient as WalletClient,
-            account: account as unknown as Account,
-            publicClient: publicClient as PublicClient,
-            validateTransaction: false, // Skip validation and gas estimation
-          });
+        // const receipt = await tradeCoin({
+        //     tradeParameters: tradeParams,
+        //     walletClient: walletClient as WalletClient,
+        //     account: account as unknown as Account,
+        //     publicClient: publicClient as PublicClient,
+        //     validateTransaction: false, // Skip validation and gas estimation
+        //   });
+
+        const receipt = await sdk.actions.swapToken({ 
+            sellToken: 'eip155:8453/native',
+            buyToken: `eip155:8453/${coinAddress}`,
+            sellAmount: parseEther(amount).toString(),
+          })
           console.log("receipt", receipt);
     }, [coinAddress, amount, address, tradeParams]);
 
