@@ -49,7 +49,7 @@ export const BuyCoinForm: React.FC<BuyCoinFormProps> = ({
     }
 
     if (swapResponse && swapResponse.success) {
-        return <div className="w-full flex flex-1 flex-col items-center justify-center p-8 mt-16 space-y-6 bg-white rounded-lg shadow-md">
+        return <div className="w-full flex flex-1 flex-col items-center justify-center p-8 space-y-6 bg-white rounded-lg shadow-md">
             <div className="text-center">
                 <h1 className="text-3xl font-bold text-gray-900">
                     Coin Purchased!
@@ -62,7 +62,7 @@ export const BuyCoinForm: React.FC<BuyCoinFormProps> = ({
                 onClick={async () => {
                     await actions?.viewToken({ token: `eip155:8453/erc20:${coinAddress}` });
                 }}
-                className="w-full bg-black text-white hover:bg-gray-800"
+                className="w-full bg-[#855DCC] text-white hover:bg-[#855DCC]"
             >
                 View Coin
             </Button>
