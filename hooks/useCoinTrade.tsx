@@ -29,8 +29,8 @@ export default function useCoinTrade(coinAddress: string) {
 
 
     const buyCoin = useCallback(async () => {
-        const quote = await createTradeCall(tradeParams);
-        console.log("quote", quote);
+        // const quote = await createTradeCall(tradeParams);
+        // console.log("quote", quote);
         const receipt = await tradeCoin({
             tradeParameters: tradeParams,
             walletClient: walletClient as WalletClient,
