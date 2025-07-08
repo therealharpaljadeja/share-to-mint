@@ -1,19 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import useCoinTrade from "@/hooks/useCoinTrade";
-import { PLATFORM_REFERRER } from "@/lib/constants";
 import { useFrame } from "@/components/farcaster-provider";
 import { useAccount } from "wagmi";
 import ErrorAlert from "./ErrorAlert";
+import { config } from "@/components/wallet-provider";
+import { getBalance } from "wagmi/actions";
+import { formatUnits } from "viem";
 
 interface BuyCoinFormProps {
     coinImage: string;
     coinAddress: string;
     coinName: string;
     coinSymbol: string;
-    balance: number;
     onBuy: () => void;
     presetAmounts?: string[];
 }
@@ -23,13 +24,23 @@ export const BuyCoinForm: React.FC<BuyCoinFormProps> = ({
     coinAddress,
     coinName,
     coinSymbol,
-    balance,
     onBuy,
     presetAmounts = ["0.001", "0.01", "0.1"],
 }) => {
     const { buyCoin, setAmount, amount, hash, error } =
         useCoinTrade(coinAddress);
+    const [balance, setBalance] = useState("0");
     const { actions } = useFrame();
+    const {address} = useAccount();
+
+    async function getBalanceOfConnectedWallet() {
+        if(!address) return;
+
+        const { value, decimals } = await getBalance(config, {
+            address,
+        })
+        setBalance(formatUnits(value, Number(decimals)));
+    }
 
     if (hash) {
         <div className="w-full flex flex-1 flex-col items-center justify-center p-8 mt-16 space-y-6 bg-white rounded-lg shadow-md">
@@ -92,7 +103,7 @@ export const BuyCoinForm: React.FC<BuyCoinFormProps> = ({
                     <span className="text-xs text-gray-400 font-medium">
                         Balance{" "}
                         <span className="text-black font-semibold">
-                            {balance.toFixed(6)} ETH
+                            {balance} ETH
                         </span>
                     </span>
                 </div>
