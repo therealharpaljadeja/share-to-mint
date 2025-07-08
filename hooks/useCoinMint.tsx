@@ -73,7 +73,7 @@ async function generateTransactionRequest(
         payoutRecipient: PAYOUT_RECIPIENT,
         platformReferrer: PLATFORM_REFERRER,
         chainId: base.id,
-        currency: DeployCurrency.ZORA,
+        // currency: DeployCurrency.ZORA,
     };
     const contractCallParams = await createCoinCall(coinParams);
 
