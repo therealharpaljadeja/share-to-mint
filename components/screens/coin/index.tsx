@@ -35,13 +35,15 @@ function PromptAuthorToCoinContent({ castHash }: { castHash: string }) {
                         Ask Author to Coin
                     </h1>
                     <p className="mt-2 text-gray-600">
-                        The author of this cast has not yet minted a coin. Ask
-                        them to coin it using the button below.
+                        The author of this cast has not yet minted a coin.
+                    </p>
+                    <p className="mt-2 text-gray-600">
+                        Ask them to coin it using the button below.
                     </p>
                 </div>
                 <Button
                     onClick={promptCast}
-                    className="w-full bg-black text-white hover:bg-gray-800"
+                    className="w-full bg-[#08d808] hover:bg-[#08d808] hover:text-white text-white"
                 >
                     Ask by casting
                 </Button>
