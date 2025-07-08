@@ -53,6 +53,7 @@ export default function Coin() {
     if (isLoading) return <LoadingSkeleton />;
     if (error === "No cast found." || !cast) return <NotFoundAlert />;
     if (error) return <ErrorAlert error={error} />;
+    if(viewerFid !== cast.author.fid) return <div>You are not the author of this cast.</div>
 
     return (
         <div className="min-h-screen flex flex-col bg-background font-sans py-12 px-4 sm:px-6 lg:px-8 mt-8">
