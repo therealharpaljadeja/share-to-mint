@@ -1,58 +1,56 @@
-import React, { useCallback, useMemo } from "react";
-import { createTradeCall, tradeCoin, TradeParameters } from "@zoralabs/coins-sdk";
-import { useAccount, usePublicClient, useSendTransaction, useWalletClient } from "wagmi";
-import { Account, parseEther, PublicClient, WalletClient } from "viem";
+import React, { useCallback, useMemo, useState } from "react";
+import { parseEther } from "viem";
 import sdk from "@farcaster/miniapp-sdk";
 
+type SwapTokenDetails = {
+    /**
+     * Array of tx identifiers in order of execution.
+     * Some swaps will have both an approval and swap tx.
+     */
+    transactions: `0x${string}`[];
+  };
+   
+  type SwapTokenErrorDetails = {
+    /**
+     * Error code.
+     */
+    error: string;
+    /**
+     * Error message.
+     */
+    message?: string;
+  };
+   
+  export type SwapErrorReason = "rejected_by_user" | "swap_failed";
+   
+  export type SwapTokenResult =
+    | {
+        success: true;
+        swap: SwapTokenDetails;
+      }
+    | {
+        success: false;
+        reason: SwapErrorReason;
+        error?: SwapTokenErrorDetails;
+      };
+
 export default function useCoinTrade(coinAddress: string) {
-    const { address } = useAccount();
-    const { data: walletClient } = useWalletClient();
-    const publicClient = usePublicClient();
-    const account = useAccount();
     const [amount, setAmount] = React.useState("0.001");
-    const { sendTransaction, data: hash, error } = useSendTransaction();
-
-    // Memoize trade params for wagmi
-    const tradeParams = useMemo(
-        () =>
-            ({
-                sell: { type: "eth" },
-                buy: {
-                    type: "erc20",
-                    address: coinAddress,
-                },
-                amountIn: amount,
-                slippage: 0.1,
-                sender: address,
-            } as unknown as TradeParameters),
-        [coinAddress, amount, address]
-    );
-
+    const [swapResponse, setSwapResponse] = useState<SwapTokenResult | null>(null);
 
     const buyCoin = useCallback(async () => {
-        // const quote = await createTradeCall(tradeParams);
-        // console.log("quote", quote);
-        // const receipt = await tradeCoin({
-        //     tradeParameters: tradeParams,
-        //     walletClient: walletClient as WalletClient,
-        //     account: account as unknown as Account,
-        //     publicClient: publicClient as PublicClient,
-        //     validateTransaction: false, // Skip validation and gas estimation
-        //   });
-
-        const receipt = await sdk.actions.swapToken({ 
+        const swapResponse = await sdk.actions.swapToken({ 
             sellToken: 'eip155:8453/native',
             buyToken: `eip155:8453/erc20:${coinAddress}`,
             sellAmount: parseEther(amount).toString(),
           })
-          console.log("receipt", receipt);
-    }, [coinAddress, amount, address, tradeParams]);
+          setSwapResponse(swapResponse);
+    }, [coinAddress, amount]);
 
     return {
         amount,
         setAmount,
         buyCoin,
-        hash,
-        error
+        swapResponse
     };
 }

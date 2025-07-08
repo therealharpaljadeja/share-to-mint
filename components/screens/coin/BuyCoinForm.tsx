@@ -27,7 +27,7 @@ export const BuyCoinForm: React.FC<BuyCoinFormProps> = ({
     onBuy,
     presetAmounts = ["0.001", "0.01", "0.1"],
 }) => {
-    const { buyCoin, setAmount, amount, hash, error } =
+    const { buyCoin, setAmount, amount, swapResponse } =
         useCoinTrade(coinAddress);
     const [balance, setBalance] = useState("0");
     const { actions } = useFrame();
@@ -48,8 +48,8 @@ export const BuyCoinForm: React.FC<BuyCoinFormProps> = ({
         setBalance(formatUnits(value, Number(decimals)));
     }
 
-    if (hash) {
-        <div className="w-full flex flex-1 flex-col items-center justify-center p-8 mt-16 space-y-6 bg-white rounded-lg shadow-md">
+    if (swapResponse && swapResponse.success) {
+        return <div className="w-full flex flex-1 flex-col items-center justify-center p-8 mt-16 space-y-6 bg-white rounded-lg shadow-md">
             <div className="text-center">
                 <h1 className="text-3xl font-bold text-gray-900">
                     Coin Purchased!
@@ -66,22 +66,18 @@ export const BuyCoinForm: React.FC<BuyCoinFormProps> = ({
             >
                 View Coin
             </Button>
-        </div>;
+        </div>
     }
 
     return (
         <Card className="w-full max-w-md mx-auto p-0">
             <CardContent className="px-4 py-6 flex flex-col items-center">
                 {/* Error Alert */}
-                {error && (
+                {swapResponse && !swapResponse.success && (
                     <div className="w-full mb-4">
                         <ErrorAlert
                             error={
-                                typeof error === "string"
-                                    ? error
-                                    : error?.message ||
-                                      error?.toString?.() ||
-                                      "Unknown error"
+                                swapResponse.reason
                             }
                         />
                     </div>
