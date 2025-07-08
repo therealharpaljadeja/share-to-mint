@@ -21,7 +21,7 @@ export default function useCoinTrade(coinAddress: string) {
                     address: coinAddress,
                 },
                 amountIn: amount,
-                slippage: 0.05, // 5% slippage tolerance
+                slippage: 0.1,
                 sender: address,
             } as unknown as TradeParameters),
         [coinAddress, amount, address]
@@ -30,6 +30,7 @@ export default function useCoinTrade(coinAddress: string) {
 
     const buyCoin = useCallback(async () => {
         const quote = await createTradeCall(tradeParams);
+        console.log("quote", quote);
         await sendTransaction({
             to: quote.call.target as `0x${string}`,
             data: quote.call.data as `0x${string}`,
