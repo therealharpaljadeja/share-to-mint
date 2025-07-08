@@ -10,7 +10,6 @@ import NotFoundAlert from "./NotFoundAlert";
 import CastView from "./CastView";
 import PageContent from "./PageContent";
 import { isCastAlreadyMinted } from "@/lib/database";
-import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import React, { useEffect } from "react";
 import BuyCoinForm from "./BuyCoinForm";
 import { Button } from "@/components/ui/button";
@@ -29,22 +28,24 @@ function PromptAuthorToCoinContent({ castHash }: { castHash: string }) {
     }
 
     return (
-        <div className="w-full flex flex-1 flex-col items-center justify-center p-8 mt-16 space-y-6 bg-white rounded-lg shadow-md">
-            <div className="text-center">
-                <h1 className="text-3xl font-bold text-gray-900">
-                    Ask Author to Coin
-                </h1>
-                <p className="mt-2 text-gray-600">
-                    The author of this cast has not yet minted a coin. Ask them
-                    to coin it using the button below.
-                </p>
+        <div className="flex flex-col min-h-screen bg-gray-50 p-4">
+            <div className="w-full flex flex-1 flex-col items-center justify-center p-8 mt-16 space-y-6 bg-white rounded-lg shadow-md">
+                <div className="text-center">
+                    <h1 className="text-3xl font-bold text-gray-900">
+                        Ask Author to Coin
+                    </h1>
+                    <p className="mt-2 text-gray-600">
+                        The author of this cast has not yet minted a coin. Ask
+                        them to coin it using the button below.
+                    </p>
+                </div>
+                <Button
+                    onClick={promptCast}
+                    className="w-full bg-black text-white hover:bg-gray-800"
+                >
+                    Ask by casting
+                </Button>
             </div>
-            <Button
-                onClick={promptCast}
-                className="w-full bg-black text-white hover:bg-gray-800"
-            >
-                Ask by casting
-            </Button>
         </div>
     );
 }
