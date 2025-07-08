@@ -42,7 +42,7 @@ export default function useCoinTrade(coinAddress: string) {
 
         const receipt = await sdk.actions.swapToken({ 
             sellToken: 'eip155:8453/native',
-            buyToken: `eip155:8453/${coinAddress}`,
+            buyToken: `eip155:8453/erc20:${coinAddress}`,
             sellAmount: parseEther(amount).toString(),
           })
           console.log("receipt", receipt);
