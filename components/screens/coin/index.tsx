@@ -90,24 +90,24 @@ export default function Coin() {
     if (isLoading) return <LoadingSkeleton />;
     if (error === "No cast found." || !cast) return <NotFoundAlert />;
     if (error) return <ErrorAlert error={error} />;
-    if (viewerFid !== cast.author.fid) {
-        if (!coin) {
-            return <PromptAuthorToCoinContent castHash={castHash} />;
-        } else {
-            return (
-                <div className="min-h-screen flex flex-col bg-background font-sans py-12 px-4 sm:px-6 lg:px-8 mt-8">
-                    <div className="max-w-2xl flex flex-col justify-center items-center flex-1">
-                        <BuyCoinForm
-                            coinAddress={coin.coin_address}
-                            coinImage={coin.coin_image}
-                            coinName={coin.coin_name}
-                            coinSymbol={coin.coin_symbol}
-                            onBuy={() => {}}
-                        />
-                    </div>
+    if (coin) {
+        return (
+            <div className="min-h-screen flex flex-col bg-background font-sans py-12 px-4 sm:px-6 lg:px-8 mt-8">
+                <div className="max-w-2xl flex flex-col justify-center items-center flex-1">
+                    <BuyCoinForm
+                        coinAddress={coin.coin_address}
+                        coinImage={coin.coin_image}
+                        coinName={coin.coin_name}
+                        coinSymbol={coin.coin_symbol}
+                        onBuy={() => {}}
+                    />
                 </div>
-            );
-        }
+            </div>
+        );
+    }
+    
+    if (viewerFid !== cast.author.fid) {
+        return <PromptAuthorToCoinContent castHash={castHash} />;
     }
 
     return (
