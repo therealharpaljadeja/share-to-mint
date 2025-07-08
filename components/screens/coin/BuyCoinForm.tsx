@@ -60,7 +60,7 @@ export const BuyCoinForm: React.FC<BuyCoinFormProps> = ({
             </div>
             <Button
                 onClick={async () => {
-                    await actions?.viewToken({ token: coinAddress });
+                    await actions?.viewToken({ token: `eip155:8453/erc20:${coinAddress}` });
                 }}
                 className="w-full bg-black text-white hover:bg-gray-800"
             >
