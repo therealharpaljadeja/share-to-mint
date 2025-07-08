@@ -90,42 +90,49 @@ export default function Coin() {
     if (isLoading) return <LoadingSkeleton />;
     if (error === "No cast found." || !cast) return <NotFoundAlert />;
     if (error) return <ErrorAlert error={error} />;
-    if (viewerFid !== cast.author.fid)
-        return <PromptAuthorToCoinContent castHash={castHash} />;
+    if (viewerFid !== cast.author.fid) {
+        if (!coin) {
+            return <PromptAuthorToCoinContent castHash={castHash} />;
+        } else {
+            return (
+                <div className="min-h-screen flex flex-col bg-background font-sans py-12 px-4 sm:px-6 lg:px-8 mt-8">
+                    <div className="max-w-2xl flex flex-col justify-center items-center flex-1">
+                        <BuyCoinForm
+                            coinAddress={coin.coin_address}
+                            coinImage={coin.coin_image}
+                            coinName={coin.coin_name}
+                            coinSymbol={coin.coin_symbol}
+                            onBuy={() => {}}
+                        />
+                    </div>
+                </div>
+            );
+        }
+    }
 
     return (
         <div className="min-h-screen flex flex-col bg-background font-sans py-12 px-4 sm:px-6 lg:px-8 mt-8">
             <div className="max-w-2xl flex flex-col justify-center items-center flex-1">
-                {coin ? (
-                    <BuyCoinForm
-                        coinAddress={coin.coin_address}
-                        coinImage={coin.coin_image}
-                        coinName={coin.coin_name}
-                        coinSymbol={coin.coin_symbol}
-                        onBuy={() => {}}
-                    />
-                ) : (
-                    <Card>
-                        <CastView cast={cast} />
-                        <CardContent className="pt-4">
-                            <PageContent
-                                isUploadingMetadata={isUploadingMetadata}
-                                isWaitingForUserToConfirm={
-                                    isWaitingForUserToConfirm
-                                }
-                                coinAddress={coinAddress}
-                                referrer={referrer}
-                                name={name}
-                                setName={setName}
-                                symbol={symbol}
-                                setSymbol={setSymbol}
-                                formErrors={formErrors}
-                                isMinting={isMinting}
-                                handleCoinIt={handleCoinIt}
-                            />
-                        </CardContent>
-                    </Card>
-                )}
+                <Card>
+                    <CastView cast={cast} />
+                    <CardContent className="pt-4">
+                        <PageContent
+                            isUploadingMetadata={isUploadingMetadata}
+                            isWaitingForUserToConfirm={
+                                isWaitingForUserToConfirm
+                            }
+                            coinAddress={coinAddress}
+                            referrer={referrer}
+                            name={name}
+                            setName={setName}
+                            symbol={symbol}
+                            setSymbol={setSymbol}
+                            formErrors={formErrors}
+                            isMinting={isMinting}
+                            handleCoinIt={handleCoinIt}
+                        />
+                    </CardContent>
+                </Card>
             </div>
         </div>
     );
