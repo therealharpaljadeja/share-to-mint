@@ -12,6 +12,7 @@ export default function MintForm({
     isMinting,
     handleCoinIt,
 }: any) {
+
     return (
         <div className="space-y-4">
             <div className="grid gap-2">
