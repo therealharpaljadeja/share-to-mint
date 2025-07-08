@@ -12,7 +12,6 @@ import {
 import { useState, useCallback, useEffect } from "react";
 import { base } from "viem/chains";
 import { getTransactionReceipt, simulateContract } from "wagmi/actions";
-import { useOnboardingState } from "./useOnboardingState";
 import { useFrame } from "@/components/farcaster-provider";
 import { storeMintRecord } from "@/lib/database";
 import { Address, encodeFunctionData, Hash, parseEther } from "viem";
@@ -70,7 +69,7 @@ async function generateTransactionRequest(
     const coinParams = {
         name,
         symbol,
-        uri: metadataURI,
+        uri: metadataURI as ValidMetadataURI,
         payoutRecipient: PAYOUT_RECIPIENT,
         platformReferrer: PLATFORM_REFERRER,
         chainId: base.id,

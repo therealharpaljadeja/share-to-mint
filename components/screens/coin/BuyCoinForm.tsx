@@ -6,6 +6,7 @@ import useCoinTrade from "@/hooks/useCoinTrade";
 import { PLATFORM_REFERRER } from "@/lib/constants";
 import { useFrame } from "@/components/farcaster-provider";
 import { useAccount } from "wagmi";
+import ErrorAlert from "./ErrorAlert";
 
 interface BuyCoinFormProps {
     coinImage: string;
@@ -26,11 +27,48 @@ export const BuyCoinForm: React.FC<BuyCoinFormProps> = ({
     onBuy,
     presetAmounts = ["0.001", "0.01", "0.1"],
 }) => {
-    const { buyCoin, setAmount, amount } = useCoinTrade(coinAddress);
+    const { buyCoin, setAmount, amount, hash, error } =
+        useCoinTrade(coinAddress);
+    const { actions } = useFrame();
+
+    if (hash) {
+        <div className="w-full flex flex-1 flex-col items-center justify-center p-8 mt-16 space-y-6 bg-white rounded-lg shadow-md">
+            <div className="text-center">
+                <h1 className="text-3xl font-bold text-gray-900">
+                    Coin Purchased!
+                </h1>
+                <p className="mt-2 text-gray-600">
+                    View your coin in your farcaster wallet.
+                </p>
+            </div>
+            <Button
+                onClick={async () => {
+                    await actions?.viewToken({ token: coinAddress });
+                }}
+                className="w-full bg-black text-white hover:bg-gray-800"
+            >
+                View Coin
+            </Button>
+        </div>;
+    }
 
     return (
         <Card className="w-full max-w-md mx-auto p-0">
             <CardContent className="px-4 py-6 flex flex-col items-center">
+                {/* Error Alert */}
+                {error && (
+                    <div className="w-full mb-4">
+                        <ErrorAlert
+                            error={
+                                typeof error === "string"
+                                    ? error
+                                    : error?.message ||
+                                      error?.toString?.() ||
+                                      "Unknown error"
+                            }
+                        />
+                    </div>
+                )}
                 {/* Coin details */}
                 <div className="flex flex-col space-y-4 items-center w-full mb-6">
                     <div className="flex flex-col items-center justify-center">
@@ -39,7 +77,7 @@ export const BuyCoinForm: React.FC<BuyCoinFormProps> = ({
                             alt={coinName}
                             className="w-48 h-48 rounded-lg object-cover border"
                         />
-                    </div>  
+                    </div>
                     <div className="flex flex-col text-center space-y-2 min-w-0 break-words">
                         <div className="text-base font-semibold leading-tight break-words whitespace-normal">
                             {coinName}

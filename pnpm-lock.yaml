@@ -36,8 +36,8 @@ importers:
         specifier: ^5.64.2
         version: 5.80.5(react@18.3.1)
       '@zoralabs/coins-sdk':
-        specifier: ^0.2.3
-        version: 0.2.3(abitype@1.0.8(typescript@5.8.3)(zod@3.25.51))(viem@2.30.6(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.51))
+        specifier: ^0.2.8
+        version: 0.2.8(abitype@1.0.8(typescript@5.8.3)(zod@3.25.51))(viem@2.30.6(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.51))
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -774,8 +774,8 @@ packages:
   '@walletconnect/window-metadata@1.0.1':
     resolution: {integrity: sha512-9koTqyGrM2cqFRW517BPY/iEtUDx2r1+Pwwu5m7sJ7ka79wi3EyqhqcICk/yDmv6jAS1rjKgTKXlEhanYjijcA==}
 
-  '@zoralabs/coins-sdk@0.2.3':
-    resolution: {integrity: sha512-cW+95UVsnlG6XF5etBH2x7++p1T/uvEWhHkFClEgYS/DtwYvAAVj8Xhk15p5eGn/2q1ujO2Ufjl4vZMq4LGHYQ==}
+  '@zoralabs/coins-sdk@0.2.8':
+    resolution: {integrity: sha512-vni9qcdS6/9HUOue7SDir2wHn+SSSDmxfZhBcCzQWdK9NaW/+E5jCWXuQGFgBzKpLc4FN5ktJz36v92BADQE3g==}
     engines: {node: '>=22'}
     peerDependencies:
       abitype: ^1.0.8
@@ -3705,7 +3705,7 @@ snapshots:
       '@walletconnect/window-getters': 1.0.1
       tslib: 1.14.1
 
-  '@zoralabs/coins-sdk@0.2.3(abitype@1.0.8(typescript@5.8.3)(zod@3.25.51))(viem@2.30.6(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.51))':
+  '@zoralabs/coins-sdk@0.2.8(abitype@1.0.8(typescript@5.8.3)(zod@3.25.51))(viem@2.30.6(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.51))':
     dependencies:
       '@hey-api/client-fetch': 0.8.4
       '@zoralabs/protocol-deployments': 0.6.1
