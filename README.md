@@ -24,7 +24,6 @@ Share To Mint is a Farcaster Mini App that allows users to mint any Farcaster ca
 
 ### 🎨 **Zora** - NFT & Coin Infrastructure
 **Location**: Core minting and trading functionality
-- **Coins SDK**: [`@zoralabs/coins-sdk`](./package.json#L21) - Coin creation and trading
 
 **Key implementations**:
 - [`hooks/useCoinMint.tsx`](./hooks/useCoinMint.tsx) - Coin minting logic using Zora's SDK
@@ -37,7 +36,6 @@ Share To Mint is a Farcaster Mini App that allows users to mint any Farcaster ca
 
 Throughout the entire application, Share extensions, swapToken, viewToken, composeCast, etc...
 
-- **Wagmi Connector**: [`@farcaster/miniapp-wagmi-connector`](./package.json#L15) - Wallet integration
   
 **Key implementations**:
 - [`components/farcaster-provider.tsx`](./components/farcaster-provider.tsx) - Farcaster context and frame management
@@ -48,7 +46,6 @@ Throughout the entire application, Share extensions, swapToken, viewToken, compo
 
 Metadata storage for minted coins
 
-- **Pinata SDK**: [`pinata`](./package.json#L24) - IPFS file uploads
 
 **Key implementations**:
 - [`app/api/uploadJSON/route.ts`](./app/api/uploadJSON/route.ts) - Metadata upload to IPFS
@@ -56,7 +53,6 @@ Metadata storage for minted coins
 
 ### 🗄️ **Supabase** - Database & Backend
 **Location**: User data and mint tracking
-- **Supabase Client**: [`@supabase/supabase-js`](./package.json#L18) - Database operations
 
 **Key implementations**:
 - [`lib/supabase.ts`](./lib/supabase.ts) - Supabase client configuration
@@ -81,14 +77,6 @@ Metadata storage for minted coins
 - **Neynar** - Cast data
 - **Supabase** - Database
 - **Zora SDK**
-
-## 🔧 Configuration
-
-### Farcaster Mini App Setup
-The app is configured as a Farcaster Mini App with:
-- Frame configuration in [`app/.well-known/farcaster.json/route.ts`](./app/.well-known/farcaster.json/route.ts)
-- Custom share URL: `/share`
-- Webhook endpoint: `/api/webhook`
 
 ## 🎯 Future Roadmap
 
