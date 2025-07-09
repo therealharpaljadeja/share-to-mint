@@ -121,7 +121,9 @@ export function Onboarding() {
 
     useEffect(() => {
         console.log("getting mints");
+        console.log("context", context);
         async function init() {
+
             if(context?.user?.fid) {
                 const mints = await getUserMints(context?.user?.fid);
                 setMintedCoins(mints);
@@ -129,7 +131,7 @@ export function Onboarding() {
             }
         }
         init();
-    }, []);
+    }, [context]);
 
     const addMiniApp = () => {
         console.log("adding mini app");
