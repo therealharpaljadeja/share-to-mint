@@ -2,6 +2,8 @@
 
 **A Farcaster Mini App that allow coining Farcaster cast content into tradeable coins on Zora**
 
+### Try the Mini App [here](https://farcaster.xyz/miniapps/2rzmuYxkv2ZP/share-to-mint)
+
 ## 🎥 Demo Video
 
 [![Share to Mint Demo](https://img.youtube.com/vi/_wyEmsB5Lo0/0.jpg)](https://youtu.be/_wyEmsB5Lo0?si=nxIiBqyRnWoQ89Da)
