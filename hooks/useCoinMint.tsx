@@ -1,6 +1,6 @@
 import { Cast } from "@/components/screens/coin/types";
 import { config } from "@/components/wallet-provider";
-import { PAYOUT_RECIPIENT, PLATFORM_REFERRER } from "@/lib/constants";
+import { PLATFORM_REFERRER } from "@/lib/constants";
 import { sdk } from "@farcaster/miniapp-sdk";
 import {
     createCoinCall,
@@ -70,7 +70,7 @@ async function generateTransactionRequest(
         name,
         symbol,
         uri: metadataURI as ValidMetadataURI,
-        payoutRecipient: PAYOUT_RECIPIENT,
+        payoutRecipient: recipient,
         platformReferrer: PLATFORM_REFERRER,
         chainId: base.id,
         // currency: DeployCurrency.ZORA,
