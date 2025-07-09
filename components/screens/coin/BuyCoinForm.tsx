@@ -27,7 +27,7 @@ export const BuyCoinForm: React.FC<BuyCoinFormProps> = ({
     onBuy,
     presetAmounts = ["0.001", "0.01", "0.1"],
 }) => {
-    const { buyCoin, setAmount, amount, swapResponse } =
+    const { buyCoin, setAmount, amount, swapResponse, isLoading } =
         useCoinTrade(coinAddress);
     const [balance, setBalance] = useState("0");
     const { actions } = useFrame();
@@ -121,7 +121,7 @@ export const BuyCoinForm: React.FC<BuyCoinFormProps> = ({
                             step="any"
                             value={amount}
                             onChange={(e) => setAmount(e.target.value)}
-                            // disabled={!isBuyingAvailable}
+                            disabled={isLoading}
                             className="text-2xl font-semibold border-0 bg-transparent focus:ring-0 focus:outline-none p-0 h-auto shadow-none flex-grow min-w-0"
                             placeholder="0.00"
                             style={{ width: "100px", minWidth: 0 }}
@@ -141,7 +141,7 @@ export const BuyCoinForm: React.FC<BuyCoinFormProps> = ({
                             size="lg"
                             className="min-w-[100px] text-xs px-0"
                             onClick={() => setAmount(amt)}
-                            // disabled={!isBuyingAvailable}
+                            disabled={isLoading}
                         >
                             {amt} ETH
                         </Button>
@@ -153,9 +153,9 @@ export const BuyCoinForm: React.FC<BuyCoinFormProps> = ({
                     style={{ backgroundColor: "#08d808", color: "#fff" }}
                     size="lg"
                     onClick={buyCoin}
-                    // disabled={!isBuyingAvailable}
+                    disabled={isLoading}
                 >
-                    Buy
+                    {isLoading ? "Buying..." : "Buy"}
                 </Button>
             </CardContent>
         </Card>

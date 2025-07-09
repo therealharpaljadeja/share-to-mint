@@ -37,20 +37,24 @@ type SwapTokenDetails = {
 export default function useCoinTrade(coinAddress: string) {
     const [amount, setAmount] = React.useState("0.001");
     const [swapResponse, setSwapResponse] = useState<SwapTokenResult | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     const buyCoin = useCallback(async () => {
+        setIsLoading(true);
         const swapResponse = await sdk.actions.swapToken({ 
             sellToken: 'eip155:8453/native',
             buyToken: `eip155:8453/erc20:${coinAddress}`,
             sellAmount: parseEther(amount).toString(),
           })
           setSwapResponse(swapResponse);
+          setIsLoading(false);
     }, [coinAddress, amount]);
 
     return {
         amount,
         setAmount,
         buyCoin,
-        swapResponse
+        swapResponse,
+        isLoading
     };
 }
