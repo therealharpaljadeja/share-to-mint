@@ -38,7 +38,6 @@ export async function hasUserCompletedMinting(userFid: number): Promise<boolean>
 // Store a new mint record
 export async function storeMintRecord(mintData: MintRecord): Promise<boolean> {
   try {
-    console.log("Storing mint record in database", mintData);
     const { error } = await supabase
       .from('user_mints')
       .insert({
@@ -75,8 +74,6 @@ export async function getUserMints(userFid: number) {
       .eq('user_fid', userFid)
       .order('created_at', { ascending: false })
 
-    console.log("data", data);
-    console.log("userFid", userFid);
 
     if (error) {
       console.error('Error fetching user mints:', error)

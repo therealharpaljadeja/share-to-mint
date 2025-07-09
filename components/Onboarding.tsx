@@ -26,7 +26,6 @@ function MintedCoinsList({ coins }: { coins: any[] }) {
   const openZoraLink = (url: string) => {
       haptics?.impactOccurred("heavy");
       sdk.actions?.openUrl(url);
-      console.log("openZoraLink", url);
   }
 
   const openCast = (castHash: string) => {
@@ -120,26 +119,20 @@ export function Onboarding() {
     const [mintedCoins, setMintedCoins] = React.useState<any[]>([]);
 
     useEffect(() => {
-        console.log("getting mints");
-        console.log("context", context);
         async function init() {
 
             if(context?.user?.fid) {
                 const mints = await getUserMints(context?.user?.fid);
                 setMintedCoins(mints);
-                console.log("All mints:", mints);
             }
         }
         init();
     }, [context]);
 
     const addMiniApp = () => {
-        console.log("adding mini app");
         haptics?.impactOccurred("heavy");
         sdk.actions?.addMiniApp();
     };
-
-    console.log("context", context);
 
     // Show loading state while checking onboarding status
     if (isLoading) {

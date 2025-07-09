@@ -48,7 +48,6 @@ async function uploadMetadataToIPFS(cast: Cast, image: string) {
     const { cid } = await metadataUploadResponse.json();
     const metadataURI = `${process.env.NEXT_PUBLIC_PINATA_GATEWAY}/ipfs/${cid}`;
 
-    console.log("metadataURI", metadataURI);
     const metadataURIContent = await validateMetadataURIContent(
         metadataURI as ValidMetadataURI
     );
@@ -77,13 +76,11 @@ async function generateTransactionRequest(
     };
     const contractCallParams = await createCoinCall(coinParams);
 
-    console.log("contractCallParams", contractCallParams);
 
     const { request, result } = await simulateContract(config, {
         ...contractCallParams,
     });
 
-    console.log("simulateContract", request, result);
 
     return request;
 }
@@ -147,20 +144,16 @@ export default function useCoinMint(cast: Cast | null, image: string) {
 
         setIsUploadingMetadata(true);
         try {
-            console.log("Uploading metadata to IPFS");
             const metadataURI = await uploadMetadataToIPFS(cast, image);
             setIsWaitingForUserToConfirm(true);
             setIsUploadingMetadata(false);
-            console.log("Metadata uploaded to IPFS");
 
-            console.log("Generating transaction request");
             const request = await generateTransactionRequest(
                 name,
                 symbol,
                 metadataURI,
                 recipient
             );
-            console.log("Transaction request generated");
 
             const { abi, functionName, args, address } = request;
             const functionData = encodeFunctionData({
@@ -169,8 +162,7 @@ export default function useCoinMint(cast: Cast | null, image: string) {
                 args,
             });
 
-            console.log("Waiting for user to confirm");
-            console.log("config for writeContract", config);
+           
             await sendTransaction({
                 to: address,
                 data: functionData,
@@ -195,7 +187,6 @@ export default function useCoinMint(cast: Cast | null, image: string) {
             }
 
             if (hash) {
-                console.log("hash", hash);
                 setIsMinting(true);
                 setIsWaitingForUserToConfirm(false);
 
@@ -205,7 +196,6 @@ export default function useCoinMint(cast: Cast | null, image: string) {
                 });
 
                 if (!receipt) {
-                    console.error("No transaction receipt found");
                     sdk.haptics.notificationOccurred("error");
                     setIsMinting(false);
                     setIsWaitingForUserToConfirm(false);
@@ -234,7 +224,6 @@ export default function useCoinMint(cast: Cast | null, image: string) {
                                 zoraLink: `${process.env.NEXT_PUBLIC_ZORA_URL}/coin/base:${coinDeployment.coin}?referrer=${PLATFORM_REFERRER}`,
                             });
 
-                            console.log("mintSuccess", mintSuccess);
 
                             if (mintSuccess) {
                                 // Mark that the user has completed their first mint
@@ -251,7 +240,6 @@ export default function useCoinMint(cast: Cast | null, image: string) {
                 }
                 sdk.haptics.notificationOccurred("success");
             } else {
-                console.log(hash);
                 sdk.haptics.notificationOccurred("error");
             }
         }

@@ -20,14 +20,12 @@ export async function POST(request: NextRequest) {
   try {
     
     const { jsonData, filename } = await request.json();
-    console.log(jsonData, filename)
     const fileName = `${filename}.json`;
     
     const result = await pinata.upload.public.json(jsonData).name(fileName);
 
     return NextResponse.json(result);
   } catch (error) {
-    console.error('Error uploading to Pinata:', error);
     const errorMessage = error instanceof Error ? error.message : String(error);
     return NextResponse.json(
       { error: 'Failed to upload JSON to Pinata', details: errorMessage },

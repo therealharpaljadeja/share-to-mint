@@ -41,7 +41,6 @@ export function Navbar() {
                                     size={20}
                                     title="Disconnect"
                                     onClick={(e) => {
-                                        console.log('wallet disconnected');
                                         disconnect();
                                     }}
                                 />
@@ -51,7 +50,6 @@ export function Navbar() {
                         <Button
                             variant="outline"
                             onClick={() => {
-                              console.log("connecting wallet");
                               connect({ connector: miniAppConnector() })
                             }
                             }

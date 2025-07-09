@@ -21,7 +21,6 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(castData);
   } catch (error) {
-    console.error('Error in /api/cast:', error);
     return NextResponse.json(
       { error: 'Failed to fetch cast data' },
       { status: 500 }

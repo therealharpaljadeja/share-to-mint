@@ -37,7 +37,7 @@ export function FrameProvider({ children }: FrameProviderProps) {
                 await sdk.actions.ready();
                 return { context, isReady: true };
             } catch (err) {
-                console.error("SDK initialization error:", err);
+                console.log("SDK initialization error:", err);
             }
             return { context, isReady: false };
         },
