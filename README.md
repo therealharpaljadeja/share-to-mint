@@ -76,9 +76,9 @@ Metadata storage for minted coins
 - **Tailwind CSS** - Utility-first styling
 - **Wagmi** - Ethereum wallet integration
 - **React Query** - Data fetching and caching
-- Neynar - Cast data
-- Supabase - Database
-- Zora SDK
+- **Neynar** - Cast data
+- **Supabase** - Database
+- **Zora SDK**
 
 ## 🔧 Configuration
 
