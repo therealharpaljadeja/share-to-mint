@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useOnboardingState } from "@/hooks/useOnboardingState";
 import { MintingTutorial } from "./MintingTutorial";
 import { useEffect } from "react";
-import { getAllMints } from "@/lib/database";
+import { getAllMints, getUserMints } from "@/lib/database";
 import {
     Card,
     CardContent,
@@ -122,9 +122,11 @@ export function Onboarding() {
     useEffect(() => {
         console.log("getting mints");
         async function init() {
-            const mints = await getAllMints();
-            setMintedCoins(mints);
-            console.log("All mints:", mints);
+            if(context?.user?.fid) {
+                const mints = await getUserMints(context?.user?.fid);
+                setMintedCoins(mints);
+                console.log("All mints:", mints);
+            }
         }
         init();
     }, []);
