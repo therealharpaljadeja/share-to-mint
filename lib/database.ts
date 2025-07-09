@@ -75,6 +75,9 @@ export async function getUserMints(userFid: number) {
       .eq('user_fid', userFid)
       .order('created_at', { ascending: false })
 
+    console.log("data", data);
+    console.log("userFid", userFid);
+
     if (error) {
       console.error('Error fetching user mints:', error)
       return []
